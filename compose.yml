@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    ports:
+      - "127.0.0.1:8790:8790"
+    environment:
+      METRIKA_COUNTER_ID: ${METRIKA_COUNTER_ID:-}
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-}
+    volumes:
+      - tail-data:/app/data
+    restart: unless-stopped
+volumes:
+  tail-data:

@@ -1,0 +1,133 @@
+{
+  "capturedAt": "2026-11-02T19:56:35.469Z",
+  "origin": "http://192.144.14.178",
+  "status": "Public response snapshot only; not original source, API implementation, survey records, or server configuration.",
+  "resources": [
+    {
+      "url": "http://192.144.14.178/",
+      "file": "index.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 27512,
+      "sha256": "bfcf9339f9b4680aa10601435606de4930d1901dffbfe3d3bf11cb76e7bc7be4"
+    },
+    {
+      "url": "http://192.144.14.178/privacy",
+      "file": "privacy/index.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 48383,
+      "sha256": "c7ddb2ab8c7e8be5bb3ade65f44c7c32c672848d6a68de5b9e0637a61c117e9a"
+    },
+    {
+      "url": "http://192.144.14.178/consent/survey",
+      "file": "consent/survey/index.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 17940,
+      "sha256": "263f0a7b3cb8095c262b66bdfd921cbe72509ea65b94230f61c7823e69a659fd"
+    },
+    {
+      "url": "http://192.144.14.178/consent/analytics",
+      "file": "consent/analytics/index.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 18941,
+      "sha256": "8f81fa68700e6af9f1c1cad555307e03a334336079e5e1f14c64b7c3ce904df8"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/css/35d0b71b657856b9.css",
+      "file": "_next/static/css/35d0b71b657856b9.css",
+      "contentType": "text/css; charset=UTF-8",
+      "bytes": 44714,
+      "sha256": "0f29a70734ad4f3edbec6131424b72a0918ac62e6c906384e91eeb9fc3842d83"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/chunks/webpack-44d8aec3c26a0cdc.js",
+      "file": "_next/static/chunks/webpack-44d8aec3c26a0cdc.js",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bytes": 3253,
+      "sha256": "d0a82fed8b37553509fe37aa7c8dfa791ba125f47b8a45899e0fd6a03936a339"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/chunks/4bd1b696-92152b0f5947070d.js",
+      "file": "_next/static/chunks/4bd1b696-92152b0f5947070d.js",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bytes": 201054,
+      "sha256": "8dc2c1d71557b434c654ec58acb1441bc0fb200c520ff548f606d88e689ee643"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/chunks/794-d1a40dcf24d651d9.js",
+      "file": "_next/static/chunks/794-d1a40dcf24d651d9.js",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bytes": 240795,
+      "sha256": "6faa7e3b69df2ae34032f0eb1e042ac3716c41336a3927d377abf34cb7a26082"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/chunks/main-app-1a6aaf075bf9cd72.js",
+      "file": "_next/static/chunks/main-app-1a6aaf075bf9cd72.js",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bytes": 513,
+      "sha256": "6da2881939ce08ee595bb25380745d4ecc2549283a751fd837b75cdba33cfb6b"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/chunks/app/layout-09d78644d111ad7b.js",
+      "file": "_next/static/chunks/app/layout-09d78644d111ad7b.js",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bytes": 7265,
+      "sha256": "b925f3e571a26c53cedc71e923f8b100ab0708d3fa29b72c8c1498e87cd36335"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/chunks/app/page-4cdf74e44f02daf2.js",
+      "file": "_next/static/chunks/app/page-4cdf74e44f02daf2.js",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bytes": 49929,
+      "sha256": "5b75a9b4963018a5a3914ddf4d5e6e57a270bb928b2b912a51fef9c0bbca85f5"
+    },
+    {
+      "url": "http://192.144.14.178/favicon.svg?v=3fea2c-31c47f",
+      "file": "favicon.svg",
+      "contentType": "image/svg+xml",
+      "bytes": 414,
+      "sha256": "04f58f153ce973ef7d227e02383bbfbfe179c1dacab4d026035c8b7ec8c6797b"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/chunks/polyfills-42372ed130431b0a.js",
+      "file": "_next/static/chunks/polyfills-42372ed130431b0a.js",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bytes": 112594,
+      "sha256": "0973c1d64c88adc8e3c950410cb58b288f72118d5965b78049438deb8f2f9683"
+    },
+    {
+      "url": "http://192.144.14.178/logo.svg?v=3fea2c-31c47f",
+      "file": "logo.svg",
+      "contentType": "image/svg+xml",
+      "bytes": 582,
+      "sha256": "a7b1e5ee81a8e964cfaa59cea51a96f727c65d9fbbdcc49e35cb0132b847a21a"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/chunks/app/privacy/page-370f58d095891721.js",
+      "file": "_next/static/chunks/app/privacy/page-370f58d095891721.js",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bytes": 7213,
+      "sha256": "cef2642bc4f6698838b85db8d6ac69ecddd1a8c038b67b93b76c5c7c53637da5"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/chunks/app/consent/survey/page-370f58d095891721.js",
+      "file": "_next/static/chunks/app/consent/survey/page-370f58d095891721.js",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bytes": 7213,
+      "sha256": "cef2642bc4f6698838b85db8d6ac69ecddd1a8c038b67b93b76c5c7c53637da5"
+    },
+    {
+      "url": "http://192.144.14.178/_next/static/chunks/app/consent/analytics/page-370f58d095891721.js",
+      "file": "_next/static/chunks/app/consent/analytics/page-370f58d095891721.js",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bytes": 7213,
+      "sha256": "cef2642bc4f6698838b85db8d6ac69ecddd1a8c038b67b93b76c5c7c53637da5"
+    },
+    {
+      "url": "http://192.144.14.178/fonts/manrope.ttf",
+      "file": "fonts/manrope.ttf",
+      "contentType": "font/ttf",
+      "bytes": 164700,
+      "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6"
+    }
+  ]
+}
