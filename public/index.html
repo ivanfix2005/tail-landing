@@ -1,440 +1,131 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ТЭЙЛ — понять, что происходит с вашей облигацией</title>
-<meta name="description" content="Демо помощника для самостоятельного инвестора: точный выпуск, подтверждённые факты и вопросы, которые остаются открытыми. Посмотрите пример и поделитесь мнением."/>
-<meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="/favicon.svg">
-<link rel="stylesheet" href="/styles.css">
-<script type="module" src="/app.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ТЭЙЛ — больше ясности в ваших инвестициях</title>
+  <meta name="description" content="Создаём помощника для самостоятельных инвесторов в акции и облигации. События по вашим бумагам, понятный разбор и первоисточники. Посмотрите учебное демо ТЭЙЛ.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="preload" href="/fonts/manrope.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/landing.css">
+  <script defer src="/vendor/gsap.min.js"></script>
+  <script defer src="/vendor/ScrollTrigger.min.js"></script>
+  <script type="module" src="/app.js"></script>
 </head>
-<body>
-<svg class="gradient-defs" aria-hidden="true" focusable="false">
-<defs>
-<linearGradient id="accent-stroke" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
-<stop stop-color="#3FEA2C">
-</stop>
-<stop offset="1" stop-color="#31C47F">
-</stop>
-</linearGradient>
-</defs>
-</svg>
-<div class="site-shell">
-<header class="site-header" id="top">
-<div class="container header-inner">
-<a class="brand" href="#top" aria-label="ТЭЙЛ, в начало">
-<img src="/logo.svg" alt="ТЭЙЛ" width="90" height="82"/>
-</a>
-<nav aria-label="Основная навигация">
-<a href="#survey">Поделиться опытом</a>
-<a href="#approach">Как это работает</a>
-<a href="#example">Пример разбора</a>
-</nav>
-<a class="header-cta" data-analytics-goal="beta_chat_click" href="https://t.me/+1aljbCwrwdo5MTMy" target="_blank" rel="noopener noreferrer">Записаться на закрытое демо <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true">
-<path d="M7 7h10v10">
-</path>
-<path d="M7 17 17 7">
-</path>
-</svg>
-</a>
-</div>
-</header>
-<main>
-<section class="hero container" data-analytics-section="hero">
-<div class="hero-copy">
-<h1>Новость о компании.<br/>Что она значит<br/>
-<span class="headline-investments">для ваших <span class="investment-window">
-<span class="sr-only">вложений, акций или облигаций?</span>
-<span class="investment-track" aria-hidden="true">
-<span>вложений?</span>
-<span>облигаций?</span>
-<span>акций?</span>
-<span>вложений?</span>
-</span>
-</span>
-</span>
-</h1>
-</div>
-<div class="hero-side">
-<p class="hero-description">Создаём ТЭЙЛ, чтобы вы могли понять, как новости о компании связаны с вашей бумагой. Собираем в одном разборе факты, первичные источники и вопросы, которые ещё предстоит проверить.</p>
-<p class="hero-invitation">Расскажите, как разбираетесь в таких ситуациях. Ваш опыт поможет нам выбрать, что делать в первую очередь.</p>
-<div class="hero-actions">
-<a class="button primary" href="#survey">Пройти опрос <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true">
-<path d="M5 12h14">
-</path>
-<path d="m12 5 7 7-7 7">
-</path>
-</svg>
-</a>
-</div>
-</div>
-<div class="hero-art" aria-hidden="true">
-<svg class="ribbon" viewBox="0 0 1200 340" fill="none">
-<defs>
-<linearGradient id="ribbon-metal" x1="350" y1="80" x2="470" y2="290" gradientUnits="userSpaceOnUse">
-<stop stop-color="#eef5e9">
-</stop>
-<stop offset=".18" stop-color="#c9e9b9">
-</stop>
-<stop offset=".36" stop-color="#fafdf8">
-</stop>
-<stop offset=".57" stop-color="#fff">
-</stop>
-<stop offset=".74" stop-color="#b3bdb1">
-</stop>
-<stop offset=".9" stop-color="#f1f4ef">
-</stop>
-<stop offset="1" stop-color="#74836d">
-</stop>
-</linearGradient>
-<linearGradient id="ribbon-under" x1="260" y1="270" x2="945" y2="145" gradientUnits="userSpaceOnUse">
-<stop stop-color="#899584">
-</stop>
-<stop offset=".2" stop-color="#33452d">
-</stop>
-<stop offset=".49" stop-color="#eef4eb">
-</stop>
-<stop offset=".75" stop-color="#b9c4b3">
-</stop>
-<stop offset="1" stop-color="#586e4f">
-</stop>
-</linearGradient>
-<linearGradient id="ribbon-accent" x1="248" y1="245" x2="955" y2="85" gradientUnits="userSpaceOnUse">
-<stop stop-color="#3FEA2C">
-</stop>
-<stop offset="1" stop-color="#31C47F">
-</stop>
-</linearGradient>
-<linearGradient id="ribbon-edge" x1="330" y1="260" x2="930" y2="100" gradientUnits="userSpaceOnUse">
-<stop stop-color="#fff">
-</stop>
-<stop offset=".45" stop-color="#e2f6d5">
-</stop>
-<stop offset="1" stop-color="#fff">
-</stop>
-</linearGradient>
-<filter id="ribbon-shadow" x="0" y="0" width="1200" height="340" filterUnits="userSpaceOnUse">
-<feGaussianBlur stdDeviation="11">
-</feGaussianBlur>
-</filter>
-</defs>
-<ellipse cx="600" cy="283" rx="359" ry="13" fill="#284a1b" opacity=".09" filter="url(#ribbon-shadow)">
-</ellipse>
-<path d="M228 224C173 191 217 117 292 106C412 88 521 184 641 227C751 266 852 290 932 232C976 200 975 157 950 143C906 121 813 145 717 180C601 223 470 290 351 284C292 281 249 260 228 224Z" fill="url(#ribbon-under)">
-</path>
-<path d="M230 212C189 176 226 119 297 110C420 95 514 185 638 221C750 253 855 264 923 218C954 197 971 169 948 149C914 119 817 137 719 175C596 222 461 273 346 268C288 266 250 246 230 212Z" fill="url(#ribbon-metal)">
-</path>
-<path d="M230 212C265 245 327 251 395 240C507 221 604 175 712 133C812 93 911 68 955 104C976 122 978 143 960 167C953 132 916 124 865 132C774 146 662 199 566 233C450 276 291 310 230 237C225 229 226 220 230 212Z" fill="url(#ribbon-accent)">
-</path>
-<path d="M230 212C267 245 327 250 396 237C502 218 608 167 712 129C812 91 908 69 952 102" stroke="url(#ribbon-edge)" stroke-width="3">
-</path>
-<path d="M237 242C316 302 453 265 566 227C678 188 783 138 870 128C916 123 946 133 960 150" stroke="url(#ribbon-accent)" stroke-width="2" opacity=".65">
-</path>
-<path d="M298 111C416 96 520 190 638 221C752 253 853 262 923 218" stroke="#fff" stroke-width="2" opacity=".7">
-</path>
-</svg>
-<span class="art-orbit orbit-one">
-</span>
-<span class="art-orbit orbit-two">
-</span>
-<span class="art-dot dot-one">
-</span>
-<span class="art-dot dot-two">
-</span>
-</div>
-</section>
-<section class="approach container" id="approach" data-analytics-section="approach">
-<div class="approach-heading">
-<h2>От новости к пониманию<br/>своей бумаги</h2>
-<p>В ТЭЙЛ мы хотим собрать то, что обычно приходится искать в документах, новостях и у брокера.</p>
-</div>
-<div class="benefit-grid">
-<article>
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text" aria-hidden="true">
-<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z">
-</path>
-<path d="M14 2v5a1 1 0 0 0 1 1h5">
-</path>
-<path d="M10 9H8">
-</path>
-<path d="M16 13H8">
-</path>
-<path d="M16 17H8">
-</path>
-</svg>
-<h3>Понимайте, касается ли вас событие</h3>
-<p>Сверяем компанию и конкретный выпуск. Похожее название или новость о другом выпуске требуют отдельной проверки.</p>
-</article>
-<article>
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check" aria-hidden="true">
-<path d="M20 6 9 17l-5-5">
-</path>
-</svg>
-<h3>Проверяйте, на чём основан вывод</h3>
-<p>Отделяем подтверждённые факты от заявлений и предположений. В рабочем сервисе к каждому факту будет первичный источник.</p>
-</article>
-<article>
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock3 lucide-clock-3" aria-hidden="true">
-<circle cx="12" cy="12" r="10">
-</circle>
-<path d="M12 6v6h4">
-</path>
-</svg>
-<h3>Знайте, за чем следить дальше</h3>
-<p>Показываем, что ещё неизвестно и какое сообщение может изменить картину. Решение по бумаге остаётся за вами.</p>
-</article>
-</div>
-</section>
-<section class="demo-section container" id="example" data-analytics-section="example">
-<div class="demo-wrap">
-<div class="demo-caption">
-<h2>Одна новость.<br/>Всё важное<br/>о моём портфеле.</h2>
-<p class="demo-instruction">Выберите ситуацию и посмотрите, как устроен разбор.</p>
-</div>
-<div class="dossier">
-<div class="case-switch" aria-label="Выбрать демонстрационный сценарий">
-<button type="button" aria-pressed="true" class="active">Задержка купона</button>
-<button type="button" aria-pressed="false" class="">Изменение рейтинга</button>
-<button type="button" aria-pressed="false" class="">Слух из канала</button>
-</div>
-<div class="dossier-head">
-<div>
-<span class="issue-label">Выпуск ДЕМО-001 · облигация</span>
-<h3>Северный ресурс</h3>
-</div>
-<span class="status-tag ">Требует внимания</span>
-</div>
-<div class="case-panel" aria-live="polite" aria-atomic="true">
-<h4 class="case-title">Эмитент сообщил о задержке купона</h4>
-<div class="case-findings">
-<div class="finding">
-<span class="finding-mark fact">
-<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check" aria-hidden="true">
-<path d="M20 6 9 17l-5-5">
-</path>
-</svg>
-</span>
-<div>
-<h4>Подтверждено</h4>
-<p>В официальном сообщении указан выпуск ДЕМО-001 и перенос планируемого срока выплаты.</p>
-</div>
-</div>
-<div class="finding">
-<span class="finding-mark unknown" aria-hidden="true">?</span>
-<div>
-<h4>Пока неизвестно</h4>
-<p>Когда обязательство будет исполнено и когда деньги отобразятся у вашего брокера.</p>
-</div>
-</div>
-<div class="watch-next">
-<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock3 lucide-clock-3" aria-hidden="true">
-<circle cx="12" cy="12" r="10">
-</circle>
-<path d="M12 6v6h4">
-</path>
-</svg>
-<div>
-<h4>Что проверить дальше</h4>
-<p>Новое сообщение об исполнении выплаты и подтверждение от платёжной инфраструктуры.</p>
-</div>
-</div>
-</div>
-</div>
-<details class="demo-details">
-<summary>Источники и ход события <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true">
-<path d="m6 9 6 6 6-6">
-</path>
-</svg>
-</summary>
-<div class="demo-details-content">
-<h4>Фрагмент источника</h4>
-<blockquote>«Выплата купонного дохода по выпуску ДЕМО-001 перенесена. Планируемый срок — в течение трёх рабочих дней».</blockquote>
-<h4>Что заявлено</h4>
-<p>Компания планирует провести выплату в течение трёх рабочих дней. Это заявление, а не подтверждение выплаты.</p>
-<h4>Связь с другими бумагами</h4>
-<p>По выпуску ДЕМО-002 сведений о задержке в этом наборе документов нет. Это не подтверждение отсутствия риска.</p>
-<h4>Хронология</h4>
-<ol class="timeline">
-<li>
-<span class="timeline-dot">
-</span>
-<strong>14 октября, 10:00</strong>
-<p>наступила дата выплаты по условиям выпуска</p>
-</li>
-<li>
-<span class="timeline-dot">
-</span>
-<strong>14 октября, 16:30</strong>
-<p>опубликовано заявление о переносе</p>
-</li>
-<li>
-<span class="timeline-dot">
-</span>
-<strong>15 октября, 09:00</strong>
-<p>новых подтверждений в наборе нет</p>
-</li>
-</ol>
-<p class="source-note">Все документы и события в этом примере вымышлены.</p>
-</div>
-</details>
-</div>
-</div>
-</section>
-<section class="survey-section" id="survey" data-analytics-section="survey" aria-label="Опрос об инвестиционном опыте">
-<div class="container survey-layout">
-<div class="survey-form" id="survey-app">
-<form class="survey-main">
-<div class="survey-question-content">
-<h3 tabindex="-1">Что сейчас есть в вашем портфеле?</h3>
-<p class="survey-step-description">Выберите инструменты и расскажите, как принимаете решения.</p>
-<fieldset>
-<legend class="sr-only">Какие инвестиционные инструменты сейчас есть в вашем портфеле?</legend>
-<p class="field-help">Можно выбрать несколько.</p>
-<div class="choices instrument-choices">
-<label class="choice ">
-<input type="checkbox" name="instruments" value="Отдельные российские акции"/>
-<span>Отдельные российские акции</span>
-</label>
-<label class="choice ">
-<input type="checkbox" name="instruments" value="Корпоративные облигации"/>
-<span>Корпоративные облигации</span>
-</label>
-<label class="choice ">
-<input type="checkbox" name="instruments" value="ОФЗ"/>
-<span>ОФЗ</span>
-</label>
-<label class="choice ">
-<input type="checkbox" name="instruments" value="Фонды"/>
-<span>Фонды</span>
-</label>
-<label class="choice ">
-<input type="checkbox" name="instruments" value="Другое"/>
-<span>Другое</span>
-</label>
-<label class="choice ">
-<input type="checkbox" name="instruments" value="Сейчас вложений нет"/>
-<span>Сейчас вложений нет</span>
-</label>
-</div>
-</fieldset>
-<div class="answer-field">
-<label class="answer-label" for="survey-decisionProcess">Как принимаются решения о покупке и продаже отдельных бумаг в вашем портфеле?</label>
-<p class="field-help" id="survey-decisionProcess-help">Выберите вариант или добавьте свой ответ.</p>
-<div class="select-wrap">
-<select id="survey-decisionProcess" name="decisionProcess" aria-describedby="survey-decisionProcess-help">
-<option value="" selected="">Выберите вариант</option>
-<option value="Решаю самостоятельно">Решаю самостоятельно</option>
-<option value="Обсуждаю с другими, но решаю сам">Обсуждаю с другими, но решаю сам</option>
-<option value="Опираюсь на рекомендации аналитика или сервиса">Опираюсь на рекомендации аналитика или сервиса</option>
-<option value="Решения принимает управляющий">Решения принимает управляющий</option>
-<option value="Пока не выбираю отдельные бумаги">Пока не выбираю отдельные бумаги</option>
-<option value="Другой вариант">Другой вариант</option>
-</select>
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true">
-<path d="m6 9 6 6 6-6">
-</path>
-</svg>
-</div>
-<button type="button" class="own-answer-toggle" aria-expanded="false" aria-controls="survey-decisionProcess-comment">
-<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus" aria-hidden="true">
-<path d="M5 12h14">
-</path>
-<path d="M12 5v14">
-</path>
-</svg>Добавить свой ответ<span>необязательно</span>
-</button>
-</div>
-</div>
-<div class="form-actions">
-<div class="survey-progress">
-<span aria-live="polite" aria-atomic="true">Шаг 1 из 5</span>
-<div class="progress-line" aria-hidden="true">
-<span style="width:20%">
-</span>
-</div>
-</div>
-<div class="survey-navigation">
-<button type="button" class="survey-nav-back" aria-label="Назад" disabled="">
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true">
-<path d="m12 19-7-7 7-7">
-</path>
-<path d="M19 12H5">
-</path>
-</svg>
-</button>
-<button type="submit" class="survey-nav-next" disabled>Далее<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true">
-<path d="M5 12h14">
-</path>
-<path d="m12 5 7 7-7 7">
-</path>
-</svg>
-</button>
-</div>
-</div>
-</form>
-</div>
-</div>
-</section>
-<section class="faq container" data-analytics-section="faq">
-<h2>Если остались вопросы</h2>
-<div class="faq-items">
-<details>
-<summary>ТЭЙЛ подскажет, покупать или продавать?<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true">
-<path d="m6 9 6 6 6-6">
-</path>
-</svg>
-</summary>
-<p>ТЭЙЛ задуман как помощник в разборе событий: что произошло, чем это подтверждается и что проверить. Демо не прогнозирует цены и не предлагает сделки.</p>
-</details>
-<details>
-<summary>Нужно подключать брокерский счёт?<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true">
-<path d="m6 9 6 6 6-6">
-</path>
-</svg>
-</summary>
-<p>Для демо — нет. Мы не запрашиваем доступ к брокеру, номер счёта или состав ваших позиций.</p>
-</details>
-<details>
-<summary>Это только для опытных инвесторов?<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true">
-<path d="m6 9 6 6 6-6">
-</path>
-</svg>
-</summary>
-<p>Начинаем с тех, кто самостоятельно инвестирует в корпоративные облигации. Если у вас другие инструменты или вы только начинаете, расскажите об этом в опросе.</p>
-</details>
-<details>
-<summary>Как попасть на закрытое демо?<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true">
-<path d="m6 9 6 6 6-6">
-</path>
-</svg>
-</summary>
-<p>Нажмите «Записаться на закрытое демо» в шапке и присоединитесь к Telegram-чату. Там сообщим о доступе и обсудим ваши вопросы.</p>
-</details>
-<details>
-<summary>Что будет с моими ответами?<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true">
-<path d="m6 9 6 6 6-6">
-</path>
-</svg>
-</summary>
-<p>Сохраним их для исследования продукта. Ответы доступны владельцу сайта. Контакты не требуются; личные данные в свободном тексте указывать не нужно.</p>
-</details>
-</div>
-</section>
-</main>
-<footer data-analytics-section="footer">
-<div class="container footer-bottom">
-<span>Не является индивидуальной инвестиционной рекомендацией.</span>
-<nav class="footer-legal" aria-label="Правовая информация">
-<a href="/privacy">Политика обработки данных</a>
-<a href="/consent/survey">Согласие на опрос</a>
-<a href="/consent/analytics">Согласие на аналитику</a>
-<button type="button" class="cookie-settings-link" data-cookie-settings>Настройки cookie</button>
-</nav>
-</div>
-</footer>
-</div>
-<noscript><p class="container">Для переключения примеров и отправки опроса включите JavaScript.</p></noscript>
+<body class="landing-page">
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Zm0 0v6h6M8 13h8M8 17h6"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5ZM10 21h4M12 2v2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="3"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v3h4v-3"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6 4V6a2 2 0 0 1 2-2ZM8 9h8M8 13h5"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></symbol>
+    <symbol id="i-pointer" viewBox="0 0 24 24"><path d="m4 3 4.5 17 3.2-6 6.3-2.4Z"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M19 4C8 3 3 8 5 15s14 7 14-11ZM5 20l9-10"/></symbol>
+  </defs></svg>
+  <a class="skip-link" href="#main">К содержанию</a>
+  <div class="site-shell" id="top">
+    <header class="landing-header"><div class="landing-nav page-width">
+      <a class="tail-brand" href="#top" aria-label="ТЭЙЛ, в начало"><img src="/logo.svg" width="52" height="48" alt=""><span>тэйл</span></a>
+      <nav aria-label="Основная навигация"><a href="#story">Как работает</a><a href="#example">Попробовать демо</a><a href="#survey">Поделиться опытом</a></nav>
+      <a class="nav-join" href="https://t.me/+1aljbCwrwdo5MTMy" data-analytics-goal="beta_chat_click" target="_blank" rel="noopener noreferrer">В закрытое демо <svg class="ico"><use href="#i-up"/></svg></a>
+    </div></header>
+    <main id="main">
+      <section class="intro-section" data-analytics-section="hero">
+        <div class="intro-glow" aria-hidden="true"></div>
+        <div class="intro-copy page-width">
+          <span class="intro-kicker hero-reveal"><span></span> Создаём помощника для самостоятельных инвесторов</span>
+          <h1 class="hero-reveal">Меньше догадок.<br><span>Больше контроля</span> над инвестициями.</h1>
+          <p class="intro-description hero-reveal">Понимайте, что происходит с вашими акциями и облигациями, какие риски стоит проверить и на какие факты опираться при принятии решений.</p>
+          <div class="intro-actions hero-reveal"><a class="action action-primary" href="#story">Посмотреть, как это работает <svg class="ico"><use href="#i-arrow"/></svg></a><a class="action action-text" href="#survey">Поделиться опытом <svg class="ico"><use href="#i-up"/></svg></a></div>
+          <p class="intro-caption hero-reveal">Учебное демо · Без регистрации и подключения брокера</p>
+        </div>
+        <div class="hero-showcase page-width" aria-label="Учебный макет интерфейса ТЭЙЛ">
+          <div class="hero-device hero-reveal">
+            <div class="device-chrome"><span class="window-dots"><i></i><i></i><i></i></span><span>Ваш портфель. Важное — в одном месте.</span><span class="device-demo">ДЕМО</span></div>
+            <div class="dashboard">
+              <aside class="dashboard-sidebar"><span class="dashboard-brand">тэйл<span></span></span><span class="dashboard-item"><svg class="ico"><use href="#i-grid"/></svg> Обзор</span><span class="dashboard-item selected"><svg class="ico"><use href="#i-bell"/></svg> События <b>3</b></span><span class="dashboard-item"><svg class="ico"><use href="#i-bag"/></svg> Портфель</span><span class="dashboard-item"><svg class="ico"><use href="#i-file"/></svg> Источники</span><span class="dashboard-sidebar-note">Самостоятельные решения.<br>Понятные основания.</span></aside>
+              <div class="dashboard-main">
+                <div class="dashboard-heading"><div><span class="small-label">СОБЫТИЯ МОЕГО ПОРТФЕЛЯ</span><h2>Что стоит проверить</h2></div><span class="demo-avatar">А</span></div>
+                <div class="dashboard-tabs"><span class="selected">По моим бумагам <b>3</b></span><span>Наблюдение</span><span>Все события</span></div>
+                <a class="dashboard-event" href="#story" aria-label="Посмотреть учебный разбор переноса купона"><div class="company-monogram">СР</div><div class="dashboard-event-copy"><div class="dashboard-event-top"><span>Северный ресурс</span><time>14 октября</time></div><h3>Эмитент сообщил о переносе купона</h3><p>Выпуск ДЕМО-001 есть в вашем учебном портфеле.</p><div class="dashboard-tags"><span class="tag-attention">Требует внимания</span><span><svg class="ico"><use href="#i-file"/></svg> Есть первоисточник</span></div></div><svg class="ico event-arrow"><use href="#i-up"/></svg></a>
+                <div class="dashboard-row"><span class="company-monogram quiet">В</span><div><h3>Вектор</h3><p>Опубликован отчёт компании</p></div><span class="tag-neutral">Акция · учебный пример</span></div>
+                <div class="dashboard-row last"><span class="company-monogram quiet">СР</span><div><h3>Северный ресурс</h3><p>Изменение рейтинга эмитента</p></div><span class="tag-neutral">Новый документ</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-float hero-float-alert hero-reveal"><div class="float-parallax"><span class="float-icon"><svg class="ico"><use href="#i-bell"/></svg></span><div><span class="small-label">КАСАЕТСЯ ВАШЕЙ БУМАГИ</span><strong>Важное уже выделено</strong><span class="float-muted">Событие → ДЕМО-001 → ваш портфель</span></div></div></div>
+          <div class="hero-float hero-float-source hero-reveal"><div class="float-parallax"><span class="float-icon"><svg class="ico"><use href="#i-file"/></svg></span><div><strong>Можно проверить</strong><span class="float-muted">Факт связан с документом</span><span class="mini-source-lines" aria-hidden="true"><i></i><i></i></span></div><span class="float-check"><svg class="ico"><use href="#i-check"/></svg></span></div></div>
+        </div>
+        <div class="intro-bottom page-width"><span><svg class="ico"><use href="#i-bag"/></svg> Российские акции и облигации</span><span><svg class="ico"><use href="#i-file"/></svg> Факты с основаниями</span><span><svg class="ico"><use href="#i-clock"/></svg> История изменений</span></div>
+      </section>
+      <section class="story-section page-width" id="story" data-analytics-section="example">
+        <div class="section-intro reveal"><span class="section-kicker">ОТ СОБЫТИЯ К ПОНИМАНИЮ</span><h2>Один разбор.<br>Вся картина перед вами.</h2><p>Посмотрите на учебном примере, как может работать ТЭЙЛ. Все компании, документы и события в этой истории вымышлены.</p></div>
+        <div class="story-track"><div class="story-pin">
+          <div class="story-explanation">
+            <div class="story-step-counter"><span id="story-current-step">01</span><span>/ 04</span></div>
+            <div class="story-copy-panels">
+              <article class="story-copy is-active" data-story-copy="0"><span class="section-kicker">ТОЛЬКО ТО, ЧТО КАСАЕТСЯ ВАС</span><h3>Эта новость —<br>по вашей бумаге.</h3><p>ТЭЙЛ связывает сообщение с конкретной компанией и выпуском в портфеле. Так понятнее, что стоит вашего внимания.</p></article>
+              <article class="story-copy" data-story-copy="1"><span class="section-kicker">РАЗБОР БЕЗ ДОГАДОК</span><h3>Понятно, что известно.<br>И чего мы не знаем.</h3><p>Подтверждённый факт, заявление компании и открытые вопросы показаны отдельно. Чтобы вы видели основания для собственного решения.</p></article>
+              <article class="story-copy" data-story-copy="2"><span class="section-kicker">ПРОВЕРЯЙТЕ ОСНОВАНИЯ</span><h3>За выводом —<br>конкретный источник.</h3><p>Откройте документ и посмотрите нужный фрагмент. Понятно, откуда взялась информация и что именно в ней сказано.</p></article>
+              <article class="story-copy" data-story-copy="3"><span class="section-kicker">ИСТОРИЯ СОХРАНЯЕТСЯ</span><h3>Новое сообщение.<br>Обновлённая картина.</h3><p>Если появляется подтверждение, меняется статус события. Предыдущий разбор остаётся в истории — видно, что изменилось и почему.</p></article>
+            </div>
+            <nav class="story-navigation" aria-label="Шаги учебного разбора"><button type="button" class="is-active" data-story-step="0" aria-label="Шаг 1: ваша бумага" aria-pressed="true">01</button><button type="button" data-story-step="1" aria-label="Шаг 2: разбор события" aria-pressed="false">02</button><button type="button" data-story-step="2" aria-label="Шаг 3: первоисточник" aria-pressed="false">03</button><button type="button" data-story-step="3" aria-label="Шаг 4: история изменений" aria-pressed="false">04</button></nav>
+            <span class="story-scroll-hint"><span class="scroll-hint-desktop">Листайте — история продолжится</span><span class="scroll-hint-mobile">Выберите следующий шаг</span><svg class="ico"><use href="#i-chevron"/></svg></span>
+          </div>
+          <div class="story-visual">
+            <div class="story-visual-glow" aria-hidden="true"></div>
+            <div class="story-window"><div class="story-window-chrome"><span class="dashboard-brand">тэйл<span></span></span><span>Разбор события</span><span class="device-demo">УЧЕБНЫЙ ПРИМЕР</span></div><div class="story-window-body">
+              <aside class="story-portfolio"><span class="small-label">МОИ БУМАГИ</span><div class="story-position selected"><span class="company-monogram">СР</span><strong>Северный ресурс</strong><small>Облигация ДЕМО-001</small><span class="position-dot"></span></div><div class="story-position"><span class="company-monogram quiet">В</span><strong>Вектор</strong><small>Акция ДЕМО-АК</small></div><span class="story-portfolio-foot">Связь с выпуском<br>имеет значение</span></aside>
+              <div class="story-layer-stack">
+                <article class="story-layer is-active" data-story-scene="0" aria-label="Событие по вашей бумаге"><span class="small-label">ЛЕНТА СОБЫТИЙ</span><div class="story-note-heading"><span class="tag-attention">Новое по вашей бумаге</span><span class="story-note-time">14 октября</span></div><h4>Эмитент сообщил<br>о переносе купона</h4><p>В сообщении указан выпуск <strong>ДЕМО-001</strong> — тот, который есть в учебном портфеле.</p><div class="story-issuer"><svg class="ico"><use href="#i-file"/></svg><span>Официальное сообщение<br><small>14 октября · 16:30</small></span><svg class="ico"><use href="#i-check"/></svg></div><button type="button" class="story-open" data-story-goto="1">Посмотреть разбор <svg class="ico"><use href="#i-arrow"/></svg></button></article>
+                <article class="story-layer story-analysis" data-story-scene="1" aria-label="Факты и неизвестные в разборе"><div class="story-card-heading"><svg class="ico"><use href="#i-spark"/></svg><span>Что это значит для вас</span><span class="tag-neutral">ДЕМО-001</span></div><h4>Разобраться —<br>прежде чем решать.</h4><div class="story-finding"><span class="finding-icon green"><svg class="ico"><use href="#i-check"/></svg></span><div><strong>Подтверждено</strong><p>В сообщении назван ваш выпуск.</p></div></div><div class="story-finding"><span class="finding-icon"><svg class="ico"><use href="#i-chat"/></svg></span><div><strong>Компания заявляет</strong><p>Планирует выплату в течение трёх рабочих дней.</p></div></div><div class="story-finding"><span class="finding-icon amber">?</span><div><strong>Пока неизвестно</strong><p>Когда обязательство будет исполнено.</p></div></div><button type="button" class="story-source-button" data-story-goto="2"><svg class="ico"><use href="#i-file"/></svg> Проверить первоисточник <svg class="ico"><use href="#i-up"/></svg></button></article>
+                <article class="story-layer story-document" data-story-scene="2" aria-label="Фрагмент первоисточника"><div class="document-toolbar"><span class="document-icon"><svg class="ico"><use href="#i-file"/></svg></span><div><strong>Сообщение эмитента</strong><small>14 октября · 16:30</small></div><span>1 / 1</span></div><span class="small-label">СООБЩЕНИЕ ОБ ОБЯЗАТЕЛЬСТВАХ</span><h4>Факт можно<br>проверить.</h4><blockquote>«Выплата купонного дохода по выпуску <mark><i class="source-marker"></i><span>ДЕМО-001 перенесена.</span></mark> Планируемый срок — <mark><i class="source-marker"></i><span>в течение трёх рабочих дней</span></mark>».</blockquote><div class="document-explanation"><span>i</span><p>План компании ещё не подтверждает исполнение выплаты.</p></div><span class="document-footnote">Вымышленный документ для демонстрации</span></article>
+                <article class="story-layer story-history" data-story-scene="3" aria-label="История изменения статуса"><span class="small-label">ИСТОРИЯ СОБЫТИЯ</span><h4>Изменилось событие.<br>Обновился разбор.</h4><ol><li><span></span><div><time>14 октября</time><strong>Сообщение о переносе купона</strong><p>Подтверждения исполнения ещё нет.</p></div></li><li class="new-history"><span></span><div><time>16 октября · новый документ</time><strong>Получено подтверждение выплаты</strong><p>Статус обновлён. Предыдущая версия сохранена.</p></div></li></ol><div class="history-notification"><svg class="ico"><use href="#i-bell"/></svg><div><strong>Новое с последнего просмотра</strong><span>Видно, что изменилось и на каком основании</span></div></div><span class="document-footnote">Продолжение учебного сценария</span></article>
+              </div>
+            </div></div>
+            <div class="story-floating-note" aria-hidden="true"><svg class="ico"><use href="#i-bag"/></svg><span>Этот выпуск есть<br><strong>в вашем портфеле</strong></span><span class="note-check"><svg class="ico"><use href="#i-check"/></svg></span></div>
+            <div class="demo-pointer" aria-hidden="true"><span class="pointer-ripple"></span><svg><use href="#i-pointer"/></svg><span>Демо</span></div>
+          </div>
+        </div></div>
+      </section>
+      <section class="principles-section page-width" id="approach" data-analytics-section="approach">
+        <div class="section-intro reveal"><span class="section-kicker">ВАШИ ДЕНЬГИ. ВАШИ РЕШЕНИЯ.</span><h2>Больше ясности<br>в том, во что вы вложились.</h2></div>
+        <div class="principle-grid">
+          <article class="principle-card reveal"><div class="principle-illustration matching-illustration" aria-hidden="true"><span class="mini-entity">Новость о компании</span><span class="entity-connector"></span><span class="mini-entity green-entity">Ваша бумага <svg class="ico"><use href="#i-check"/></svg></span></div><h3>Важное —<br>по вашим бумагам.</h3><p>Конкретная компания, акция или выпуск облигаций. Похожее название ещё не означает связь с вашими вложениями.</p></article>
+          <article class="principle-card reveal"><div class="principle-illustration proof-illustration" aria-hidden="true"><div class="mini-paper"><span></span><span></span><span class="green-line"></span><span></span></div><span class="proof-stamp"><svg class="ico"><use href="#i-file"/></svg> Первоисточник</span></div><h3>Основания,<br>которые можно проверить.</h3><p>Факты, заявления и неизвестное разделены. В демо видно, какой документ стоит за каждым существенным выводом.</p></article>
+          <article class="principle-card reveal"><div class="principle-illustration history-illustration" aria-hidden="true"><span><i></i> Было неизвестно</span><span class="history-connector"></span><span><i></i> Появилось подтверждение</span></div><h3>История,<br>которая сохраняется.</h3><p>Новый документ дополняет картину. Можно вернуться к предыдущему разбору и понять причину изменения статуса.</p></article>
+        </div>
+      </section>
+      <section class="hands-on-section" id="example"><div class="page-width">
+        <div class="hands-on-copy reveal"><span class="section-kicker">ТЕПЕРЬ ПОПРОБУЙТЕ САМИ</span><h2>Три ситуации.<br>Разные основания для решений.</h2><p>Выберите сценарий и откройте источники. Так устроен учебный разбор ТЭЙЛ.</p></div>
+        <div class="dossier reveal">
+          <div class="case-switch" aria-label="Выбрать демонстрационный сценарий"><button type="button" aria-pressed="true" class="active">Задержка купона</button><button type="button" aria-pressed="false">Изменение рейтинга</button><button type="button" aria-pressed="false">Слух из канала</button></div>
+          <div class="dossier-head"><div><span class="issue-label">Выпуск ДЕМО-001 · облигация</span><h3>Северный ресурс</h3></div><span class="status-tag">Требует внимания</span></div>
+          <div class="case-panel" aria-live="polite" aria-atomic="true"><h4 class="case-title">Эмитент сообщил о задержке купона</h4><div class="case-findings"><div class="finding"><span class="finding-mark fact"><svg class="ico"><use href="#i-check"/></svg></span><div><h4>Подтверждено</h4><p>В официальном сообщении указан выпуск ДЕМО-001 и перенос планируемого срока выплаты.</p></div></div><div class="finding"><span class="finding-mark unknown" aria-hidden="true">?</span><div><h4>Пока неизвестно</h4><p>Когда обязательство будет исполнено и когда деньги отобразятся у вашего брокера.</p></div></div><div class="watch-next"><svg class="ico"><use href="#i-clock"/></svg><div><h4>Что проверить дальше</h4><p>Новое сообщение об исполнении выплаты и подтверждение от платёжной инфраструктуры.</p></div></div></div></div>
+          <details class="demo-details"><summary>Источники и ход события <svg class="ico"><use href="#i-chevron"/></svg></summary><div class="demo-details-content"><h4>Фрагмент источника</h4><blockquote>«Выплата купонного дохода по выпуску ДЕМО-001 перенесена. Планируемый срок — в течение трёх рабочих дней».</blockquote><h4>Что заявлено</h4><p>Компания планирует провести выплату в течение трёх рабочих дней. Это заявление, а не подтверждение выплаты.</p><h4>Связь с другими бумагами</h4><p>По выпуску ДЕМО-002 сведений о задержке в этом наборе документов нет. Это не подтверждение отсутствия риска.</p><h4>Хронология</h4><ol class="timeline"><li><span class="timeline-dot"></span><strong>14 октября, 10:00</strong><p>наступила дата выплаты по условиям выпуска</p></li><li><span class="timeline-dot"></span><strong>14 октября, 16:30</strong><p>опубликовано заявление о переносе</p></li><li><span class="timeline-dot"></span><strong>15 октября, 09:00</strong><p>новых подтверждений в наборе нет</p></li></ol><p class="source-note">Все документы и события в этом примере вымышлены.</p></div></details>
+        </div>
+      </div></section>
+      <section class="research-section page-width" id="survey" data-analytics-section="survey" aria-label="Опрос об инвестиционном опыте">
+        <div class="research-intro reveal"><span class="section-kicker">СОЗДАЁМ ТЭЙЛ ВМЕСТЕ</span><h2>Ваш опыт поможет<br>выбрать главное.</h2><p>Как вы разбираетесь в своих инвестициях? Что приходится искать, проверять и обсуждать с другими?</p><p>Расскажите о реальных ситуациях. Ответы помогут нам понять, какую помощь стоит сделать в первую очередь.</p><div class="research-privacy"><svg class="ico"><use href="#i-leaf"/></svg><span>Без контактов и доступа к счёту.<br>Только ваш опыт.</span></div><a class="research-chat" href="https://t.me/+1aljbCwrwdo5MTMy" data-analytics-goal="beta_chat_click" target="_blank" rel="noopener noreferrer">Хочу обсуждать продукт в закрытом чате <svg class="ico"><use href="#i-up"/></svg></a></div>
+        <div class="survey-form" id="survey-app"><noscript><p>Для прохождения опроса включите JavaScript.</p></noscript></div>
+      </section>
+      <section class="landing-faq page-width" data-analytics-section="faq"><div class="reveal"><span class="section-kicker">ОСТАЛИСЬ ВОПРОСЫ?</span><h2>Давайте проясним.</h2></div><div class="faq-items reveal">
+        <details><summary>ТЭЙЛ подскажет, покупать или продавать?<svg class="ico"><use href="#i-chevron"/></svg></summary><p>ТЭЙЛ задуман как помощник в разборе событий: что произошло, чем это подтверждается и что проверить. Решение по инвестициям остаётся за вами. Демо не прогнозирует цены и не предлагает сделки.</p></details>
+        <details><summary>Это уже работающий сервис?<svg class="ico"><use href="#i-chevron"/></svg></summary><p>Сейчас мы показываем учебный пример и исследуем задачи инвесторов. В нём вымышленные компании, документы и события. О доступе к продукту будем сообщать в закрытом чате.</p></details>
+        <details><summary>Нужно подключать брокерский счёт?<svg class="ico"><use href="#i-chevron"/></svg></summary><p>Для демо — нет. Мы не запрашиваем доступ к брокеру, номер счёта или состав ваших позиций.</p></details>
+        <details><summary>ТЭЙЛ только про облигации?<svg class="ico"><use href="#i-chevron"/></svg></summary><p>Создаём помощника для самостоятельных инвесторов в российские акции и облигации. Для наглядного учебного примера здесь выбрали событие по облигации.</p></details>
+        <details><summary>Что будет с моими ответами в опросе?<svg class="ico"><use href="#i-chevron"/></svg></summary><p>Сохраним их для исследования продукта. Ответы доступны владельцу сайта. Контакты не требуются; личные данные в свободном тексте указывать не нужно.</p></details>
+      </div></section>
+    </main>
+    <footer class="landing-footer" data-analytics-section="footer"><div class="page-width"><div class="footer-signoff"><a class="tail-brand" href="#top"><img src="/logo.svg" alt="" width="46" height="42"><span>тэйл</span></a><p>Яснее картина.<br>Решение — ваше.</p><a class="action action-primary" href="https://t.me/+1aljbCwrwdo5MTMy" data-analytics-goal="beta_chat_click" target="_blank" rel="noopener noreferrer">Присоединиться к демо <svg class="ico"><use href="#i-up"/></svg></a></div><div class="footer-fineprint"><span>© 2026 ТЭЙЛ · Сервис в разработке</span><nav aria-label="Правовая информация"><a href="/privacy">Политика обработки данных</a><a href="/consent/survey">Согласие на опрос</a><a href="/consent/analytics">Согласие на аналитику</a><button type="button" class="cookie-settings-link" data-cookie-settings>Настройки cookie</button></nav><p>Не является индивидуальной инвестиционной рекомендацией.</p></div></div></footer>
+  </div>
 </body>
 </html>

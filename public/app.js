@@ -1,6 +1,7 @@
 import { content } from './content.js';
 import { emptyAnswers, hasCase, surveySteps, normalizeAnswers, validateStep, SURVEY_VERSION, CONSENT_VERSION } from './survey-model.js';
 import { initializeAnalytics, goal, uuid } from './analytics.js';
+import { initializeLandingMotion } from './landing-motion.js';
 
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const icon = (name, size = 18) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${({ right: '<path d="M5 12h14m-7-7 7 7-7 7"/>', left: '<path d="m12 19-7-7 7-7M19 12H5"/>', down: '<path d="m6 9 6 6 6-6"/>', plus: '<path d="M5 12h14M12 5v14"/>', check: '<path d="m20 6-11 11-5-5"/>', up: '<path d="M7 7h10v10M7 17 17 7"/>' })[name]}</svg>`;
@@ -159,6 +160,7 @@ survey?.addEventListener('submit', async event => {
     offer.id = 'beta-offer'; offer.className = 'beta-offer container'; offer.dataset.analyticsSection = 'beta';
     offer.innerHTML = `<div class="beta-discount" aria-hidden="true">−50<span>%</span></div><div class="beta-copy"><span class="beta-eyebrow">Опрос пройден. Давайте пробовать дальше.</span><h2>Попробуйте ТЭЙЛ в числе первых</h2><p>Вступайте в закрытый чат бета-тестеров, обсуждайте разборы и узнавайте о доступе к продукту. Для участников — скидка 50% на будущую подписку.</p><span class="beta-note">Сервис готовится к запуску. О бета-доступе и условиях скидки сообщим в чате.</span></div><a class="button primary beta-button" data-analytics-goal="beta_chat_click" href="${content.telegramUrl}" target="_blank" rel="noopener noreferrer">Вступить в чат бета-тестеров ${icon('up')}</a>`;
     document.getElementById('survey').after(offer);
+    document.dispatchEvent(new Event('tail:layout-change'));
     offer.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
   } catch (error) {
     sending = false; renderSurvey();
@@ -168,3 +170,4 @@ survey?.addEventListener('submit', async event => {
 
 renderSurvey();
 initializeAnalytics();
+initializeLandingMotion();

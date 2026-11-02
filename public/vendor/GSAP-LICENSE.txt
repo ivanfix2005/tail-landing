@@ -1,0 +1,14 @@
+GSAP and ScrollTrigger 3.15.0
+
+License declared by the official npm package:
+Standard 'no charge' license: https://gsap.com/standard-license
+
+Original copyright and license headers are preserved in the JavaScript files.
+Official documentation: https://gsap.com/docs/v3/
+Package: https://www.npmjs.com/package/gsap/v/3.15.0
+
+Vendored files:
+https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js
+
+Both files are served locally when the landing page is viewed.

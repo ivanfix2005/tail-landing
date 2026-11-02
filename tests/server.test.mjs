@@ -25,14 +25,14 @@ async function fixture(t, options = {}) {
 
 test('all four pages and their local assets are served independently of the original host', async t => {
   const { origin } = await fixture(t);
-  for (const route of ['/', '/privacy', '/consent/survey', '/consent/analytics', '/styles.css', '/app.js', '/content.js', '/analytics.js', '/survey-model.js', '/logo.svg', '/favicon.svg', '/fonts/manrope.ttf']) {
+  for (const route of ['/', '/privacy', '/consent/survey', '/consent/analytics', '/styles.css', '/landing.css', '/app.js', '/landing-motion.js', '/vendor/gsap.min.js', '/vendor/ScrollTrigger.min.js', '/content.js', '/analytics.js', '/survey-model.js', '/logo.svg', '/favicon.svg', '/fonts/manrope.ttf']) {
     const response = await fetch(origin + route);
     assert.equal(response.status, 200, route);
     assert.equal(response.headers.get('x-content-type-options'), 'nosniff');
     const bytes = await response.arrayBuffer(); assert.ok(bytes.byteLength > 10);
   }
   const home = await (await fetch(origin)).text();
-  assert.match(home, /Новость о компании/); assert.doesNotMatch(home, /_next|self\.__next_f/);
+  assert.match(home, /Меньше догадок/); assert.doesNotMatch(home, /_next|self\.__next_f/);
   assert.deepEqual(await (await fetch(origin + '/api/config')).json(), { counterId: null });
 });
 
