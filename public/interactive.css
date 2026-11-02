@@ -1,0 +1,235 @@
+/* Native fragment/focus scrolling must not compete with pinned-scene refreshes.
+   Deliberate story/form transitions choose their own scroll behavior in JS. */
+:root { scroll-behavior: auto; }
+.landing-page :is(#example, #survey, #approach) { scroll-margin-top: 0; }
+/* Fast scroll companion: fixed viewport-sized overlay, small composited layers. */
+.journey-route { position: fixed; inset: 0; overflow: hidden; }
+.journey-flyer { will-change: transform; }
+.story-pin { position: relative; z-index: 9; }
+.journey-streak { position: absolute; left: -75px; top: -7px; width: 75px; height: 14px; background: linear-gradient(90deg,transparent,#72d163a1); border-radius: 50%; filter: blur(5px); transform-origin: right center; opacity: 0; will-change: transform; transition: opacity 140ms var(--ease-out); }
+/* A real document, read as a sequence rather than a wall of text. */
+.hands-on-section { background: #102e22; border: 0; position: relative; padding-block: 100px; }
+.hands-on-section > .page-width { grid-template-columns: .8fr 1.2fr; gap: 60px; }
+.hands-on-copy { color: #f0f8eb; }
+.hands-on-copy .section-kicker { color: #b4d595; }
+.hands-on-copy h2 { font-size: clamp(34px,3.8vw,49px); line-height: 1.1; letter-spacing: -2px; }
+.hands-on-copy h2 em { color: #b9ee7c; font-style: normal; }
+.hands-on-copy > p { color: #c0d4c1; font-size: 14px; line-height: 1.8; max-width: 360px; }
+.case-route { display: flex; flex-direction: column; list-style: none; margin: 34px 0 28px; padding: 0; gap: 0; }
+.case-route li { display: flex; align-items: center; gap: 15px; position: relative; padding: 11px 0; color: #b5cdb7; }
+.case-route li::after { content: ''; width: 1px; height: 17px; position: absolute; left: 17px; top: 49px; background: #42633d; }
+.case-route li:last-child::after { display: none; }
+.case-route li > span { display: grid; place-items: center; border: 1px solid #527450; color: #c8deb8; width: 35px; height: 35px; border-radius: 50%; font-size: 10px; transition: color 180ms ease,background-color 180ms ease; flex: none; }
+.case-route strong { font-size: 13px; font-weight: 500; display: block; }
+.case-route small { font-size: 10px; color: #aac1ae; display: block; margin-top: 3px; }
+.case-route .is-current > span { background: #bfed85; color: #153d21; border-color: #bfed85; }
+.case-route .is-current strong { color: #e1f6ce; }
+.case-route .is-past > span { color: #c3ec9e; border-color: #83af60; }
+.case-historical { display: flex; align-items: center; gap: 7px; color: #b4cbb5; font-size: 10px; }
+.case-historical i { height: 5px; width: 5px; border-radius: 50%; background: #b0df7a; }
+.landing-page .dossier { border-radius: 23px; border: 1px solid #31543a; box-shadow: 0 25px 60px #001c1733; }
+.landing-page .case-switch { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); margin: 12px 12px 0; padding: 6px; background: #edf3e6; position: relative; gap: 0; border-radius: 12px; isolation: isolate; }
+.case-switch-indicator { position: absolute; left: 6px; top: 6px; bottom: 6px; width: calc((100% - 12px)/3); border-radius: 8px; background: #173c29; box-shadow: 0 3px 7px #193d2914; transition: transform 250ms var(--ease-out); z-index: -1; }
+.landing-page .case-switch button { color: #4c6751; background: transparent; box-shadow: none; border: 0; border-radius: 8px; font-size: 10px; min-height: 42px; position: relative; }
+.landing-page .case-switch button.active { background: transparent; box-shadow: none; color: #efffe4; }
+.landing-page .dossier-head { display: flex; align-items: center; gap: 13px; padding: 24px; border: 0; }
+.dossier-logo { border-radius: 12px; object-fit: contain; flex: none; }
+.landing-page .dossier-head > div { min-width: 0; }
+.landing-page .dossier-head h3 { font-size: 23px; margin-top: 4px; }
+.landing-page .issue-label { font-size: 9px; line-height: 1.6; color: #57715c; }
+.landing-page .dossier-head .status-tag { margin-left: auto; flex: none; font-size: 8px; padding: 7px 9px; background: #f7eccb; color: #7d601a; white-space: nowrap; }
+.landing-page .dossier-head .status-tag.neutral { background: #e7f3d8; color: #3e6540; }
+.landing-page .case-panel { padding: 0 24px 24px; }
+.case-spotlight { border-radius: 14px; padding: 19px 22px; display: flex; align-items: center; justify-content: space-between; gap: 15px; background: #ecf6dc; margin-bottom: 20px; }
+.case-metric-label { display: block; font-size: 10px; color: #42653b; }
+.case-spotlight strong { display: flex; align-items: baseline; gap: 9px; font-size: 49px; line-height: 1.2; font-weight: 500; letter-spacing: -2px; margin-top: 7px; color: #1a492a; }
+.case-spotlight small { font-size: 11px; font-weight: 400; letter-spacing: 0; white-space: nowrap; }
+.case-spotlight > .ico { width: 35px; height: 35px; color: #5c9250; opacity: .6; }
+.landing-page .case-title { font-size: 21px; line-height: 1.3; font-weight: 500; letter-spacing: -.7px; margin-bottom: 18px; }
+.landing-page .case-findings { gap: 13px; }
+.landing-page .finding { gap: 12px; background: #f5f8f1; padding: 15px; border: 1px solid #e2eadb; border-radius: 12px; }
+.landing-page .finding:has(.unknown) { background: #fffbef; border-color: #f2e8c5; }
+.landing-page .finding h4, .landing-page .watch-next h4 { font-size: 11px; margin-bottom: 4px; color: #26472e; }
+.landing-page .finding p, .landing-page .watch-next p { font-size: 11px; line-height: 1.7; color: #49624f; }
+.landing-page .finding-mark { flex: 0 0 25px; width: 25px; height: 25px; margin: 0; }
+.landing-page .finding-mark.fact { background: #d4ebbb; color: #3f7c33; }
+.landing-page .watch-next { background: transparent; border: 0; padding: 12px 5px 0; gap: 11px; }
+.landing-page .watch-next > .ico { width: 20px; height: 20px; flex: 0 0 20px; margin-top: 1px; color: #4f7a44; }
+.landing-page .demo-details { background: #f3f7ec; border-top: 1px solid #dfe9d3; }
+.landing-page .demo-details summary { display: flex; align-items: center; gap: 11px; padding: 17px 24px; min-height: 75px; font-size: 12px; color: #234c2b; }
+.demo-details summary small { display: block; color: #5e795e; font-size: 9px; margin-top: 4px; }
+.demo-details summary > .ico { margin-left: auto; }
+.case-source-icon { display: grid; place-items: center; width: 32px; height: 36px; background: #e3efcf; border-radius: 8px; color: #4d7941; }
+.case-source-icon .ico { width: 18px; height: 18px; }
+.landing-page .demo-details-content { padding: 3px 24px 25px; }
+.landing-page .demo-details-content :is(p,blockquote,li) { font-size: 12px; color: #3f5f43; }
+/* An invitation and a visible route through the real questionnaire. */
+.research-section { grid-template-columns: .85fr 1.15fr; gap: 45px; padding-block: 110px; }
+.research-intro { padding: 36px; background: #eaf5d9; border-radius: 25px; position: sticky; top: 115px; }
+.research-intro h2 { font-size: clamp(33px,3.3vw,44px); letter-spacing: -1.7px; }
+.research-intro h2 em { color: #257c40; font-style: normal; }
+.research-intro .section-kicker { color: #416d3d; font-size: 9px; letter-spacing: 1.2px; }
+.research-intro > p { font-size: 13px; color: #3d6144; line-height: 1.8; }
+.research-map { background: #fff9; border: 1px solid #cee2b5; border-radius: 17px; padding: 18px; margin-top: 28px; }
+.research-map-heading { display: flex; align-items: center; gap: 12px; }
+.research-stage-number { font-size: 36px; line-height: 1; letter-spacing: -1.5px; color: #3c843d; }
+.research-map-heading strong { display: block; color: #244b2b; font-size: 10px; font-weight: 600; }
+.research-stage-label { display: block; color: #597a50; font-size: 9px; margin-top: 5px; }
+.research-map-heading > .ico { margin-left: auto; width: 23px; height: 23px; color: #5b9c40; }
+.research-topics { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 17px; }
+.research-topics span { padding: 6px 8px; border-radius: 6px; background: #e5edda; color: #55714e; font-size: 9px; transition: color 180ms ease,background-color 180ms ease; }
+.research-topics .is-current { background: #264d2e; color: #efffe4; }
+.research-privacy { color: #436c3f; font-size: 10px; margin-top: 26px; }
+.research-chat { color: #256537; font-size: 10px; line-height: 1.7; margin-top: 24px; }
+.landing-page .survey-form { border-color: #cddfc0; border-radius: 25px; box-shadow: 0 20px 50px #304f1d0c; scroll-margin-top: 110px; }
+.landing-page .survey-main { padding: 28px; }
+.survey-form-top { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.survey-step-orb { display: grid; place-items: center; flex: none; border-radius: 14px; background: #193f2a; color: #c3f189; height: 49px; width: 49px; font-size: 22px; letter-spacing: -1px; }
+.survey-form-top > div > span { display: block; color: #5c7d55; letter-spacing: 1px; font-size: 8px; }
+.survey-form-top strong { display: block; color: #20462c; font-size: 13px; margin-top: 4px; font-weight: 500; }
+.survey-form-top > svg { margin-left: auto; color: #54863e; background: #eff6e7; border-radius: 50%; padding: 6px; width: 32px; height: 32px; }
+.survey-stages { list-style: none; padding: 0; margin: 0 0 29px; display: flex; gap: 5px; }
+.survey-stages li { flex: 1; min-width: 0; }
+.survey-stages li > span { display: block; height: 4px; background: #e7edde; border-radius: 5px; margin-bottom: 8px; }
+.survey-stages small { display: block; color: #73856a; font-size: 8px; }
+.survey-stages [data-state="current"] > span, .survey-stages [data-state="done"] > span { background: #60b73d; }
+.survey-stages [data-state="current"] small { color: #286638; font-weight: 600; }
+.landing-page .survey-form h3 { font-size: 25px; color: #183c26; letter-spacing: -.8px; }
+.landing-page .survey-step-description { font-size: 12px; color: #587255; line-height: 1.7; margin-top: 11px; }
+.landing-page .survey-form fieldset { margin-top: 23px; }
+.landing-page .choice { position: relative; min-height: 51px; border: 1px solid #cfdfc4; border-radius: 11px; padding: 13px 11px; font-size: 11px; color: #2a4930; transition: border-color 160ms ease,background-color 160ms ease; }
+.landing-page .choice.selected, .landing-page .choice:has(input:checked) { border-color: #6faa4d; background: #e7f5d8; color: #254e2d; }
+.landing-page .choice input { flex: 0 0 17px; width: 17px; height: 17px; }
+.landing-page .survey-form .field-help { color: #5b7455; font-size: 10px; }
+.landing-page .survey-form .answer-label, .landing-page .survey-form legend { font-size: 12px; color: #304d32; }
+.landing-page .select-wrap select { border-color: #cadbbd; border-radius: 10px; color: #2a4c32; font-size: 12px; min-height: 48px; }
+.landing-page .survey-form .form-actions { margin-top: 27px; padding-top: 22px; border-color: #dce7d2; }
+.landing-page .survey-nav-next { background: #1a452c; color: #f3ffe8; border-radius: 11px; min-height: 46px; font-size: 12px; padding-inline: 20px; }
+.landing-page .survey-nav-back { border-radius: 11px; border-color: #d7e3cc; background: #f2f6ec; width: 44px; height: 44px; }
+.landing-page .survey-progress { font-size: 10px; color: #466641; }
+.landing-page .progress-line { background: #e0e9d6; height: 4px; margin-top: 10px; }
+.landing-page .progress-line > span { width: 100%; transform-origin: left; background: #69b647; }
+.landing-page .survey-branch-note { background: #eff8e5; border: 1px solid #d8e8c7; border-radius: 11px; padding: 13px; font-size: 12px; }
+.survey-success .success-icon { opacity: 1; transform: scale(1); transition: opacity 220ms var(--ease-out),transform 300ms var(--ease-out); }
+@starting-style { .survey-success .success-icon { opacity: .3; transform: scale(.93); } }
+/* Answers are visible objects, with a native accessible disclosure in each. */
+.landing-faq { grid-template-columns: .85fr 1.15fr; gap: 38px; align-items: start; padding-bottom: 110px; }
+.faq-intro { background: #163b2a; border-radius: 25px; padding: 36px; color: #f1f8ed; overflow: hidden; }
+.faq-intro .section-kicker { color: #b8d991; font-size: 8px; letter-spacing: 1px; }
+.faq-intro h2 { font-size: 37px; line-height: 1.12; letter-spacing: -1.5px; }
+.faq-intro h2 em { color: #c4ed8e; font-style: normal; }
+.faq-intro > p { font-size: 12px; color: #c4d8c4; line-height: 1.8; margin-top: 21px; max-width: 300px; }
+.faq-conversation { position: relative; height: 165px; margin-top: 29px; }
+.faq-bubble { display: flex; align-items: center; gap: 11px; position: absolute; padding: 16px 18px; font-size: 12px; border-radius: 14px; }
+.faq-bubble-question { left: 0; top: 5px; background: #f1f7ea; color: #294f31; border-bottom-left-radius: 3px; box-shadow: 0 8px 25px #001a1a33; transform: rotate(-3deg); }
+.faq-bubble-question i { font-style: normal; color: #5b8941; font-size: 20px; }
+.faq-bubble-answer { right: 0; top: 77px; background: #c6ed96; color: #234e28; border-bottom-right-radius: 3px; transform: rotate(2deg); box-shadow: 0 10px 25px #001a1a33; }
+.faq-bubble-answer .ico { width: 20px; height: 20px; }
+.faq-orbit { position: absolute; font-size: 115px; color: #78a85d30; left: -28px; bottom: -40px; line-height: 1; transform: rotate(-20deg); z-index: 0; pointer-events: none; }
+.faq-intro-foot { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+.faq-intro-foot span { color: #bed5b5; font-size: 9px; padding: 6px 8px; border: 1px solid #416743; border-radius: 6px; }
+.landing-page .landing-faq .faq-items { display: flex; flex-direction: column; gap: 10px; }
+.landing-faq .faq-items details { border: 1px solid #d4e2c9; background: #fafcf7; border-radius: 16px; padding: 0; }
+.landing-faq .faq-items details[open] { background: #edf6e1; border-color: #bad39f; }
+.landing-faq summary { display: flex; align-items: center; gap: 15px; padding: 20px; min-height: 83px; list-style: none; }
+.landing-faq summary::-webkit-details-marker { display: none; }
+.faq-count { color: #678b53; font-size: 10px; flex: none; }
+.faq-question { flex: 1; min-width: 0; }
+.faq-question small { display: block; font-size: 8px; letter-spacing: .9px; color: #5d7b4c; margin-bottom: 5px; }
+.faq-question > span { font-size: 13px; line-height: 1.5; color: #26452d; display: block; }
+.faq-toggle { height: 28px; width: 28px; display: block; border: 1px solid #c6d9b5; border-radius: 50%; position: relative; flex: none; background: #fff; }
+.faq-toggle i { display: block; width: 9px; height: 1px; background: #4b7741; position: absolute; top: 13px; left: 8px; transition: transform 160ms var(--ease-out); }
+.faq-toggle i:last-child { transform: rotate(90deg); }
+details[open] .faq-toggle i:last-child { transform: rotate(0); }
+.landing-faq details p { color: #416143; padding: 0; font-size: 12px; line-height: 1.85; margin: 0; }
+.faq-answer { padding: 0 57px 24px 47px; }
+body.keyboard-input :is(.case-switch-indicator, .faq-toggle i, .choice, .research-topics span) { transition: none; }
+@media (hover:hover) and (pointer:fine) {
+  .landing-faq .faq-items details:hover { border-color: #9cbb7e; }
+  .landing-page .choice:hover { background: #f0f8e6; border-color: #93b878; }
+  .landing-page .survey-nav-next:hover { background: #27643a; }
+}
+@media (max-width:1000px) {
+  .hands-on-section > .page-width { gap: 30px; grid-template-columns: .75fr 1.25fr; }
+  .research-section, .landing-faq { gap: 25px; }
+  .research-intro, .faq-intro { padding: 27px; }
+}
+@media (max-width:900px) {
+  .hands-on-section > .page-width { grid-template-columns: 1fr; gap: 35px; }
+  .hands-on-copy { text-align: center; max-width: 650px; margin-inline: auto; }
+  .case-route { flex-direction: row; justify-content: center; gap: 22px; margin-top: 24px; text-align: left; }
+  .case-route li { gap: 8px; }
+  .case-route li::after { display: none; }
+  .case-historical { justify-content: center; }
+  .landing-page .dossier { max-width: 650px; }
+  .research-section { grid-template-columns: 1fr; max-width: 650px; }
+  .research-intro { position: static; text-align: left; padding: 33px; }
+  .research-intro > p { max-width: 100%; }
+  .landing-page .survey-form { max-width: none; }
+  .landing-faq { grid-template-columns: 1fr; max-width: 650px; }
+  .landing-faq > div:first-child { text-align: left; }
+  .faq-conversation { max-width: 350px; }
+}
+@media (max-width:600px) {
+  .hands-on-section { padding-block: 65px; }
+  .hands-on-copy h2 { font-size: 36px; letter-spacing: -1.7px; }
+  .hands-on-copy > p { font-size: 13px; }
+  .case-route { gap: 9px; justify-content: space-between; }
+  .case-route li { flex-direction: column; align-items: start; gap: 8px; }
+  .case-route strong { font-size: 10px; }
+  .case-route small { font-size: 8px; }
+  .case-route li > span { width: 29px; height: 29px; font-size: 9px; }
+  .landing-page .case-switch { margin: 9px 9px 0; padding: 5px; }
+  .case-switch-indicator { left: 5px; top: 5px; bottom: 5px; width: calc((100% - 10px)/3); }
+  .landing-page .case-switch button { font-size: 8px; min-height: 45px; padding: 6px; line-height: 1.5; }
+  .landing-page .dossier-head { flex-wrap: wrap; padding: 21px 18px; gap: 10px; }
+  .dossier-logo { width: 37px; height: 37px; border-radius: 9px; }
+  .landing-page .dossier-head > div { flex: 1; }
+  .landing-page .issue-label { font-size: 8px; }
+  .landing-page .dossier-head h3 { font-size: 22px; }
+  .landing-page .dossier-head .status-tag { font-size: 8px; margin-left: 47px; }
+  .landing-page .case-panel { padding: 0 18px 20px; }
+  .case-spotlight { padding: 17px; }
+  .case-spotlight strong { font-size: 48px; }
+  .landing-page .case-title { font-size: 21px; }
+  .landing-page .finding { padding: 13px 11px; gap: 9px; }
+  .landing-page .finding h4, .landing-page .finding p, .landing-page .watch-next p { font-size: 13px; }
+  .landing-page .demo-details summary { padding: 15px 18px; font-size: 12px; }
+  .landing-page .demo-details-content { padding-inline: 18px; }
+  .research-section { padding-block: 70px; }
+  .research-intro { padding: 28px 24px; }
+  .research-intro h2 { font-size: 36px; }
+  .research-intro > p { font-size: 13px; }
+  .landing-page .survey-main { padding: 24px 20px; }
+  .landing-page .survey-form { scroll-margin-top: 88px; }
+  .landing-page .survey-form h3 { font-size: 25px; }
+  .survey-stages { gap: 4px; }
+  .survey-stages small { font-size: 7px; }
+  .landing-page .choice { font-size: 14px; min-height: 53px; }
+  .landing-page .survey-step-description { font-size: 13px; }
+  .landing-page .select-wrap select { font-size: 14px; }
+  .landing-page .survey-form .answer-label, .landing-page .survey-form legend { font-size: 13px; }
+  .landing-page .survey-progress { font-size: 10px; }
+  .landing-page .survey-nav-next { padding-inline: 15px; font-size: 12px; }
+  .landing-page .survey-navigation { gap: 8px; }
+  .faq-intro { padding: 30px 25px; }
+  .faq-intro h2 { font-size: 34px; }
+  .landing-faq { padding-bottom: 70px; gap: 20px; }
+  .landing-faq summary { padding: 18px 16px; gap: 11px; }
+  .faq-question > span { font-size: 13px; }
+  .faq-question small { font-size: 8px; }
+  .faq-answer { padding: 0 22px 22px 42px; }
+  .landing-faq details p { font-size: 13px; }
+}
+@media (max-width:360px) {
+  .landing-page .instrument-choices { grid-template-columns: 1fr; }
+  .landing-page .dossier-head .status-tag { margin-left: 0; }
+  .research-intro h2 { font-size: 32px; }
+  .landing-page .survey-main { padding-inline: 17px; }
+  .survey-stages small { font-size: 6.5px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .case-switch-indicator, .faq-toggle i, .journey-streak { transition: none; }
+  .survey-success .success-icon { transition: none; }
+  .journey-route.is-ready { display: none; }
+}

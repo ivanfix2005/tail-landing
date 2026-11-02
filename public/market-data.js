@@ -7,10 +7,66 @@ export const marketSources = {
 };
 
 export const annualDividends = [
-  { year: 2022, total: 694, parts: '256 + 438', record: '21.12.2022 / 05.06.2023' },
-  { year: 2023, total: 945, parts: '447 + 498', record: '17.12.2023 / 07.05.2024' },
-  { year: 2024, total: 1055, parts: '514 + 541', record: '17.12.2024 / 03.06.2025' },
-  { year: 2025, total: 675, parts: '397 + 278', record: '12.01.2026 / 04.05.2026' },
+  {
+    "year": 2016,
+    "total": 195,
+    "parts": "75 + 120",
+    "source": "https://lukoil.ru/api/presscenter/exportpressrelease?id=128040"
+  },
+  {
+    "year": 2017,
+    "total": 215,
+    "parts": "85 + 130",
+    "source": "https://lukoil.ru/api/presscenter/exportpressrelease?id=225817"
+  },
+  {
+    "year": 2018,
+    "total": 250,
+    "parts": "95 + 155",
+    "source": "https://lukoil.ru/PressCenter/Pressreleases/Pressrelease/lukoil-provel-godovoe-obshchee-sobranie-aktsionerov_13"
+  },
+  {
+    "year": 2019,
+    "total": 542,
+    "parts": "192 + 350",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": 2020,
+    "total": 259,
+    "parts": "46 + 213",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": 2021,
+    "total": 877,
+    "parts": "340 + 537",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": 2022,
+    "total": 694,
+    "parts": "256 + 438",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": 2023,
+    "total": 945,
+    "parts": "447 + 498",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": 2024,
+    "total": 1055,
+    "parts": "514 + 541",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": 2025,
+    "total": 675,
+    "parts": "397 + 278",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  }
 ];
 
 const common = {

@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/benjitaylor/skills",
+  "commit": "802057409787133703c56001080169e347305572",
+  "path": "stageshow/kit",
+  "retrievedDate": "2026-11-03",
+  "files": 147,
+  "sha256": "0798b6ea6e409a56b7f9395d0dbe9d1a68e0ea515cb06015368a17b7135c7fb3",
+  "verification": "All copied kit files and root LICENSE/NOTICE match the installed source byte for byte; Git preserves their original bytes."
+}

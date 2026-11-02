@@ -5,3 +5,6 @@
 public/vendor/*.min.js -text -whitespace
 # Preserve original public ISS evidence responses, including their whitespace.
 docs/market-evidence/*.json -text -whitespace
+# Unmodified MIT source/examples from the installed Stageshow skill.
+ui/stageshow-kit/** -text -whitespace
+ui/reference/** -text -whitespace

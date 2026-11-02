@@ -2,13 +2,15 @@ import { content } from './content.js';
 import { emptyAnswers, hasCase, surveySteps, normalizeAnswers, validateStep, SURVEY_VERSION, CONSENT_VERSION } from './survey-model.js';
 import { initializeAnalytics, goal, uuid } from './analytics.js';
 import { initializeLandingMotion } from './landing-motion.js';
+import { mountBenefits } from './components/benefits.js';
+import { initializeInteractions, updateCasePresentation, updateSurveyPresentation, interactionScrollBehavior } from './interaction-motion.js';
 
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const icon = (name, size = 18) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${({ right: '<path d="M5 12h14m-7-7 7 7-7 7"/>', left: '<path d="m12 19-7-7 7-7M19 12H5"/>', down: '<path d="m6 9 6 6 6-6"/>', plus: '<path d="M5 12h14M12 5v14"/>', check: '<path d="m20 6-11 11-5-5"/>', up: '<path d="M7 7h10v10M7 17 17 7"/>' })[name]}</svg>`;
 let activeCase = Object.keys(content.cases)[0];
 
 const scenarioButtons = document.querySelectorAll('.case-switch button');
-function showCase(key) {
+function showCase(key, animate = false) {
   activeCase = key;
   const item = content.cases[key];
   scenarioButtons.forEach((button, index) => {
@@ -28,6 +30,7 @@ function showCase(key) {
   dossier.querySelector('.watch-next p').textContent = item.watch;
   const details = dossier.querySelector('.demo-details');
   details.open = false;
+  updateCasePresentation(dossier, key, animate);
   details.querySelector('.demo-details-content').innerHTML = `
     <h4>Фрагмент источника</h4><blockquote>${escape(item.source)}</blockquote>
     <h4>Что заявлено</h4><p>${escape(item.statement)}</p>
@@ -37,7 +40,7 @@ function showCase(key) {
       return `<li><span class="timeline-dot"></span><strong>${escape(time)}</strong><p>${escape(text)}</p></li>`;
     }).join('')}</ol><div class="verified-source-links">${item.sources.map(source => `<a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">${escape(source.label)} ${icon('up')}</a>`).join('')}</div><p class="source-note">Реальные публичные документы. Исторический срез; не данные вашего счёта.</p>`;
 }
-scenarioButtons.forEach((button, index) => button.addEventListener('click', () => showCase(Object.keys(content.cases)[index])));
+scenarioButtons.forEach((button, index) => button.addEventListener('click', event => showCase(Object.keys(content.cases)[index], event.detail > 0)));
 if (scenarioButtons.length) showCase(activeCase);
 
 const survey = document.getElementById('survey-app');
@@ -77,14 +80,21 @@ function fields(step) {
     + `<div class="privacy-note">${icon('check')}<p>Сохраняем ответы и время отправки для исследования. Контакты и данные брокерского счёта не нужны. Не указывайте личные данные в свободном тексте.</p></div>
       <label class="consent"><input type="checkbox" name="consent" ${answers.consent ? 'checked' : ''}><span>Даю <a href="/consent/survey" target="_blank" rel="noopener noreferrer">отдельное согласие на обработку ответов опроса</a> для исследования продукта ТЭЙЛ. <a href="/privacy" target="_blank" rel="noopener noreferrer">Политика обработки персональных данных</a>.</span></label>`;
 }
+let renderedSurveyStep = null;
+let renderedSurveyIndex = 0;
+const stepNames = { portfolio: 'Портфель', case: 'Ситуации', process: 'Поиск ответа', news: 'Новости', services: 'Помощь' };
 function renderSurvey({ focus = false } = {}) {
   if (!survey) return;
   const steps = surveySteps(answers), step = steps[stepIndex];
-  survey.innerHTML = `<form class="survey-main"><div class="survey-question-content"><h3 tabindex="-1">${content.stepTitles[step]}</h3><p class="survey-step-description">${content.stepDescriptions[step]}</p>${fields(step)}</div>
-    <div class="form-actions"><div class="survey-progress"><span aria-live="polite" aria-atomic="true">Шаг ${stepIndex + 1} из ${steps.length}</span><div class="progress-line" aria-hidden="true"><span style="width:${(stepIndex + 1) / steps.length * 100}%"></span></div></div>
+  const changed = renderedSurveyStep !== null && renderedSurveyStep !== step;
+  const backwards = stepIndex < renderedSurveyIndex;
+  renderedSurveyStep = step; renderedSurveyIndex = stepIndex;
+  survey.innerHTML = `<form class="survey-main"><div class="survey-form-top"><span class="survey-step-orb">${String(stepIndex + 1).padStart(2, '0')}</span><div><span>ВАШ ОПЫТ ВАЖЕН</span><strong>${stepNames[step]}</strong></div>${icon('check', 21)}</div><ol class="survey-stages" aria-label="Темы опроса">${steps.map((name, index) => `<li data-state="${index < stepIndex ? 'done' : index === stepIndex ? 'current' : 'next'}"${index === stepIndex ? ' aria-current="step"' : ''}><span></span><small>${stepNames[name]}</small></li>`).join('')}</ol><div class="survey-question-content"><h3 tabindex="-1">${content.stepTitles[step]}</h3><p class="survey-step-description">${content.stepDescriptions[step]}</p>${fields(step)}</div>
+    <div class="form-actions"><div class="survey-progress"><span aria-live="polite" aria-atomic="true">Шаг ${stepIndex + 1} из ${steps.length}</span><div class="progress-line" aria-hidden="true"><span style="transform:scaleX(${(stepIndex + 1) / steps.length})"></span></div></div>
     <div class="survey-navigation"><button type="button" class="survey-nav-back" aria-label="Назад" ${stepIndex === 0 || sending ? 'disabled' : ''}>${icon('left', 20)}</button><button type="submit" class="survey-nav-next" ${sending ? 'disabled' : ''}>${sending ? 'Сохраняем…' : stepIndex === steps.length - 1 ? 'Отправить ответы' : 'Далее'}${icon('right')}</button></div></div></form>`;
+  updateSurveyPresentation(survey, step, stepIndex, steps.length, changed, backwards);
   if (focus) {
-    survey.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+    survey.scrollIntoView({ behavior: interactionScrollBehavior(), block: 'start' });
     survey.querySelector('h3').focus({ preventScroll: true });
   }
 }
@@ -169,6 +179,8 @@ survey?.addEventListener('submit', async event => {
   }
 });
 
+initializeInteractions();
 renderSurvey();
 initializeAnalytics();
+mountBenefits();
 initializeLandingMotion();

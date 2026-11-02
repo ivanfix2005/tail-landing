@@ -3,6 +3,10 @@ import { mountMarketExperience } from './market-experience.js';
 export async function initializeLandingMotion() {
   const story = document.querySelector('.story-section');
   if (!story) return;
+  const initialHash = location.hash;
+  let userInteracted = false;
+  const markInteraction = () => { userInteracted = true; };
+  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(name => addEventListener(name, markInteraction, { once: true, passive: true }));
 
   const layers = [...story.querySelectorAll('[data-story-scene]')];
   const copies = [...story.querySelectorAll('[data-story-copy]')];
@@ -227,8 +231,21 @@ export async function initializeLandingMotion() {
       };
     });
 
-    document.fonts.ready.then(() => ScrollTrigger.refresh());
-    const layoutChanged = () => ScrollTrigger.refresh(true);
+    document.fonts.ready.then(() => {
+      ScrollTrigger.refresh();
+      // Pinned spacing and the compact product scenes change the first layout.
+      // Restore an incoming section link once that layout has settled.
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (!initialHash || location.hash !== initialHash || userInteracted) return;
+        try { document.getElementById(decodeURIComponent(initialHash.slice(1)))?.scrollIntoView({ behavior: 'instant', block: 'start' }); }
+        catch { /* An invalid fragment does not affect the page. */ }
+      }));
+    });
+    // Changes in the form/FAQ happen below all pinned content. Refreshing while
+    // a user scrolls to them can restore an old scroll offset and cause a jump.
+    const layoutChanged = () => {
+      if (story.getBoundingClientRect().bottom > 0) ScrollTrigger.refresh(true);
+    };
     document.addEventListener('tail:layout-change', layoutChanged);
     // A restored bfcache page keeps its context; a real navigation cleans it up.
     window.addEventListener('pagehide', event => {

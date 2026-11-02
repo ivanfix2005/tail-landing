@@ -1,4 +1,5 @@
 import { annualDividends } from './market-data.js';
+import { mountJourney } from './journey-motion.js';
 
 export function mountMarketExperience({ gsap, ScrollTrigger, reduced, fine }) {
   const cleanups = [];
@@ -11,10 +12,14 @@ export function mountMarketExperience({ gsap, ScrollTrigger, reduced, fine }) {
     document.getElementById('chart-year').textContent = value.year;
     document.getElementById('chart-total').textContent = value.total.toLocaleString('ru-RU');
     document.getElementById('chart-parts').textContent = `${value.parts} ₽ · два решения`;
+    const source = document.getElementById('chart-source');
+    source.href = value.source;
+    source.textContent = `Источник за ${value.year} ↗`;
     years.forEach((button, number) => {
       button.classList.toggle('is-active', number === index);
       button.setAttribute('aria-pressed', String(number === index));
       dots[number].classList.toggle('is-active', number === index);
+      dots[number].setAttribute('r', number === index ? '7' : '4');
     });
   }
   years.forEach(button => {
@@ -69,36 +74,7 @@ export function mountMarketExperience({ gsap, ScrollTrigger, reduced, fine }) {
     cleanups.push(() => section.removeEventListener('focusin', finishForKeyboard));
   }
 
-  const guide = document.querySelector('.journey-guide');
-  if (fine && !reduced && matchMedia('(min-width: 1101px)').matches) {
-    const stops = [
-      { selector: '.intro-section', label: 'компании', next: '#coverage', y: -65 },
-      { selector: '#coverage', label: 'разбор', next: '#story', y: -25 },
-      { selector: '#story', label: 'экран компании', next: '#company-chart', y: 45 },
-      { selector: '#company-chart', label: 'главное в ТЭЙЛ', next: '#approach', y: -20 },
-      { selector: '#approach', label: 'проверить самим', next: '#example', y: 35 },
-      { selector: '#example', label: 'ваш опыт', next: '#survey', y: -30 },
-      { selector: '#survey', label: 'вопросы', next: '.landing-faq', y: 30 },
-      { selector: '.landing-faq', label: 'в начало', next: '#top', y: 0 },
-    ];
-    let destination = '#coverage';
-    const setGuide = item => {
-      destination = item.next;
-      guide.setAttribute('aria-label', `Дальше — ${item.label}`);
-      guide.querySelector('.journey-label').textContent = `Дальше — ${item.label}`;
-      if (document.activeElement !== guide) gsap.to(guide, { y: item.y, rotation: 0, duration: 0.65, ease: 'power3.out', overwrite: true });
-    };
-    guide.classList.add('is-available');
-    stops.forEach(item => ScrollTrigger.create({
-      trigger: item.selector, start: 'top 65%', end: 'bottom 65%',
-      onToggle: self => { if (self.isActive) setGuide(item); },
-    }));
-    const goNext = event => document.querySelector(destination)?.scrollIntoView({
-      block: 'start', behavior: event.detail === 0 ? 'instant' : 'smooth',
-    });
-    guide.addEventListener('click', goNext);
-    cleanups.push(() => { guide.removeEventListener('click', goNext); guide.classList.remove('is-available'); });
-  }
+  cleanups.push(mountJourney({ ScrollTrigger, reduced, fine }));
 
   return () => { cleanups.forEach(cleanup => cleanup()); };
 }

@@ -1,0 +1,52 @@
+[
+  {
+    "year": "2016",
+    "sum": "195",
+    "source": "https://lukoil.ru/api/presscenter/exportpressrelease?id=128040"
+  },
+  {
+    "year": "2017",
+    "sum": "215",
+    "source": "https://lukoil.ru/api/presscenter/exportpressrelease?id=225817"
+  },
+  {
+    "year": "2018",
+    "sum": "250",
+    "source": "https://lukoil.ru/PressCenter/Pressreleases/Pressrelease/lukoil-provel-godovoe-obshchee-sobranie-aktsionerov_13"
+  },
+  {
+    "year": "2019",
+    "sum": "542",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": "2020",
+    "sum": "259",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": "2021",
+    "sum": "877",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": "2022",
+    "sum": "694",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": "2023",
+    "sum": "945",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": "2024",
+    "sum": "1 055",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  },
+  {
+    "year": "2025",
+    "sum": "675",
+    "source": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends"
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "issuer": "ПАО «ЛУКОЙЛ»",
+  "ticker": "LKOH",
+  "instrument": "ordinary_share",
+  "metric": "declared_dividends_per_ordinary_share_by_result_year",
+  "unit": "RUB/share",
+  "taxBasis": "gross_before_withholding",
+  "asOfDate": "2026-11-03",
+  "retrievedDate": "2026-11-03",
+  "timeAxis": "financial_result_year_not_payment_year",
+  "pointCount": 10,
+  "sources": {
+    "dividends": {
+      "publisher": "ПАО «ЛУКОЙЛ»",
+      "title": "Дивиденды — таблицы по результатам 2019–2025 годов",
+      "url": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends",
+      "type": "issuer_dividend_history"
+    },
+    "agm2017": {
+      "publisher": "ПАО «ЛУКОЙЛ»",
+      "title": "ЛУКОЙЛ провел годовое общее собрание акционеров",
+      "publicationDate": "2017-06-21",
+      "url": "https://lukoil.ru/api/presscenter/exportpressrelease?id=128040",
+      "type": "issuer_press_release_shareholder_approval"
+    },
+    "agm2018": {
+      "publisher": "ПАО «ЛУКОЙЛ»",
+      "title": "ЛУКОЙЛ провел годовое общее собрание акционеров",
+      "publicationDate": "2018-06-21",
+      "url": "https://lukoil.ru/api/presscenter/exportpressrelease?id=225817",
+      "type": "issuer_press_release_shareholder_approval"
+    },
+    "agm2019": {
+      "publisher": "ПАО «ЛУКОЙЛ»",
+      "title": "ЛУКОЙЛ провел годовое общее собрание акционеров",
+      "publicationDate": "2019-06-20",
+      "url": "https://lukoil.ru/PressCenter/Pressreleases/Pressrelease/lukoil-provel-godovoe-obshchee-sobranie-aktsionerov_13",
+      "type": "issuer_press_release_shareholder_approval"
+    }
+  },
+  "series": [
+    { "year": 2016, "value": 195, "componentsRub": [75, 120], "sourceId": "agm2017", "interimComponentMethod": "annual_total_minus_approved_final" },
+    { "year": 2017, "value": 215, "componentsRub": [85, 130], "sourceId": "agm2018", "interimComponentMethod": "annual_total_minus_approved_final" },
+    { "year": 2018, "value": 250, "componentsRub": [95, 155], "sourceId": "agm2019", "interimComponentMethod": "annual_total_minus_approved_final" },
+    { "year": 2019, "value": 542, "componentsRub": [192, 350], "sourceId": "dividends" },
+    { "year": 2020, "value": 259, "componentsRub": [46, 213], "sourceId": "dividends" },
+    { "year": 2021, "value": 877, "componentsRub": [340, 537], "sourceId": "dividends", "noteId": "retained2021" },
+    { "year": 2022, "value": 694, "componentsRub": [256, 438], "sourceId": "dividends", "noteId": "retained2021" },
+    { "year": 2023, "value": 945, "componentsRub": [447, 498], "sourceId": "dividends" },
+    { "year": 2024, "value": 1055, "componentsRub": [514, 541], "sourceId": "dividends" },
+    { "year": 2025, "value": 675, "componentsRub": [397, 278], "sourceId": "dividends" }
+  ],
+  "notes": {
+    "method": "Use the issuer's annual total for the financial-result year. For 2016–2018 use shareholder-approved totals in the following year's AGM release. Interim amounts for 2016–2018 are arithmetic differences between the explicit total and the approved final amount. For 2019–2025 use the explicit totals and components in the issuer's history table. Do not group by cash-payment year or record date.",
+    "retained2021": "537 RUB is allocated to retained earnings for 2021, record date 2022-12-21. It is included once in 2021 (340 + 537 = 877). The separate 256 RUB for nine months of 2022 has the same record date but belongs to 2022. Thus 2022 = 256 + 438 = 694. The same-record-date aggregate 793 = 537 + 256 is not the annual result-year amount for 2022 and is not an extra dividend to add again.",
+    "scope": "Declared historical gross dividends per ordinary share, not share prices, yield, an investor's total return, or confirmation of cash received by each shareholder. No 2026 full-year value is included.",
+    "chart": "Recommended visible title: «Дивиденды ЛУКОЙЛа по годам». Label the axis «Год результата» and value «₽ на акцию». Show exactly these ten observed annual points. A connecting line is a visual aid, not additional observations."
+  }
+}

@@ -3,12 +3,21 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=24.0.0" },
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "start": "node --env-file-if-exists=.env server/index.mjs",
     "dev": "node --env-file-if-exists=.env --watch server/index.mjs",
     "check": "node scripts/check.mjs",
     "test": "node --test tests/*.test.mjs",
-    "export:surveys": "node --env-file-if-exists=.env scripts/export-surveys.mjs"
+    "export:surveys": "node --env-file-if-exists=.env scripts/export-surveys.mjs",
+    "build:ui": "node scripts/build-ui.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "lucide-react": "0.468.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }
