@@ -1,4 +1,5 @@
-// Local GSAP bundles: no third-party request is needed to play the demo.
+import { mountMarketExperience } from './market-experience.js';
+// Local GSAP bundles: no third-party request is needed to play the example.
 export async function initializeLandingMotion() {
   const story = document.querySelector('.story-section');
   if (!story) return;
@@ -75,18 +76,23 @@ export async function initializeLandingMotion() {
   try {
     gsap = window.gsap;
     const ScrollTrigger = window.ScrollTrigger;
-    if (!gsap || !ScrollTrigger) return;
+    if (!gsap || !ScrollTrigger) {
+      mountMarketExperience({ reduced: true, fine: false });
+      return;
+    }
     gsap.registerPlugin(ScrollTrigger);
     media = gsap.matchMedia();
 
     media.add({
       all: 'all',
       desktop: '(min-width: 901px) and (min-height: 710px)',
+      guideWide: '(min-width: 1101px)',
       reduced: '(prefers-reduced-motion: reduce)',
       fine: '(hover: hover) and (pointer: fine)',
     }, context => {
       const { desktop, reduced, fine } = context.conditions;
       let removeParallax = () => {};
+      let removeMarketExperience = () => {};
       scrollTimeline = null;
       document.body.classList.toggle('scroll-story-desktop', desktop && !reduced);
 
@@ -107,56 +113,65 @@ export async function initializeLandingMotion() {
         const ripple = pointer.querySelector('.pointer-ripple');
         const note = story.querySelector('.story-floating-note');
         const markers = [...story.querySelectorAll('.source-marker')];
+        const targets = [story.querySelector('.story-open'), story.querySelector('.story-source-button'), story.querySelector('.story-history-button')];
+        // offset coordinates ignore the entrance transforms on hidden cards. The SVG
+        // pointer's tip is at (4, 3) in its 24px viewBox, so that tip lands in the control.
+        const pointAt = target => {
+          let x = target.offsetWidth / 2, y = target.offsetHeight / 2;
+          for (let element = target; element && element !== visual; element = element.offsetParent) {
+            x += element.offsetLeft; y += element.offsetTop;
+          }
+          return { x: x - 4.33, y: y - 3.5 };
+        };
+        let targetPoints = targets.map(pointAt);
         gsap.set(layers, { autoAlpha: 0, y: 30, scale: 0.98 });
         gsap.set(layers[0], { autoAlpha: 1, y: 0, scale: 1 });
         gsap.set(markers, { scaleX: 0 });
-        gsap.set(pointer, { x: visual.clientWidth * 0.71, y: visual.clientHeight * 0.73, autoAlpha: 0 });
+        gsap.set(pointer, { x: targetPoints[0].x + 45, y: targetPoints[0].y + 30, autoAlpha: 0 });
 
         // One timeline owns the story. The wrapper is pinned; only its children move.
         const timeline = gsap.timeline({
           defaults: { ease: 'power3.out' },
           scrollTrigger: {
             id: 'tail-story', trigger: '.story-pin', pin: true,
-            start: 'top 112px', end: () => `+=${Math.round(window.innerHeight * 2.8)}`,
+            start: 'top 100px', end: () => `+=${Math.round(window.innerHeight * 3.2)}`,
             scrub: 0.5, anticipatePin: 1, invalidateOnRefresh: true,
+            onRefreshInit: () => { targetPoints = targets.map(pointAt); },
           },
           onUpdate() {
             const time = this.time();
-            const next = time < 1.1 ? 0 : time < 2.35 ? 1 : time < 3.6 ? 2 : 3;
+            const next = time < 1.3 ? 0 : time < 2.75 ? 1 : time < 4.25 ? 2 : 3;
             if (next !== active) select(next);
           },
         });
-        const arrivals = [0, 1.35, 2.6, 3.85];
-        [0, 1.75, 3.3, 4.25].forEach((time, index) => timeline.addLabel(`scene-${index}`, time));
+        const arrivals = [0, 1.5, 2.95, 4.45];
+        [0.88, 2.33, 3.99, 4.85].forEach((time, index) => timeline.addLabel(`scene-${index}`, time));
         for (let index = 1; index < layers.length; index++) {
-          const start = arrivals[index] - 0.4;
+          const start = arrivals[index] - 0.32;
           timeline.to(layers[index - 1], { autoAlpha: 0, y: -18, scale: 0.985, duration: 0.22 }, start)
             .fromTo(layers[index], { autoAlpha: 0, y: 30, scale: 0.98 }, {
               autoAlpha: 1, y: 0, scale: 1, duration: 0.4,
             }, start + 0.12);
         }
-        timeline.to(note, { autoAlpha: 0, y: -10, duration: 0.22 }, 0.9)
-          .to(pointer, { autoAlpha: 1, duration: 0.15 }, 0.3)
-          .to(pointer, {
-            x: () => visual.clientWidth * 0.65,
-            y: () => visual.clientHeight * 0.77,
-            duration: 0.5,
-          }, 0.3)
-          .fromTo(ripple, { autoAlpha: 0.55, scale: 0.7 }, { autoAlpha: 0, scale: 1.8, duration: 0.24 }, 0.84)
-          .to(pointer, {
-            x: () => visual.clientWidth * 0.72,
-            y: () => visual.clientHeight * 0.83,
-            duration: 0.55,
-          }, 1.65)
-          .fromTo(ripple, { autoAlpha: 0.55, scale: 0.7 }, { autoAlpha: 0, scale: 1.8, duration: 0.24 }, 2.14)
-          .to(pointer, {
-            x: () => visual.clientWidth * 0.76,
-            y: () => visual.clientHeight * 0.57,
-            duration: 0.5,
-          }, 2.55)
-          .to(markers, { scaleX: 1, duration: 0.38, stagger: 0.08, ease: 'none' }, 2.78)
-          .to(pointer, { autoAlpha: 0, duration: 0.2 }, 3.45)
-          .to({}, { duration: 0.65 }, 3.85);
+        timeline.to(note, { autoAlpha: 0, y: -10, duration: 0.22 }, 1.1)
+          .to(pointer, { autoAlpha: 1, duration: 0.15 }, 0.25);
+        // Each click is a visual response on a real control, immediately before
+        // the associated state change. No synthetic clicks or outbound requests.
+        [0.35, 1.8, 3.45].forEach((start, index) => {
+          timeline.to(pointer, { x: () => targetPoints[index].x, y: () => targetPoints[index].y, duration: 0.5 }, start)
+            .fromTo(ripple, { autoAlpha: 0.55, scale: 0.7 }, { autoAlpha: 0, scale: 1.8, duration: 0.24 }, start + 0.65)
+            .to(targets[index], { scale: 0.98, duration: 0.1 }, start + 0.65)
+            .to(targets[index], { scale: 1, duration: 0.12 }, start + 0.75);
+        });
+        timeline.to(pointer, { autoAlpha: 0, duration: 0.1 }, 1.18)
+          .set(pointer, { x: () => targetPoints[1].x + 30, y: () => targetPoints[1].y + 20 }, 1.55)
+          .to(pointer, { autoAlpha: 1, duration: 0.12 }, 1.8)
+          .to(pointer, { autoAlpha: 0, duration: 0.1 }, 2.63)
+          .set(pointer, { x: () => targetPoints[2].x + 30, y: () => targetPoints[2].y + 20 }, 3.08)
+          .to(pointer, { autoAlpha: 1, duration: 0.12 }, 3.45);
+        timeline.to(markers, { scaleX: 1, duration: 0.32, ease: 'none' }, 2.9)
+          .to(pointer, { autoAlpha: 0, duration: 0.15 }, 4.22)
+          .to({}, { duration: 0.6 }, 4.45);
         scrollTimeline = timeline;
       } else {
         showManual(active, true);
@@ -171,6 +186,8 @@ export async function initializeLandingMotion() {
           });
         });
       }
+
+      removeMarketExperience = mountMarketExperience({ gsap, ScrollTrigger, reduced, fine });
 
       if (fine && !reduced) {
         const showcase = document.querySelector('.hero-showcase');
@@ -201,6 +218,7 @@ export async function initializeLandingMotion() {
       }
 
       return () => {
+        removeMarketExperience();
         removeParallax();
         manualTween?.kill();
         scrollTimeline = null;

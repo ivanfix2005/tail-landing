@@ -1,6 +1,6 @@
 import { content } from './content.js';
 
-export const SURVEY_VERSION = 3;
+export const SURVEY_VERSION = 4;
 export const CONSENT_VERSION = 'survey-2026-10-21';
 export const ANALYTICS_VERSION = 'analytics-2026-10-21';
 export const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

@@ -4,7 +4,7 @@ import { resolve, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateSubmission, ANALYTICS_VERSION, UUID } from '../public/survey-model.js';
 
-const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.ttf': 'font/ttf' };
+const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ttf': 'font/ttf' };
 const routeFiles = { '/': 'index.html', '/privacy': 'privacy/index.html', '/consent/survey': 'consent/survey/index.html', '/consent/analytics': 'consent/analytics/index.html' };
 class RequestError extends Error { constructor(status, message) { super(message); this.status = status; } }
 async function readJson(request) {

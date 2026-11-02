@@ -1,0 +1,22 @@
+{
+"analytics": {
+	"columns": ["indexid", "tradedate", "ticker", "shortnames", "secids", "weight", "tradingsession", "trade_session_date"], 
+	"data": [
+		["IMOEX", "2026-11-02", "VKCO", "iМКПАО ВК", "VKCO", 0.36, 3, "2026-11-02"],
+		["IMOEX", "2026-11-02", "VTBR", "ВТБ ао", "VTBR", 2.34, 3, "2026-11-02"],
+		["IMOEX", "2026-11-02", "X5", "КЦ ИКС 5", "X5", 3.02, 3, "2026-11-02"],
+		["IMOEX", "2026-11-02", "YDEX", "ЯНДЕКС", "YDEX", 5.79, 3, "2026-11-02"]
+	]
+},
+"analytics.cursor": {
+	"columns": ["INDEX", "TOTAL", "PAGESIZE", "PREV_DATE", "NEXT_DATE"], 
+	"data": [
+		[40, 44, 20, "2026-10-30", null]
+	]
+},
+"analytics.dates": {
+	"columns": ["from", "till"], 
+	"data": [
+		["2001-01-03", "2026-11-02"]
+	]
+}}

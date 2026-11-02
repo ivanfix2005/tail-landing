@@ -1,0 +1,258 @@
+{
+  "retrievedDate": "2026-11-03",
+  "tradingDate": "2026-11-02",
+  "index": "IMOEX",
+  "securityCount": 44,
+  "companyCount": 41,
+  "meaning": "Unique legal issuers; ordinary and preferred share classes of one issuer count once.",
+  "sourceURLs": [
+    "https://iss.moex.com/iss/statistics/engines/stock/markets/index/analytics/IMOEX.json?iss.meta=off",
+    "https://iss.moex.com/iss/statistics/engines/stock/markets/index/analytics/IMOEX.json?iss.meta=off&date=2026-11-02&start=20",
+    "https://iss.moex.com/iss/statistics/engines/stock/markets/index/analytics/IMOEX.json?iss.meta=off&date=2026-11-02&start=40"
+  ],
+  "deduplicatedPairs": [
+    {
+      "securities": [
+        "SBER",
+        "SBERP"
+      ],
+      "emitterId": 484
+    },
+    {
+      "securities": [
+        "SNGS",
+        "SNGSP"
+      ],
+      "emitterId": 1406
+    },
+    {
+      "securities": [
+        "TATN",
+        "TATNP"
+      ],
+      "emitterId": 852
+    }
+  ],
+  "securities": [
+    {
+      "ticker": "AFKS",
+      "shortName": "Система ао",
+      "companyKey": "AFKS"
+    },
+    {
+      "ticker": "AFLT",
+      "shortName": "Аэрофлот",
+      "companyKey": "AFLT"
+    },
+    {
+      "ticker": "ALRS",
+      "shortName": "АЛРОСА ао",
+      "companyKey": "ALRS"
+    },
+    {
+      "ticker": "BSPB",
+      "shortName": "БСП ао",
+      "companyKey": "BSPB"
+    },
+    {
+      "ticker": "CBOM",
+      "shortName": "МКБ ао",
+      "companyKey": "CBOM"
+    },
+    {
+      "ticker": "CHMF",
+      "shortName": "СевСт-ао",
+      "companyKey": "CHMF"
+    },
+    {
+      "ticker": "CNRU",
+      "shortName": "iЦиан",
+      "companyKey": "CNRU"
+    },
+    {
+      "ticker": "DOMRF",
+      "shortName": "ДОМ.РФ",
+      "companyKey": "DOMRF"
+    },
+    {
+      "ticker": "ENPG",
+      "shortName": "ЭН+ГРУП ао",
+      "companyKey": "ENPG"
+    },
+    {
+      "ticker": "FLOT",
+      "shortName": "Совкомфлот",
+      "companyKey": "FLOT"
+    },
+    {
+      "ticker": "GAZP",
+      "shortName": "ГАЗПРОМ ао",
+      "companyKey": "GAZP"
+    },
+    {
+      "ticker": "GMKN",
+      "shortName": "ГМКНорНик",
+      "companyKey": "GMKN"
+    },
+    {
+      "ticker": "HEAD",
+      "shortName": "Хэдхантер",
+      "companyKey": "HEAD"
+    },
+    {
+      "ticker": "IRAO",
+      "shortName": "ИнтерРАОао",
+      "companyKey": "IRAO"
+    },
+    {
+      "ticker": "LKOH",
+      "shortName": "ЛУКОЙЛ",
+      "companyKey": "LKOH"
+    },
+    {
+      "ticker": "MAGN",
+      "shortName": "ММК",
+      "companyKey": "MAGN"
+    },
+    {
+      "ticker": "MDMG",
+      "shortName": "MDMG-ао",
+      "companyKey": "MDMG"
+    },
+    {
+      "ticker": "MOEX",
+      "shortName": "МосБиржа",
+      "companyKey": "MOEX"
+    },
+    {
+      "ticker": "MTSS",
+      "shortName": "МТС-ао",
+      "companyKey": "MTSS"
+    },
+    {
+      "ticker": "NLMK",
+      "shortName": "НЛМК ао",
+      "companyKey": "NLMK"
+    },
+    {
+      "ticker": "NVTK",
+      "shortName": "Новатэк ао",
+      "companyKey": "NVTK"
+    },
+    {
+      "ticker": "OZON",
+      "shortName": "Озон",
+      "companyKey": "OZON"
+    },
+    {
+      "ticker": "PHOR",
+      "shortName": "ФосАгро ао",
+      "companyKey": "PHOR"
+    },
+    {
+      "ticker": "PLZL",
+      "shortName": "Полюс",
+      "companyKey": "PLZL"
+    },
+    {
+      "ticker": "POSI",
+      "shortName": "iПозитив",
+      "companyKey": "POSI"
+    },
+    {
+      "ticker": "RAGR",
+      "shortName": "Русагро",
+      "companyKey": "RAGR"
+    },
+    {
+      "ticker": "RENI",
+      "shortName": "Ренессанс",
+      "companyKey": "RENI"
+    },
+    {
+      "ticker": "ROSN",
+      "shortName": "Роснефть",
+      "companyKey": "ROSN"
+    },
+    {
+      "ticker": "RTKM",
+      "shortName": "Ростел -ао",
+      "companyKey": "RTKM"
+    },
+    {
+      "ticker": "RUAL",
+      "shortName": "РУСАЛ ао",
+      "companyKey": "RUAL"
+    },
+    {
+      "ticker": "SBER",
+      "shortName": "Сбербанк",
+      "companyKey": "SBER"
+    },
+    {
+      "ticker": "SBERP",
+      "shortName": "Сбербанк-п",
+      "companyKey": "SBER"
+    },
+    {
+      "ticker": "SNGS",
+      "shortName": "Сургнфгз",
+      "companyKey": "SNGS"
+    },
+    {
+      "ticker": "SNGSP",
+      "shortName": "Сургнфгз-п",
+      "companyKey": "SNGS"
+    },
+    {
+      "ticker": "SVCB",
+      "shortName": "Совкомбанк",
+      "companyKey": "SVCB"
+    },
+    {
+      "ticker": "T",
+      "shortName": "Т-Техно ао",
+      "companyKey": "T"
+    },
+    {
+      "ticker": "TATN",
+      "shortName": "Татнфт 3ао",
+      "companyKey": "TATN"
+    },
+    {
+      "ticker": "TATNP",
+      "shortName": "Татнфт 3ап",
+      "companyKey": "TATN"
+    },
+    {
+      "ticker": "TRNFP",
+      "shortName": "Транснф ап",
+      "companyKey": "TRNFP"
+    },
+    {
+      "ticker": "UGLD",
+      "shortName": "ЮГК",
+      "companyKey": "UGLD"
+    },
+    {
+      "ticker": "VKCO",
+      "shortName": "iМКПАО ВК",
+      "companyKey": "VKCO"
+    },
+    {
+      "ticker": "VTBR",
+      "shortName": "ВТБ ао",
+      "companyKey": "VTBR"
+    },
+    {
+      "ticker": "X5",
+      "shortName": "КЦ ИКС 5",
+      "companyKey": "X5"
+    },
+    {
+      "ticker": "YDEX",
+      "shortName": "ЯНДЕКС",
+      "companyKey": "YDEX"
+    }
+  ]
+}

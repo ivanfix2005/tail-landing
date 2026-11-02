@@ -5,7 +5,7 @@ import { initializeLandingMotion } from './landing-motion.js';
 
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const icon = (name, size = 18) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${({ right: '<path d="M5 12h14m-7-7 7 7-7 7"/>', left: '<path d="m12 19-7-7 7-7M19 12H5"/>', down: '<path d="m6 9 6 6 6-6"/>', plus: '<path d="M5 12h14M12 5v14"/>', check: '<path d="m20 6-11 11-5-5"/>', up: '<path d="M7 7h10v10M7 17 17 7"/>' })[name]}</svg>`;
-let activeCase = 'delay';
+let activeCase = Object.keys(content.cases)[0];
 
 const scenarioButtons = document.querySelectorAll('.case-switch button');
 function showCase(key) {
@@ -17,11 +17,11 @@ function showCase(key) {
     button.classList.toggle('active', selected);
   });
   const dossier = document.querySelector('.dossier');
-  dossier.querySelector('.issue-label').textContent = item.issue + ' · облигация';
+  dossier.querySelector('.issue-label').textContent = item.issue + ' · ' + item.instrumentType;
   dossier.querySelector('.dossier-head h3').textContent = item.company;
   const tag = dossier.querySelector('.status-tag');
   tag.textContent = item.status;
-  tag.classList.toggle('neutral', key === 'rumor');
+  tag.classList.toggle('neutral', key === 'record-date');
   dossier.querySelector('.case-title').textContent = item.title;
   dossier.querySelector('.finding-mark.fact').closest('.finding').querySelector('p').textContent = item.fact;
   dossier.querySelector('.finding-mark.unknown').closest('.finding').querySelector('p').textContent = item.unknown;
@@ -35,9 +35,10 @@ function showCase(key) {
     <h4>Хронология</h4><ol class="timeline">${item.history.map(line => {
       const [time, text] = line.split(' · ');
       return `<li><span class="timeline-dot"></span><strong>${escape(time)}</strong><p>${escape(text)}</p></li>`;
-    }).join('')}</ol><p class="source-note">Все документы и события в этом примере вымышлены.</p>`;
+    }).join('')}</ol><div class="verified-source-links">${item.sources.map(source => `<a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">${escape(source.label)} ${icon('up')}</a>`).join('')}</div><p class="source-note">Реальные публичные документы. Исторический срез; не данные вашего счёта.</p>`;
 }
 scenarioButtons.forEach((button, index) => button.addEventListener('click', () => showCase(Object.keys(content.cases)[index])));
+if (scenarioButtons.length) showCase(activeCase);
 
 const survey = document.getElementById('survey-app');
 const answers = emptyAnswers();
