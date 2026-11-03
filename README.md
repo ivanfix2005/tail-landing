@@ -47,6 +47,8 @@ npm start
 
 Контрастный разбор, интерактивный пример, опрос и FAQ оформлены в public/refined.css и public/interactive.css. Модуль public/journey-motion.js ведёт декоративный значок по странице, public/interaction-motion.js отвечает за короткие реакции настоящих элементов управления. Клавиатура и reduced motion получают моментальные переключения.
 
+Цветные фоны и боковые сегменты находятся в public/atmosphere.css и public/atmosphere.js. Пластины, кольца и полосы появляются при прокрутке; невидимые группы и скрытая вкладка не продолжают движение. На телефоне композиция компактнее, постоянное движение отключено. Проверки и ограничения: [ATMOSPHERE](docs/ATMOSPHERE.md).
+
 Новые миниатюры преимуществ используют React и Stageshow только внутри #benefits-island. Исходники — ui/benefits.tsx и ui/benefits.css. После их изменения: npm ci --ignore-scripts, затем npm run build:ui; в коммит включаются оба результата в public/components/. Зависимости сборки закреплены; сервер и файл запуска Windows не требуют npm install. Происхождение и лицензии: ui/README.md и docs/THIRD_PARTY.md.
 
 В опросе появилась навигация по темам, в FAQ — карточки и измеряемое раскрытие. Формулировки вопросов, проверка согласия, ветвление и SQLite сохранены. Подробный проход и ограничения проверки: [REHEARSAL](docs/stageshow-refinement/REHEARSAL.md).

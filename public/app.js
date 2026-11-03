@@ -4,6 +4,7 @@ import { initializeAnalytics, goal, uuid } from './analytics.js';
 import { initializeLandingMotion } from './landing-motion.js';
 import { mountBenefits } from './components/benefits.js';
 import { initializeInteractions, updateCasePresentation, updateSurveyPresentation, interactionScrollBehavior } from './interaction-motion.js';
+import { initializeAtmosphere } from './atmosphere.js';
 
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const icon = (name, size = 18) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${({ right: '<path d="M5 12h14m-7-7 7 7-7 7"/>', left: '<path d="m12 19-7-7 7-7M19 12H5"/>', down: '<path d="m6 9 6 6 6-6"/>', plus: '<path d="M5 12h14M12 5v14"/>', check: '<path d="m20 6-11 11-5-5"/>', up: '<path d="M7 7h10v10M7 17 17 7"/>' })[name]}</svg>`;
@@ -183,4 +184,5 @@ initializeInteractions();
 renderSurvey();
 initializeAnalytics();
 mountBenefits();
+initializeAtmosphere();
 initializeLandingMotion();
