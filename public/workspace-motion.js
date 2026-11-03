@@ -8,6 +8,7 @@ export function mountWorkspace({ gsap, ScrollTrigger, reduced = true, desktop = 
   let active = 0, scrollTimeline, manualTween;
   function select(index) {
     active = index;
+    stage.dataset.workspaceScene = String(index);
     panels.forEach((panel, number) => {
       const chosen = number === index;
       panel.classList.toggle('is-active', chosen);
@@ -41,16 +42,17 @@ export function mountWorkspace({ gsap, ScrollTrigger, reduced = true, desktop = 
     gsap.set(copies, { autoAlpha: 0 }); gsap.set(copies[0], { autoAlpha: 1 });
     const timeline = gsap.timeline({ defaults: { ease: 'power3.out' }, scrollTrigger: {
       id: 'tail-workspace', trigger: stage, pin: true, start: 'top 96px',
-      end: () => `+=${Math.round(innerHeight * 2.3)}`, scrub: .4, invalidateOnRefresh: true,
+      end: () => `+=${Math.round(innerHeight * 5.6)}`, scrub: .4, invalidateOnRefresh: true,
     }, onUpdate() {
-      const time = this.time(), next = time < 1.3 ? 0 : time < 2.9 ? 1 : time < 4.5 ? 2 : 3;
+      const time = this.time(), next = time < 2.3 ? 0 : time < 4.8 ? 1 : time < 7.3 ? 2 : 3;
       if (next !== active) select(next);
     } });
     timeline.fromTo(panels[0].querySelectorAll('.portfolio-position'), { y: 20, rotation: index => index % 2 ? 4 : -4 }, { y: 0, rotation: 0, duration: .65, stagger: .06 }, 0)
       .fromTo(panels[0].querySelector('.portfolio-links'), { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: .7, ease: 'none' }, .1)
       .fromTo(panels[0].querySelector('.portfolio-hub'), { y: 12, scale: .94 }, { y: 0, scale: 1, duration: .5 }, .3)
       .addLabel('workspace-0', .85);
-    [1.1, 2.7, 4.3].forEach((time, number) => {
+    // Long settled intervals give each completed screen room to be read.
+    [2.1, 4.6, 7.1].forEach((time, number) => {
       const next = number + 1;
       timeline.to(panels[number], { autoAlpha: 0, y: -16, rotationY: -3, duration: .24 }, time)
         .to(copies[number], { autoAlpha: 0, y: -8, duration: .18 }, time)
@@ -58,13 +60,13 @@ export function mountWorkspace({ gsap, ScrollTrigger, reduced = true, desktop = 
         .fromTo(copies[next], { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: .3 }, time + .16)
         .fromTo(panels[next].querySelectorAll('[data-workspace-arrive]'), { autoAlpha: .2, y: 20 }, { autoAlpha: 1, y: 0, duration: .55, stagger: .12 }, time + .24);
     });
-    timeline.fromTo(panels[1].querySelectorAll('.report-row i'), { scaleX: .18 }, { scaleX: 1, duration: .7, stagger: .045 }, 1.55)
-      .fromTo(panels[1].querySelector('.report-sheet'), { rotation: -3 }, { rotation: 0, duration: .65 }, 1.4).addLabel('workspace-1', 2.25)
-      .fromTo(panels[2].querySelector('.signal-scan'), { rotation: -160 }, { rotation: 70, duration: 1.1, ease: 'none' }, 3.02)
-      .fromTo(panels[2].querySelectorAll('.signal-point'), { scale: .5, opacity: .2 }, { scale: 1, opacity: 1, duration: .4, stagger: .2 }, 3.25).addLabel('workspace-2', 3.9)
-      .fromTo(panels[3].querySelector('.chat-response'), { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: .75, ease: 'none' }, 4.8)
-      .fromTo(panels[3].querySelector('.chat-sources'), { y: 9, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .3 }, 5.3)
-      .addLabel('workspace-3', 5.65).to({}, { duration: .6 }, 5.7);
+    timeline.fromTo(panels[1].querySelectorAll('.report-row i'), { scaleX: .18 }, { scaleX: 1, duration: .7, stagger: .045 }, 2.55)
+      .fromTo(panels[1].querySelector('.report-sheet'), { rotation: -3 }, { rotation: 0, duration: .65 }, 2.4).addLabel('workspace-1', 3.55)
+      .fromTo(panels[2].querySelector('.signal-scan'), { rotation: -160 }, { rotation: 70, duration: 1.1, ease: 'none' }, 4.92)
+      .fromTo(panels[2].querySelectorAll('.signal-point'), { scale: .5, opacity: .2 }, { scale: 1, opacity: 1, duration: .4, stagger: .2 }, 5.15).addLabel('workspace-2', 6.1)
+      .fromTo(panels[3].querySelector('.chat-response'), { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: .75, ease: 'none' }, 7.6)
+      .fromTo(panels[3].querySelector('.chat-sources'), { y: 9, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .3 }, 8.1)
+      .addLabel('workspace-3', 8.5).to({}, { duration: 1.1 }, 8.5);
     scrollTimeline = timeline;
   } else show(0, true);
   return () => { stage.removeEventListener('click', navigate); manualTween?.kill(); scrollTimeline?.scrollTrigger?.kill(); scrollTimeline?.kill(); };

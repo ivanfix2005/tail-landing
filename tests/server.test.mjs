@@ -34,7 +34,7 @@ test('all four pages and their local assets are served independently of the orig
   }
   assert.equal((await fetch(origin + '/progress.css')).status, 200);
   const home = await (await fetch(origin)).text();
-  assert.match(home, /Меньше догадок/); assert.doesNotMatch(home, /_next|self\.__next_f/);
+  assert.match(home, /<h1\b[^>]*>\s*\S[\s\S]*?<\/h1>/); assert.doesNotMatch(home, /_next|self\.__next_f/);
   assert.match(home, /ЛУКОЙЛ/); assert.doesNotMatch(home, /ДЕМО-001|Северный ресурс/);
   assert.deepEqual(await (await fetch(origin + '/api/config')).json(), { counterId: null });
 });

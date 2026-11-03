@@ -23,8 +23,8 @@
   .companion-title { display: none; }.companion-number { font-size: 11px; }.radar-count { font-size: 8px; }
 }
 /* The phone is about a tenth smaller, with its contents kept readable. */
-.market-visual { min-height: 690px; }
-.market-phone { width: 304px; min-height: 0; border-width: 6px; border-radius: 42px; padding: 24px 16px 19px; }
+.market-visual { min-height: min(650px,calc(100svh - 125px)); }
+.market-phone { width: 280px; min-height: 0; border-width: 6px; border-radius: 42px; padding: 24px 16px 19px; }
 .phone-company { margin-top: 21px; }
 .phone-company img { width: 36px; height: 36px; border-radius: 10px; }
 .phone-tabs { margin-top: 18px; }
@@ -68,9 +68,13 @@
 .research-candle-intro .research-topics span { padding: 5px 6px; font-size: 8px; }
 .instant-candle :is(.candle-body, .candle-wick), .keyboard-input .survey-candle :is(.candle-body, .candle-wick) { transition: none; }
 @media (min-width:1101px) {
-  .popover-event { top: 228px; left: calc(50% - 375px); }
-  .popover-source { right: calc(50% - 345px); bottom: 143px; }
-  .popover-date { left: calc(50% - 286px); bottom: 95px; }
+  .popover-event { left: calc(50% - 375px); }
+  .popover-source { right: calc(50% - 345px); }
+  .popover-date { left: calc(50% - 286px); }
+}
+@media (min-width:901px) {
+  .market-prototype-label { bottom: -22px; }
+  .popover-event { top: 21%; }.popover-source { bottom: 16%; }.popover-date { bottom: 5%; }
 }
 @media (max-width:900px) {
   .research-candle-intro { position: relative; top: auto; }

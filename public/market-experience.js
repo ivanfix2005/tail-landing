@@ -4,6 +4,22 @@ import { mountJourney } from './journey-motion.js';
 export function mountMarketExperience({ gsap, ScrollTrigger, reduced, fine }) {
   const cleanups = [];
   const section = document.querySelector('.market-section');
+  const phone = section.querySelector('.market-phone');
+  let fitFrame = 0, disposed = false;
+  const fitPhone = () => {
+    fitFrame = 0;
+    if (disposed) return;
+    if (!matchMedia('(min-width:901px)').matches || !CSS.supports('zoom','1')) { phone.style.removeProperty('zoom'); return; }
+    const available = Math.max(280, innerHeight - document.querySelector('.landing-header').offsetHeight - 48);
+    const natural = phone.offsetHeight;
+    const scale = Math.min(.96, Math.max(.5, (available - 2) / natural)).toFixed(3);
+    if (phone.style.zoom !== scale) phone.style.zoom = scale;
+  };
+  const scheduleFit = () => { if (!disposed && !fitFrame) fitFrame = requestAnimationFrame(fitPhone); };
+  fitPhone(); document.fonts.ready.then(fitPhone);
+  addEventListener('resize', scheduleFit, { passive:true });
+  document.addEventListener('tail:layout-change', scheduleFit);
+  cleanups.push(() => { disposed = true; cancelAnimationFrame(fitFrame); removeEventListener('resize',scheduleFit); document.removeEventListener('tail:layout-change',scheduleFit); phone.style.removeProperty('zoom'); });
   const years = [...document.querySelectorAll('[data-chart-year]')];
   const dots = [...document.querySelectorAll('[data-chart-dot]')];
   function chooseYear(event) {
