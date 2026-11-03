@@ -10,3 +10,4 @@ exports/
 *.log
 .DS_Store
 .runtime/
+.impeccable/review/

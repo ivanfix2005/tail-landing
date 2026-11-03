@@ -7,8 +7,8 @@ export function initializeAtmosphere() {
   sizeCanvas();
   addEventListener('resize', sizeCanvas, { passive: true });
   const scenes = [
-    ['.intro-section', 'hero'], ['#coverage', 'coverage'], ['#story', 'story'],
-    ['.story-pin', 'pinned'], ['#company-chart', 'market'], ['#approach', 'benefits'],
+    ['.intro-section', 'hero'], ['#coverage', 'coverage'],
+    ['#company-chart', 'market'],
     ['#example', 'example'], ['#survey', 'survey'], ['#faq', 'faq'], ['.landing-footer', 'footer'],
   ];
   for (const [selector, tone] of scenes) {

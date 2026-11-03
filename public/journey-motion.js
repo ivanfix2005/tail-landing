@@ -5,9 +5,9 @@ export function mountJourney({ ScrollTrigger, reduced, fine }) {
   const sweep = root.querySelector('.radar-sweep'), orbit = root.querySelector('.radar-orbit');
   const face = root.querySelector('.radar-face'), waves = [...root.querySelectorAll('.radar-wave')];
   const blips = [...root.querySelectorAll('.radar-blip')], title = root.querySelector('.companion-title');
-  const names = ['Знакомство', 'Кейс ЛУКОЙЛа', 'Цифры', 'Возможности', 'Разбор', 'Ваш опыт', 'Вопросы'];
+  const names = ['Знакомство', 'Возможности', 'Компании', 'Календарь', 'Разбор', 'Ваш опыт', 'Вопросы'];
   const number = root.querySelector('.companion-number');
-  const chapters = ['.intro-section', '#story', '#company-chart', '#approach', '#example', '#survey', '#faq']
+  const chapters = ['.intro-section', '#story', '#coverage', '#company-chart', '#example', '#survey', '#faq']
     .map(selector => document.querySelector(selector)).filter(Boolean);
   let tops = [], chapter = -1, viewport = innerHeight, timer = 0, disposed = false;
   let pulses = [];
@@ -34,7 +34,7 @@ export function mountJourney({ ScrollTrigger, reduced, fine }) {
     const frontier = self.scroll() + viewport * .4;
     let next = 0;
     tops.forEach((top, index) => { if (frontier >= top) next = index; });
-    if (next !== chapter) { chapter = next; number.textContent = String(next + 1).padStart(2, '0'); title.textContent = names[next]; signal(); }
+    if (next !== chapter) { chapter = next; number.textContent = String(next + 1).padStart(2, '0'); title.textContent = names[next]; root.classList.toggle('is-on-dark', chapters[next].classList.contains('workspace-section')); signal(); }
   }
   measure();
   const trigger = ScrollTrigger.create({ start: 0, end: () => Math.max(1, ScrollTrigger.maxScroll(window)), onUpdate: paint, onRefresh: self => { measure(); paint(self); } });
@@ -44,7 +44,7 @@ export function mountJourney({ ScrollTrigger, reduced, fine }) {
   document.addEventListener('visibilitychange', resume);
   ScrollTrigger.addEventListener('refresh', measure);
   root.classList.add('is-ready'); paint(trigger);
-  return () => { disposed = true; stopPulses(); clearTimeout(timer); trigger.kill(); root.classList.remove('is-ready');
+  return () => { disposed = true; stopPulses(); clearTimeout(timer); trigger.kill(); root.classList.remove('is-ready', 'is-on-dark');
     document.removeEventListener('tail:layout-change', refresh); document.removeEventListener('visibilitychange', resume); ScrollTrigger.removeEventListener('refresh', measure);
   };
 }

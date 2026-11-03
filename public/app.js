@@ -2,8 +2,7 @@ import { content } from './content.js';
 import { emptyAnswers, hasCase, surveySteps, normalizeAnswers, validateStep, SURVEY_VERSION, CONSENT_VERSION } from './survey-model.js';
 import { initializeAnalytics, goal, uuid } from './analytics.js';
 import { initializeLandingMotion } from './landing-motion.js';
-import { mountBenefits } from './components/benefits.js';
-import { initializeInteractions, updateCasePresentation, updateSurveyPresentation, interactionScrollBehavior } from './interaction-motion.js';
+import { initializeInteractions, updateCasePresentation, updateSurveyPresentation } from './interaction-motion.js';
 import { initializeAtmosphere } from './atmosphere.js';
 
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
@@ -91,6 +90,13 @@ let renderedSurveyIndex = 0;
 const stepNames = { portfolio: 'Портфель', case: 'Ситуации', process: 'Поиск ответа', news: 'Новости', services: 'Помощь' };
 function renderSurvey({ focus = false } = {}) {
   if (!survey) return;
+  // Keep the form's footprint while replacing a question. A shorter next step
+  // must not pull the page (and the candle chart) out from under the reader.
+  const previousForm = survey.querySelector('.survey-main');
+  if (previousForm) {
+    const held = Math.max(parseFloat(survey.style.getPropertyValue('--survey-form-height')) || 0, previousForm.getBoundingClientRect().height);
+    survey.style.setProperty('--survey-form-height', `${held}px`);
+  }
   const steps = surveySteps(answers), step = steps[stepIndex];
   const changed = renderedSurveyStep !== null && renderedSurveyStep !== step;
   const backwards = stepIndex < renderedSurveyIndex;
@@ -100,10 +106,14 @@ function renderSurvey({ focus = false } = {}) {
     <div class="survey-navigation"><button type="button" class="survey-nav-back" aria-label="Назад" ${stepIndex === 0 || sending ? 'disabled' : ''}>${icon('left', 20)}</button><button type="submit" class="survey-nav-next" ${sending ? 'disabled' : ''}>${sending ? 'Сохраняем…' : stepIndex === steps.length - 1 ? 'Отправить ответы' : 'Далее'}${icon('right')}</button></div></div></form>`;
   updateSurveyPresentation(survey, step, stepIndex, steps.length, changed, backwards, completedSurveySteps);
   if (focus) {
-    survey.scrollIntoView({ behavior: interactionScrollBehavior(), block: 'start' });
     survey.querySelector('h3').focus({ preventScroll: true });
   }
 }
+let surveyWidth = document.documentElement.clientWidth;
+addEventListener('resize', () => {
+  const width = document.documentElement.clientWidth;
+  if (width !== surveyWidth) { survey?.style.removeProperty('--survey-form-height'); surveyWidth = width; }
+}, { passive: true });
 function showError(message) {
   survey.querySelector('.form-error')?.remove();
   const paragraph = document.createElement('p');
@@ -189,6 +199,5 @@ survey?.addEventListener('submit', async event => {
 initializeInteractions();
 renderSurvey();
 initializeAnalytics();
-mountBenefits();
 initializeAtmosphere();
 initializeLandingMotion();
