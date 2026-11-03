@@ -7,7 +7,7 @@ services:
       METRIKA_COUNTER_ID: ${METRIKA_COUNTER_ID:-}
       PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-}
     volumes:
-      - tail-data:/app/data
+      - tail-data:/data
     restart: unless-stopped
 volumes:
   tail-data:

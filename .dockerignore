@@ -6,3 +6,12 @@ exports
 node_modules
 tests
 docs
+.runtime
+.openai
+.github
+.agents
+.codex
+ui
+*.sqlite*
+*.db*
+*.log
