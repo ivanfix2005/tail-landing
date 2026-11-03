@@ -1,15 +1,27 @@
-/* An edge marker, not a second cursor. No blur, roaming path or idle animation. */
-.market-companion { position: absolute; top: 40%; left: max(5px, calc((100vw - 1420px) / 2 - 50px)); width: 36px; display: flex; align-items: center; flex-direction: column; gap: 10px; color: #286345; }
-.companion-chart { display: flex; align-items: end; justify-content: center; gap: 4px; width: 36px; height: 41px; padding-block: 6px; }
-.companion-bar { display: block; position: relative; width: 5px; height: 15px; background: #16864b; border-radius: 1px; transform-origin: center bottom; }
-.companion-bar::before { content: ''; position: absolute; inset: -5px 2px; background: #16864b; }
-.companion-bar:nth-child(2) { height: 23px; background: #49b974; }
-.companion-bar:nth-child(3) { height: 29px; }
-.companion-number, .companion-end { font-size: 9px; line-height: 1; font-variant-numeric: tabular-nums; }
-.companion-end { color: #53735d; }
-.companion-rail { display: block; position: relative; height: 90px; width: 2px; background: #d3e5cc; border-radius: 2px; }
-.companion-progress { position: absolute; inset: 0; background: #19814a; border-radius: 2px; transform: scaleY(0); transform-origin: top; }
-.companion-marker { position: absolute; top: 0; left: -3px; width: 8px; height: 8px; border: 2px solid #f5faef; border-radius: 50%; background: #16864b; }
+/* A branded radar responds to scrolling, then rests. No idle animation loop. */
+.market-companion { position: absolute; top: 38%; left: max(4px, calc((100vw - 1420px) / 2 - 110px)); width: 96px; display: flex; align-items: center; flex-direction: column; gap: 13px; color: #234f37; }
+.radar-face { position: relative; width: 86px; height: 86px; border-radius: 50%; background: #f4fbea; border: 1px solid #94c89b; box-shadow: 0 8px 22px #24583417; }
+.radar-grid { position: absolute; inset: 8px; border: 1px solid #c4ddbb; border-radius: 50%; background: linear-gradient(transparent calc(50% - .5px),#b8d2b2 calc(50% - .5px),#b8d2b2 calc(50% + .5px),transparent calc(50% + .5px)),linear-gradient(90deg,transparent calc(50% - .5px),#b8d2b2 calc(50% - .5px),#b8d2b2 calc(50% + .5px),transparent calc(50% + .5px)); }
+.radar-grid::after { content: ''; position: absolute; inset: 12px; border: 1px solid #c4ddbb; border-radius: 50%; }
+.radar-sweep { position: absolute; inset: 4px; border-radius: 50%; background: conic-gradient(from 0deg,transparent 0deg,transparent 245deg,#40c47018 275deg,#16a55270 330deg,#167f48ba 360deg); }
+.radar-face img { position: absolute; width: 27px; height: 27px; left: calc(50% - 13.5px); top: calc(50% - 13.5px); }
+.radar-orbit { position: absolute; inset: -1px; border: 1px dashed #78b987; border-radius: 50%; }
+.radar-orbit i { position: absolute; width: 7px; height: 7px; left: calc(50% - 3.5px); top: -3px; border-radius: 50%; background: #14874a; border: 1px solid #f7fff0; }
+.radar-blip { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #187b44; }
+.blip-one { top: 19%; left: 30%; }.blip-two { top: 61%; right: 15%; }.blip-three { bottom: 18%; left: 24%; }
+.radar-wave { position: absolute; inset: 0; border: 1px solid #2bb963; border-radius: 50%; opacity: 0; }
+.radar-meta { text-align: center; line-height: 1.5; }
+.companion-title { display: block; font-size: 10px; font-weight: 600; margin-bottom: 4px; }
+.radar-count { display: block; font-size: 9px; color: #42674b; font-variant-numeric: tabular-nums; }
+.companion-number { color: #1b6b3b; font-size: 14px; font-weight: 600; }
+@media (max-width:1439px) {
+  .market-companion { width: 36px; gap: 8px; }
+  .radar-face { width: 36px; height: 36px; }
+  .radar-grid { inset: 4px; }.radar-grid::after { inset: 5px; }
+  .radar-sweep { inset: 2px; }.radar-face img { width: 14px; height: 14px; left: calc(50% - 7px); top: calc(50% - 7px); }
+  .radar-blip { width: 3px; height: 3px; }.radar-orbit i { width: 5px; height: 5px; left: calc(50% - 2.5px); }
+  .companion-title { display: none; }.companion-number { font-size: 11px; }.radar-count { font-size: 8px; }
+}
 /* The phone is about a tenth smaller, with its contents kept readable. */
 .market-visual { min-height: 690px; }
 .market-phone { width: 304px; min-height: 0; border-width: 6px; border-radius: 42px; padding: 24px 16px 19px; }
@@ -37,8 +49,14 @@
 .survey-candle[hidden] { display: none; }
 .survey-candle :is(.candle-outline, .candle-body) { position: absolute; width: clamp(18px,3vw,31px); left: 50%; margin-left: calc(clamp(18px,3vw,31px) / -2); height: var(--candle-height); bottom: calc(var(--candle-bottom) + 20px); border-radius: 3px; }
 .candle-outline { border: 1px dashed #9bb68a; background: #edf3e5; }
-.candle-body { background: linear-gradient(0deg,#13824b,#60c975); opacity: 0; transform: scaleY(.08); transform-origin: center bottom; transition: transform 420ms var(--ease-out),opacity 180ms var(--ease-out); }
-.candle-wick { position: absolute; left: calc(50% - 1px); width: 2px; height: calc(var(--candle-height) + 24px); bottom: calc(var(--candle-bottom) + 8px); background: #9ab38a; transform: scaleY(.65); transform-origin: center bottom; transition: transform 420ms var(--ease-out),background-color 180ms var(--ease-out); }
+.candle-body { background: linear-gradient(0deg,#087c49,#43c975); opacity: 0; transform: scaleY(.08); transform-origin: center bottom; overflow: hidden; }
+.candle-body::after { content: ''; position: absolute; inset: -15px; background: linear-gradient(125deg,transparent 25%,#ffffff9c 46%,transparent 65%); opacity: 0; transform: translateY(120%); }
+.is-forming .candle-body { opacity: 0; }
+.is-forming .candle-body::after { animation: candle-sheen 700ms var(--ease-out) 220ms both; }
+.candle-wick { position: absolute; left: calc(50% - 1px); width: 2px; height: calc(var(--candle-height) + 24px); bottom: calc(var(--candle-bottom) + 8px); background: #9ab38a; transform: scaleY(.65); transform-origin: center bottom; }
+.candle-energy { position: absolute; width: 10px; height: 10px; left: 0; top: 0; margin: -5px; background: #40d876; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 3px 9px #29a54b66; opacity: 0; pointer-events: none; z-index: 3; }
+.candle-arrival-ring { position: absolute; width: 32px; height: 32px; top: 0; left: 0; margin: -16px; border: 1px solid #28bf65; border-radius: 50%; opacity: 0; pointer-events: none; }
+@keyframes candle-sheen { 0% { transform: translateY(120%); opacity: 0; } 30% { opacity: .8; } 100% { transform: translateY(-120%); opacity: 0; } }
 .survey-candle small { position: absolute; bottom: -21px; left: 0; width: 100%; text-align: center; color: #4d6a44; font-size: 9px; font-variant-numeric: tabular-nums; }
 .survey-candle[data-state="current"] .candle-outline { border-color: #3b8c52; background: #e0efd5; }
 .survey-candle[data-state="done"] .candle-body { transform: scaleY(1); opacity: 1; }
@@ -81,4 +99,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .survey-candle :is(.candle-body, .candle-wick) { transition: opacity 100ms linear; }
+  .is-forming .candle-body::after { animation: none; }
+  .candle-energy, .candle-arrival-ring { display: none; }
 }

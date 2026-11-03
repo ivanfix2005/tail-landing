@@ -5,6 +5,70 @@ const canMove = () => inputMethod !== 'keyboard' && !reduce();
 const ease = 'cubic-bezier(0.23, 1, 0.32, 1)';
 const animations = new WeakMap();
 const accordionStops = new WeakMap();
+let activeCandleMoment;
+function stopCandleMoment() { activeCandleMoment?.(); activeCandleMoment = null; }
+function formCandle(node, chart, previous) {
+  stopCandleMoment();
+  if (!canMove() || document.hidden) return;
+  const effects = [];
+  let frame = 0, flight, ring, stopped = false;
+  node.classList.add('is-forming');
+  const stop = () => {
+    stopped = true; cancelAnimationFrame(frame); effects.forEach(effect => effect.cancel());
+    node.classList.remove('is-forming'); flight?.remove(); ring?.remove();
+  };
+  activeCandleMoment = stop;
+  // Read geometry once per validated answer, after branch layout has settled.
+  frame = requestAnimationFrame(() => {
+    if (stopped || !canMove() || document.hidden) return stop();
+    const body = node.querySelector('.candle-body'), wick = node.querySelector('.candle-wick');
+    const bounds = chart.getBoundingClientRect(), tip = body.getBoundingClientRect();
+    const source = previous?.querySelector('.candle-body').getBoundingClientRect();
+    const x = tip.left - bounds.left + tip.width / 2, y = tip.top - bounds.top;
+    const sx = source ? source.left - bounds.left + source.width / 2 : x - 24;
+    const sy = source ? source.top - bounds.top : bounds.height - 12;
+    const play = (element, frames, duration, delay = 0, easing = ease) => {
+      const effect = element.animate(frames, { duration, delay, easing, fill: 'both' }); effects.push(effect); return effect;
+    };
+    flight = document.createElement('i'); flight.className = 'candle-energy';
+    ring = document.createElement('i'); ring.className = 'candle-arrival-ring';
+    chart.append(flight, ring);
+    const point = (px, py, scale = 1) => `translate3d(${px}px,${py}px,0) scale(${scale})`;
+    play(flight, [
+      { transform: point(sx, sy, .7), opacity: 0, offset: 0 },
+      { transform: point(sx, sy, 1), opacity: 1, offset: .12 },
+      { transform: point((sx + x) / 2, Math.min(sy, y) - 30, 1.2), opacity: 1, offset: .58 },
+      { transform: point(x, y, .6), opacity: 0, offset: 1 },
+    ], 650, 0, 'linear');
+    play(body, [
+      { transform: 'translateY(27px) scale(.55,.08)', opacity: 0, offset: 0 },
+      { transform: 'translateY(10px) scale(.75,.4)', opacity: 1, offset: .24 },
+      { transform: 'translateY(-7px) scale(.94,1.14)', opacity: 1, offset: .62 },
+      { transform: 'translateY(2px) scale(1.03,.97)', opacity: 1, offset: .83 },
+      { transform: 'translateY(0) scale(1)', opacity: 1, offset: 1 },
+    ], 880, 100);
+    play(wick, [
+      { transform: 'translateY(18px) scaleY(.2)', opacity: 0 },
+      { transform: 'translateY(-5px) scaleY(1.12)', opacity: 1, offset: .7 },
+      { transform: 'translateY(0) scaleY(1)', opacity: 1 },
+    ], 760, 170);
+    play(ring, [
+      { transform: point(x, y, .35), opacity: 0 },
+      { transform: point(x, y, .8), opacity: .85, offset: .2 },
+      { transform: point(x, y, 1.9), opacity: 0 },
+    ], 460, 620);
+    play(node.querySelector('small'), [{ transform: 'translateY(5px)', opacity: .4 }, { transform: 'translateY(0)', opacity: 1 }], 220, 500);
+    // A compact echo remains visible while the main chart is above a phone viewport.
+    const mini = hostLastCompletedCandle();
+    if (mini) play(mini, [{ transform: 'translateY(8px) scaleY(.2)' }, { transform: 'translateY(-3px) scaleY(1.15)', offset: .65 }, { transform: 'none' }], 620, 100);
+    Promise.all(effects.map(effect => effect.finished)).then(() => {
+      if (activeCandleMoment === stop) { stop(); activeCandleMoment = null; }
+    }).catch(() => {});
+  });
+}
+function hostLastCompletedCandle() {
+  return [...document.querySelectorAll('.survey-stages [data-state="done"] > span')].at(-1);
+}
 export const interactionScrollBehavior = () => canMove() ? 'smooth' : 'instant';
 function enter(element, offset = 8) {
   animations.get(element)?.cancel();
@@ -38,10 +102,13 @@ export function updateSurveyPresentation(host, step, index, count, changed, back
   const visible = candles.filter(node => count !== 4 || node.dataset.surveyCandle !== 'process');
   candles.forEach(node => { node.hidden = !visible.includes(node); });
   const chart = document.querySelector('.survey-candles');
+  const arrivals = [];
   if (chart) chart.style.setProperty('--candle-count', count);
   visible.forEach((node, position) => {
     node.querySelector('small').textContent = String(position + 1).padStart(2, '0');
-    node.dataset.state = completed.has(node.dataset.surveyCandle) ? 'done' : node.dataset.surveyCandle === step ? 'current' : 'pending';
+    const nextState = completed.has(node.dataset.surveyCandle) ? 'done' : node.dataset.surveyCandle === step ? 'current' : 'pending';
+    if (nextState === 'done' && node.dataset.state !== 'done') arrivals.push(node);
+    node.dataset.state = nextState;
     node.style.setProperty('--candle-height', `${30 + position * 13}px`);
     node.style.setProperty('--candle-bottom', `${12 + position * 17}px`);
     node.classList.toggle('instant-candle', !canMove());
@@ -50,12 +117,18 @@ export function updateSurveyPresentation(host, step, index, count, changed, back
   const status = document.querySelector('.candle-status');
   if (status) status.textContent = done === count ? 'Картина сложилась. Спасибо!' : done ? `${done} из ${count} шагов — уже яснее` : 'Первый шаг зажжёт первую свечу';
   if (chart) chart.dataset.complete = String(done === count);
+  if (arrivals.length && chart) {
+    const arrival = arrivals.at(-1), previous = visible[visible.indexOf(arrival) - 1];
+    formCandle(arrival, chart, previous);
+  }
   if (changed && canMove()) enter(host.querySelector('.survey-question-content'), backwards ? -8 : 8);
   if (changed) document.dispatchEvent(new Event('tail:layout-change'));
 }
 export function initializeInteractions() {
   document.addEventListener('pointerdown', () => { inputMethod = 'pointer'; document.body.classList.remove('keyboard-input'); }, { passive: true });
-  document.addEventListener('keydown', () => { inputMethod = 'keyboard'; document.body.classList.add('keyboard-input'); });
+  document.addEventListener('keydown', () => { inputMethod = 'keyboard'; document.body.classList.add('keyboard-input'); stopCandleMoment(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stopCandleMoment(); });
+  matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => { if (reduce()) stopCandleMoment(); });
   document.querySelectorAll('.faq-items details, .demo-details').forEach(details => {
     const summary = details.querySelector('summary'); let animation, desiredOpen = details.open;
     accordionStops.set(details, () => {
