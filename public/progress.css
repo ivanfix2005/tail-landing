@@ -1,0 +1,84 @@
+/* An edge marker, not a second cursor. No blur, roaming path or idle animation. */
+.market-companion { position: absolute; top: 40%; left: max(5px, calc((100vw - 1420px) / 2 - 50px)); width: 36px; display: flex; align-items: center; flex-direction: column; gap: 10px; color: #286345; }
+.companion-chart { display: flex; align-items: end; justify-content: center; gap: 4px; width: 36px; height: 41px; padding-block: 6px; }
+.companion-bar { display: block; position: relative; width: 5px; height: 15px; background: #16864b; border-radius: 1px; transform-origin: center bottom; }
+.companion-bar::before { content: ''; position: absolute; inset: -5px 2px; background: #16864b; }
+.companion-bar:nth-child(2) { height: 23px; background: #49b974; }
+.companion-bar:nth-child(3) { height: 29px; }
+.companion-number, .companion-end { font-size: 9px; line-height: 1; font-variant-numeric: tabular-nums; }
+.companion-end { color: #53735d; }
+.companion-rail { display: block; position: relative; height: 90px; width: 2px; background: #d3e5cc; border-radius: 2px; }
+.companion-progress { position: absolute; inset: 0; background: #19814a; border-radius: 2px; transform: scaleY(0); transform-origin: top; }
+.companion-marker { position: absolute; top: 0; left: -3px; width: 8px; height: 8px; border: 2px solid #f5faef; border-radius: 50%; background: #16864b; }
+/* The phone is about a tenth smaller, with its contents kept readable. */
+.market-visual { min-height: 690px; }
+.market-phone { width: 304px; min-height: 0; border-width: 6px; border-radius: 42px; padding: 24px 16px 19px; }
+.phone-company { margin-top: 21px; }
+.phone-company img { width: 36px; height: 36px; border-radius: 10px; }
+.phone-tabs { margin-top: 18px; }
+.phone-tabs :is(button, a) { padding-inline: 7px; }
+.phone-pane { min-height: 300px; }
+.phone-chart-heading { margin-top: 20px; }
+.phone-chart-heading > strong { font-size: 34px; }
+.phone-note { margin-top: 12px; padding: 11px 9px; }
+.phone-bottom { padding-top: 16px; margin-top: 18px; }
+.phone-home-indicator { margin-top: 13px; margin-bottom: -7px; }
+.phone-calendar { padding-top: 23px; }
+/* Each validated step fills one candle. The chart remains mounted on back/next. */
+.research-candle-intro { padding: 32px; background: #e6f1d7; }
+.research-candle-intro h2 { font-size: clamp(31px,3vw,43px); letter-spacing: -.035em; line-height: 1.15; }
+.research-candle-intro > p { margin-top: 21px; color: #35533b; }
+.research-candle-intro .research-map { border: 0; background: #f7faef; border-radius: 14px; padding: 20px; margin-top: 24px; }
+.research-map-heading strong { font-size: 12px; color: #244c31; }
+.research-stage-label { font-size: 10px; color: #4e6c46; }
+.survey-candles { --candle-count: 5; display: grid; grid-template-columns: repeat(var(--candle-count), minmax(0, 1fr)); gap: 15px; position: relative; height: 190px; margin-top: 19px; border-bottom: 1px solid #cddfc0; }
+.survey-candles::before { content: ''; position: absolute; inset: 25% 0 25%; border-block: 1px dashed #d7e4ca; pointer-events: none; }
+.survey-candle { --candle-height: 30px; --candle-bottom: 12px; position: relative; min-width: 0; }
+.survey-candle[hidden] { display: none; }
+.survey-candle :is(.candle-outline, .candle-body) { position: absolute; width: clamp(18px,3vw,31px); left: 50%; margin-left: calc(clamp(18px,3vw,31px) / -2); height: var(--candle-height); bottom: calc(var(--candle-bottom) + 20px); border-radius: 3px; }
+.candle-outline { border: 1px dashed #9bb68a; background: #edf3e5; }
+.candle-body { background: linear-gradient(0deg,#13824b,#60c975); opacity: 0; transform: scaleY(.08); transform-origin: center bottom; transition: transform 420ms var(--ease-out),opacity 180ms var(--ease-out); }
+.candle-wick { position: absolute; left: calc(50% - 1px); width: 2px; height: calc(var(--candle-height) + 24px); bottom: calc(var(--candle-bottom) + 8px); background: #9ab38a; transform: scaleY(.65); transform-origin: center bottom; transition: transform 420ms var(--ease-out),background-color 180ms var(--ease-out); }
+.survey-candle small { position: absolute; bottom: -21px; left: 0; width: 100%; text-align: center; color: #4d6a44; font-size: 9px; font-variant-numeric: tabular-nums; }
+.survey-candle[data-state="current"] .candle-outline { border-color: #3b8c52; background: #e0efd5; }
+.survey-candle[data-state="done"] .candle-body { transform: scaleY(1); opacity: 1; }
+.survey-candle[data-state="done"] .candle-wick { transform: scaleY(1); background: #18854d; }
+.survey-candle[data-state="done"] .candle-outline { border-color: transparent; }
+.survey-candle[data-state="done"] small { font-weight: 700; color: #19683b; }
+.candle-status { margin-top: 33px; font-size: 12px; line-height: 1.6; font-weight: 600; color: #27633a; min-height: 20px; }
+.research-candle-intro .research-topics { gap: 4px; margin-top: 13px; }
+.research-candle-intro .research-topics span { padding: 5px 6px; font-size: 8px; }
+.instant-candle :is(.candle-body, .candle-wick), .keyboard-input .survey-candle :is(.candle-body, .candle-wick) { transition: none; }
+@media (min-width:1101px) {
+  .popover-event { top: 228px; left: calc(50% - 375px); }
+  .popover-source { right: calc(50% - 345px); bottom: 143px; }
+  .popover-date { left: calc(50% - 286px); bottom: 95px; }
+}
+@media (max-width:900px) {
+  .research-candle-intro { position: relative; top: auto; }
+  .survey-stages li > span { position: relative; width: 12px; height: 20px; margin: 8px 0 10px; border: 1px solid #93b58d; border-radius: 2px; background: #edf3e7; }
+  .survey-stages li > span::before { content: ''; position: absolute; width: 1px; background: #75a178; left: 4px; top: -5px; bottom: -5px; z-index: -1; }
+  .survey-stages [data-state="done"] > span { background: #1f9d56; border-color: #1f9d56; }
+  .survey-stages [data-state="current"] > span { background: #dcefd1; border-color: #368949; }
+}
+@media (max-width:600px) {
+  .market-visual { min-height: 0; }
+  .market-phone { width: min(276px,100%); padding-inline: 13px; }
+  .phone-pane { min-height: 300px; }
+  .phone-note { margin-top: 14px; }
+  .phone-tabs :is(button, a) { padding-inline: 6px; }
+  .research-candle-intro { padding: 24px; }
+  .research-candle-intro h2 { font-size: 34px; }
+  .research-candle-intro .research-map { padding: 17px; }
+  .survey-candles { height: 165px; gap: 10px; margin-top: 10px; }
+  .research-candle-intro .research-topics { display: none; }
+  .research-candle-intro .research-privacy { margin-top: 19px; }
+}
+@media (max-width:360px) {
+  .market-phone { width: min(254px,100%); padding-inline: 11px; }
+  .research-candle-intro { padding: 19px; }
+  .research-candle-intro h2 { font-size: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .survey-candle :is(.candle-body, .candle-wick) { transition: opacity 100ms linear; }
+}

@@ -1,4 +1,5 @@
-import { cp, mkdir, readFile, writeFile, stat } from 'node:fs/promises';
+import { cp, mkdir, readFile, writeFile, stat, readdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -16,7 +17,8 @@ let app = (await readFile(join(output, 'app.js'), 'utf8')).replaceAll('\r\n', '\
 const start = app.indexOf('  if (!normalized.consent)');
 const end = app.indexOf('\n});\n\ninitializeInteractions();', start);
 if (start < 0 || end < start) throw Error('Survey submission boundary changed.');
-app = app.slice(0, start) + `  survey.classList.add('is-complete');
+app = app.slice(0, start) + `  finishSurveyProgress(steps);
+  survey.classList.add('is-complete');
   survey.innerHTML = '<div class="survey-success" role="status"><span class="success-icon">' + icon('check', 30) + '</span><h3>Вы посмотрели анкету.</h3><p>Это демонстрация. Ваши ответы никуда не отправлялись и не сохранялись.</p><a href="#example" class="text-link">Вернуться к разбору ' + icon('up') + '</a></div>';
   document.dispatchEvent(new Event('tail:layout-change'));
 ` + app.slice(end);
@@ -46,6 +48,7 @@ export function initializeAnalytics() {
 let home = await readFile(join(output, 'index.html'), 'utf8');
 home = home.replaceAll('Поделиться опытом', 'Посмотреть анкету')
   .replace('Ваши ситуации помогут выбрать, что делать первым.', 'В этой демонстрации можно пройти все шаги без отправки ответов.')
+  .replace('Ваш опыт поможет понять, какой помощи в инвестициях не хватает.', 'В этой демонстрации можно пройти все шаги без отправки ответов.')
   .replace('Политика обработки данных', 'О данных в демо')
   .replace('Согласие на опрос', 'О демо-анкете')
   .replace('Согласие на аналитику', 'Об аналитике')
@@ -70,5 +73,26 @@ for (const [path, title] of [['privacy', 'О данных в демонстра�
   const bodyStart = original.indexOf('<h1>'), bodyEnd = original.indexOf('</main>', bodyStart);
   if (bodyStart < 0 || bodyEnd < bodyStart) throw Error('Legal page structure changed.');
   await writeFile(file, original.slice(0, bodyStart) + '<h1>' + title + '</h1>\n' + demoText + '\n' + original.slice(bodyEnd));
+}
+// One content version for the whole module graph: publishing a changed child
+// module must also invalidate the entry module that imports it.
+async function listFiles(directory) {
+  const files = [];
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) files.push(...await listFiles(path)); else files.push(path);
+  }
+  return files.sort();
+}
+const files = await listFiles(output), hash = createHash('sha256');
+for (const file of files) hash.update(file.slice(output.length)).update(await readFile(file));
+const version = hash.digest('hex').slice(0, 12);
+for (const file of files) {
+  if (!/\.(html|js)$/.test(file)) continue;
+  let text = await readFile(file, 'utf8');
+  text = file.endsWith('.html')
+    ? text.replace(/((?:src|href)=["'])(\/(?!\/)[^"'?]+\.(?:js|css))(["'])/g, `$1$2?v=${version}$3`)
+    : text.replace(/(["'])(\.\.?\/[^"'\n?]+\.js)\1/g, `$1$2?v=${version}$1`);
+  await writeFile(file, text);
 }
 console.log('Static demo created without API or response storage: ' + output);

@@ -3,7 +3,7 @@
 .atmosphere-scene { position: relative; }
 .section-atmosphere { position: absolute; z-index: 0; left: 50%; top: 0; bottom: 0; width: var(--ambient-viewport-width, 100%); transform: translateX(-50%); overflow: clip; pointer-events: none; user-select: none; }
 .atmosphere-scene > :not(.section-atmosphere) { z-index: 1; }
-.intro-copy, .intro-bottom, .coverage-heading, .coverage-caption, .section-intro, #benefits-island, .survey-form, .landing-footer > .page-width { position: relative; }
+.intro-copy, .intro-bottom, .coverage-heading, .coverage-caption, .section-intro, .market-layout, #benefits-island, .survey-form, .landing-footer > .page-width { position: relative; }
 .story-section > .story-track { position: relative; z-index: 9; }
 .story-pin > .section-atmosphere { top: -100px; bottom: -100px; }
 .story-pin > .story-explanation, .story-pin > .story-visual { z-index: 1; }

@@ -25,6 +25,11 @@ test('public demo cannot submit answers or load live analytics, and preserves th
   const home = await readFile(join(output, 'index.html'), 'utf8');
   assert.equal((home.match(/<details[ >]/g) || []).length, (await readFile('public/index.html', 'utf8')).match(/<details[ >]/g).length);
   assert.match(home, /Демоверсия · ответы не отправляются/);
+  const version = home.match(/app\.js\?v=([a-f0-9]+)/)?.[1];
+  assert.ok(version, 'The entry module must invalidate the browser cache on publication.');
+  const market = await readFile(join(output, 'market-experience.js'), 'utf8');
+  assert.ok(market.includes(`./journey-motion.js?v=${version}`), 'Dependent modules must use the same new publication version.');
+  assert.ok(home.includes(`/atmosphere.css?v=${version}`));
   assert.match(home, /После перезагрузки страницы введённые ответы исчезнут/);
   assert.match(await readFile('public/app.js', 'utf8'), /fetch\('\/api\/survey'/);
   assert.ok(!(await readdir(output)).includes('server'));

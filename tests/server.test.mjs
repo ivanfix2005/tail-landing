@@ -32,6 +32,7 @@ test('all four pages and their local assets are served independently of the orig
     if (route.endsWith('.png')) assert.equal(response.headers.get('content-type'), 'image/png');
     const bytes = await response.arrayBuffer(); assert.ok(bytes.byteLength > 10);
   }
+  assert.equal((await fetch(origin + '/progress.css')).status, 200);
   const home = await (await fetch(origin)).text();
   assert.match(home, /Меньше догадок/); assert.doesNotMatch(home, /_next|self\.__next_f/);
   assert.match(home, /ЛУКОЙЛ/); assert.doesNotMatch(home, /ДЕМО-001|Северный ресурс/);

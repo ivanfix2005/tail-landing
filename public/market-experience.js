@@ -21,6 +21,7 @@ export function mountMarketExperience({ gsap, ScrollTrigger, reduced, fine }) {
       dots[number].classList.toggle('is-active', number === index);
       dots[number].setAttribute('r', number === index ? '7' : '4');
     });
+    document.dispatchEvent(new Event('tail:layout-change'));
   }
   years.forEach(button => {
     button.addEventListener('click', chooseYear);
@@ -35,6 +36,7 @@ export function mountMarketExperience({ gsap, ScrollTrigger, reduced, fine }) {
       tab.setAttribute('aria-pressed', String(tab.dataset.marketTab === name));
     });
     panes.forEach(pane => { pane.hidden = pane.dataset.phonePane !== name; });
+    document.dispatchEvent(new Event('tail:layout-change'));
   };
   tabs.forEach(tab => {
     tab.addEventListener('click', chooseTab);

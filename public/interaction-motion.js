@@ -27,13 +27,29 @@ export function updateCasePresentation(dossier, key, animate = false) {
   if (animate && canMove()) enter(dossier.querySelector('.case-panel'));
   document.dispatchEvent(new Event('tail:layout-change'));
 }
-export function updateSurveyPresentation(host, step, index, count, changed, backwards) {
+export function updateSurveyPresentation(host, step, index, count, changed, backwards, completed = new Set()) {
   document.querySelectorAll('[data-survey-theme]').forEach(node => {
     node.classList.toggle('is-current', node.dataset.surveyTheme === step);
     node.hidden = count === 4 && node.dataset.surveyTheme === 'process';
   });
   const number = document.querySelector('.research-stage-number'); if (number) number.textContent = String(index + 1).padStart(2, '0');
   const label = document.querySelector('.research-stage-label'); if (label) label.textContent = `Тема ${index + 1} из ${count}`;
+  const candles = [...document.querySelectorAll('[data-survey-candle]')];
+  const visible = candles.filter(node => count !== 4 || node.dataset.surveyCandle !== 'process');
+  candles.forEach(node => { node.hidden = !visible.includes(node); });
+  const chart = document.querySelector('.survey-candles');
+  if (chart) chart.style.setProperty('--candle-count', count);
+  visible.forEach((node, position) => {
+    node.querySelector('small').textContent = String(position + 1).padStart(2, '0');
+    node.dataset.state = completed.has(node.dataset.surveyCandle) ? 'done' : node.dataset.surveyCandle === step ? 'current' : 'pending';
+    node.style.setProperty('--candle-height', `${30 + position * 13}px`);
+    node.style.setProperty('--candle-bottom', `${12 + position * 17}px`);
+    node.classList.toggle('instant-candle', !canMove());
+  });
+  const done = visible.filter(node => completed.has(node.dataset.surveyCandle)).length;
+  const status = document.querySelector('.candle-status');
+  if (status) status.textContent = done === count ? 'Картина сложилась. Спасибо!' : done ? `${done} из ${count} шагов — уже яснее` : 'Первый шаг зажжёт первую свечу';
+  if (chart) chart.dataset.complete = String(done === count);
   if (changed && canMove()) enter(host.querySelector('.survey-question-content'), backwards ? -8 : 8);
   if (changed) document.dispatchEvent(new Event('tail:layout-change'));
 }

@@ -52,6 +52,11 @@ let stepIndex = 0;
 let started = false;
 let sending = false;
 let receiptId = '';
+const completedSurveySteps = new Set();
+function finishSurveyProgress(steps) {
+  steps.forEach(step => completedSurveySteps.add(step));
+  updateSurveyPresentation(survey, steps.at(-1), steps.length - 1, steps.length, false, false, completedSurveySteps);
+}
 function markStarted() { if (!started) { started = true; goal('survey_start'); } }
 function setAnswer(name, value) { markStarted(); answers[name] = value; survey.querySelector('.form-error')?.remove(); }
 function selectField(name, help = '') {
@@ -93,7 +98,7 @@ function renderSurvey({ focus = false } = {}) {
   survey.innerHTML = `<form class="survey-main"><div class="survey-form-top"><span class="survey-step-orb">${String(stepIndex + 1).padStart(2, '0')}</span><div><span>ВАШ ОПЫТ ВАЖЕН</span><strong>${stepNames[step]}</strong></div>${icon('check', 21)}</div><ol class="survey-stages" aria-label="Темы опроса">${steps.map((name, index) => `<li data-state="${index < stepIndex ? 'done' : index === stepIndex ? 'current' : 'next'}"${index === stepIndex ? ' aria-current="step"' : ''}><span></span><small>${stepNames[name]}</small></li>`).join('')}</ol><div class="survey-question-content"><h3 tabindex="-1">${content.stepTitles[step]}</h3><p class="survey-step-description">${content.stepDescriptions[step]}</p>${fields(step)}</div>
     <div class="form-actions"><div class="survey-progress"><span aria-live="polite" aria-atomic="true">Шаг ${stepIndex + 1} из ${steps.length}</span><div class="progress-line" aria-hidden="true"><span style="transform:scaleX(${(stepIndex + 1) / steps.length})"></span></div></div>
     <div class="survey-navigation"><button type="button" class="survey-nav-back" aria-label="Назад" ${stepIndex === 0 || sending ? 'disabled' : ''}>${icon('left', 20)}</button><button type="submit" class="survey-nav-next" ${sending ? 'disabled' : ''}>${sending ? 'Сохраняем…' : stepIndex === steps.length - 1 ? 'Отправить ответы' : 'Далее'}${icon('right')}</button></div></div></form>`;
-  updateSurveyPresentation(survey, step, stepIndex, steps.length, changed, backwards);
+  updateSurveyPresentation(survey, step, stepIndex, steps.length, changed, backwards, completedSurveySteps);
   if (focus) {
     survey.scrollIntoView({ behavior: interactionScrollBehavior(), block: 'start' });
     survey.querySelector('h3').focus({ preventScroll: true });
@@ -152,7 +157,7 @@ survey?.addEventListener('submit', async event => {
   const steps = surveySteps(answers);
   const error = validateStep(answers, steps[stepIndex]);
   if (error) return showError(error);
-  if (stepIndex < steps.length - 1) { stepIndex++; return renderSurvey({ focus: true }); }
+  if (stepIndex < steps.length - 1) { completedSurveySteps.add(steps[stepIndex]); stepIndex++; return renderSurvey({ focus: true }); }
   const normalized = normalizeAnswers(answers);
   for (let index = 0; index < steps.length; index++) {
     const invalid = validateStep(normalized, steps[index]);
@@ -165,6 +170,7 @@ survey?.addEventListener('submit', async event => {
     const response = await fetch('/api/survey', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...normalized, id: receiptId, demoCase: activeCase, surveyVersion: SURVEY_VERSION, consentVersion: CONSENT_VERSION }), signal: AbortSignal.timeout(15000) });
     const result = await response.json();
     if (!response.ok || !result.ok) throw Error(result.error || 'Не удалось сохранить ответ.');
+    finishSurveyProgress(steps);
     goal('survey_complete');
     survey.classList.add('is-complete');
     survey.innerHTML = `<div class="survey-success" role="status"><span class="success-icon">${icon('check', 30)}</span><h3>Спасибо за честный ответ.</h3><p>Ответы сохранены. Теперь присоединяйтесь к бета-тестерам: в чате можно обсудить идею и узнать о доступе к продукту.</p><p class="survey-receipt">Квитанция ответа: <code>${receiptId}</code>. Сохраните её для обращения об удалении ответа.</p><a href="#example" class="text-link">Попробовать демо-разбор ${icon('up')}</a></div>`;
