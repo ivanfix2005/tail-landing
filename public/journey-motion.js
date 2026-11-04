@@ -5,9 +5,9 @@ export function mountJourney({ ScrollTrigger, reduced, fine }) {
   const sweep = root.querySelector('.radar-sweep'), orbit = root.querySelector('.radar-orbit');
   const face = root.querySelector('.radar-face'), waves = [...root.querySelectorAll('.radar-wave')];
   const blips = [...root.querySelectorAll('.radar-blip')], title = root.querySelector('.companion-title');
-  const names = ['Знакомство', 'Возможности', 'Компании', 'Календарь', 'Разбор', 'Ваш опыт', 'Вопросы'];
+  const names = ['Знакомство', 'Возможности', 'Компании', 'Календарь', 'Разбор', 'Помощник', 'Ваш опыт', 'Вопросы'];
   const number = root.querySelector('.companion-number');
-  const chapters = ['.intro-section', '#story', '#coverage', '#company-chart', '#example', '#survey', '#faq']
+  const chapters = ['.intro-section', '#story', '#coverage', '#company-chart', '#example', '#personalities', '#survey', '#faq']
     .map(selector => document.querySelector(selector)).filter(Boolean);
   let tops = [], chapter = -1, viewport = innerHeight, timer = 0, disposed = false;
   let pulses = [];
