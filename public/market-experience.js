@@ -11,8 +11,9 @@ export function mountMarketExperience({ gsap, ScrollTrigger, reduced, fine }) {
     if (disposed) return;
     if (!matchMedia('(min-width:901px)').matches || !CSS.supports('zoom','1')) { phone.style.removeProperty('zoom'); return; }
     const available = Math.max(280, innerHeight - document.querySelector('.landing-header').offsetHeight - 48);
-    const natural = phone.offsetHeight;
-    const scale = Math.min(.96, Math.max(.5, (available - 2) / natural)).toFixed(3);
+    // Retain the original 750px fit reference so a shorter phone is not enlarged again.
+    const fitHeight = Math.max(phone.offsetHeight, 750);
+    const scale = Math.min(.96, Math.max(.5, (available - 2) / fitHeight)).toFixed(3);
     if (phone.style.zoom !== scale) phone.style.zoom = scale;
   };
   const scheduleFit = () => { if (!disposed && !fitFrame) fitFrame = requestAnimationFrame(fitPhone); };
