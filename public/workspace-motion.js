@@ -1,251 +1,164 @@
-// A single retained company token ties the four explanations together.
-// Scroll, replay and local controls have separate, interruptible owners.
+// Four retained product surfaces: gather, bring the important layer forward, trace its source.
 export function mountWorkspace({ gsap, ScrollTrigger, reduced = true, desktop = false }) {
   const stage = document.querySelector('[data-product-workspace]');
   if (!stage) return () => {};
-  const panels = [...stage.querySelectorAll('[data-workspace-panel]')];
-  const copies = [...stage.querySelectorAll('[data-workspace-copy]')];
-  const steps = [...stage.querySelectorAll('[data-workspace-step]')];
-  const canvas = stage.querySelector('.desk-canvas'), token = stage.querySelector('.desk-company-token');
-  const replayButton = stage.querySelector('[data-desk-replay]');
-  const detail = stage.querySelector('#desk-evidence-more'), detailHome = detail.parentNode, detailNext = detail.nextSibling;
-  const starts = [0,3.4,6.8,10.2], checkpoints = starts.map(time => time + 1.8);
-  let active = 0, main, mainContext, manualContext, replayContext, actionContext, observer, flight;
-  let anchors = [], linkLengths = [], productVisible = false, pendingIntro = true, disposed = false;
-  const localRect = element => {
-    let x = 0, y = 0, node = element;
-    while (node && node !== canvas) { x += node.offsetLeft; y += node.offsetTop; node = node.offsetParent; }
-    return { x,y,width:element.offsetWidth,height:element.offsetHeight };
-  };
+  const art = stage.querySelector('.folio-art'), pieces = [...stage.querySelectorAll('[data-folio-piece]')];
+  const headings = [...stage.querySelectorAll('[data-folio-heading]')], buttons = [...stage.querySelectorAll('[data-workspace-step]')];
+  const lines = [...stage.querySelectorAll('[data-folio-line]')], packet = stage.querySelector('[data-folio-packet]');
+  const answer = stage.querySelector('.folio-answer'), business = stage.querySelector('.folio-business');
+  let active = 0, main, mainContext, manualContext, replayContext, observer, resizeFrame = 0;
+  let geometry, visible = false, pendingIntro = true, disposed = false;
+  const starts = [0,3.1,6.2], checkpoints = [1.7,4.8,8.05];
   function measure() {
-    // On compact screens the calculation opens after the answer, keeping its source visible.
-    if (innerWidth <= 600) panels[3].append(detail);
-    else if (detail.parentNode !== detailHome) detailHome.insertBefore(detail,detailNext);
-    // offset geometry ignores animated transforms, and is read only at init/refresh.
-    anchors = panels.map(panel => localRect(panel.querySelector('[data-company-anchor]')));
-    const rows = [0,1].map(index => localRect(stage.querySelectorAll('.desk-holding')[index]));
-    const ring = localRect(stage.querySelector('.desk-allocation'));
-    const paths = stage.querySelectorAll('.desk-link'), packets = stage.querySelectorAll('.desk-link-packet');
-    stage.querySelector('.desk-links').setAttribute('viewBox',`0 0 ${canvas.offsetWidth} ${canvas.offsetHeight}`);
-    stage.querySelector('.desk-answer-link').setAttribute('viewBox',`0 0 ${canvas.offsetWidth} ${canvas.offsetHeight}`);
-    rows.forEach((row,index) => {
-      const x = row.x + row.width, y = row.y + row.height / 2;
-      const endX = ring.x + 15, endY = ring.y + ring.height / 2 + (index ? 12 : -12);
-      const middle = x + (endX - x) * .55;
-      const d = `M${x} ${y}C${middle} ${y} ${middle} ${endY} ${endX} ${endY}`;
-      paths[index].setAttribute('d',d); packets[index].setAttribute('d',d);
-    });
-    linkLengths = [...paths].map(path => path.getTotalLength());
+    geometry = { w:art.clientWidth,h:art.clientHeight,compact:innerWidth <= 760,sizes:Object.fromEntries(pieces.map(p => [p.dataset.folioPiece,{ w:p.offsetWidth,h:p.offsetHeight }])) };
+    stage.querySelector('.folio-connections').setAttribute('viewBox',`0 0 ${geometry.w} ${geometry.h}`);
+  }
+  function poses(index) {
+    const { w,compact,sizes } = geometry, full = 'inset(0 0px 0px 0 round 16px)';
+    const clip = compact ? `inset(0 ${sizes.assistant.w - 144}px ${sizes.assistant.h - 80}px 0 round 16px)` : `inset(0 0px ${sizes.assistant.h - 66}px 0 round 16px)`;
+    const p = (x,y,z,rotation,scale = 1,autoAlpha = 1,zIndex = 3,rotationY = 0) => ({ x,y,z,rotation,scale,autoAlpha,zIndex,rotationY,rotationX:0 });
+    if (compact) {
+      const narrow = w < 320;
+      if (index === 0) return { portfolio:p(0,-51,narrow ? 0 : 80,-3,narrow ? .94 : 1,1,5),business:p(4,-27,0,4,narrow ? .9 : 1,.9,3),calendar:p(w * .225,158,30,3,1,1,4),assistant:{ ...p(5,225,40,0,1,1,6),clipPath:clip } };
+      if (index === 1) return { portfolio:p(-8,-22,-20,-5,.92,.55,2),business:p(0,-41,90,0,narrow ? .9 : 1,1,5),calendar:p(w * .225,158,15,3,1,.85,4),assistant:{ ...p(5,225,20,0,1,1,6),clipPath:clip } };
+      return { portfolio:p(-13,-32,-30,-6,.87,.2,1),business:p(-4,-69,0,-3,.92,.95,3),calendar:p(w * .225,163,-20,6,.92,.3,2),assistant:{ ...p(0,35,90,0,narrow ? .91 : 1,1,6),clipPath:full } };
+    }
+    if (index === 0) return { portfolio:p(-w * .295,-20,65,-4,1,1,5,-3),business:p(w * .015,-10,15,3,1,1,3,3),calendar:p(w * .315,-65,20,5,1,1,2,-3),assistant:{ ...p(w * .245,208,35,-2,1,1,6),clipPath:clip } };
+    if (index === 1) return { portfolio:p(-w * .31,75,-25,-7,.85,.5,2,-7),business:p(-w * .035,-15,90,0,1.1,1,5),calendar:p(w * .31,-60,-10,5,.92,.75,2),assistant:{ ...p(w * .255,208,20,-2,1,1,6),clipPath:clip } };
+    return { portfolio:p(-w * .325,92,-50,-8,.78,.25,1,-9),business:p(-w * .14,-16,10,-2,.92,1,4),calendar:p(w * .34,90,-45,8,.8,.25,2),assistant:{ ...p(w * .19,30,110,0,1.07,1,6),clipPath:full } };
+  }
+  function route(index,lineIndex) {
+    const p = poses(index), { w,h,sizes } = geometry;
+    const point = (id,dx,dy) => ({ x:w / 2 + p[id].x + sizes[id].w * p[id].scale * dx,y:h / 2 + p[id].y + sizes[id].h * p[id].scale * dy });
+    const pair = lineIndex === 0 ? [point('portfolio',.4,-.1),point('business',-.4,-.05)] : lineIndex === 1 ? [point('business',.4,-.05),point('calendar',-.4,.1)] : [point('business',.35,.25),point('assistant',-.3,index === 2 ? .23 : -.42)];
+    const [a,b] = pair, middle = (a.x + b.x) / 2;
+    return `M${a.x} ${a.y}C${middle} ${a.y} ${middle} ${b.y} ${b.x} ${b.y}`;
   }
   function select(index) {
-    active = index;
-    panels.forEach((panel,number) => {
-      const chosen = number === index;
-      panel.classList.toggle('is-active',chosen); panel.setAttribute('aria-hidden',String(!chosen)); panel.inert = !chosen;
-      copies[number].classList.toggle('is-active',chosen); copies[number].setAttribute('aria-hidden',String(!chosen));
-      steps[number].setAttribute('aria-pressed',String(chosen));
+    active = index; stage.dataset.chapter = String(index);
+    headings.forEach((heading,n) => { heading.classList.toggle('is-active',n === index); heading.setAttribute('aria-hidden',String(n !== index)); buttons[n].setAttribute('aria-pressed',String(n === index)); });
+    pieces.forEach(piece => { const focused = piece.dataset.folioPiece === ['portfolio','business','assistant'][index]; piece.classList.toggle('is-focused',focused); piece.inert = !focused; });
+    answer.setAttribute('aria-hidden',String(index !== 2)); answer.inert = index !== 2;
+  }
+  function setPoster(index) {
+    const state = poses(index);
+    pieces.forEach(piece => {
+      const p = state[piece.dataset.folioPiece];
+      if (gsap) gsap.set(piece,{ xPercent:-50,yPercent:-50,...p });
+      else {
+        piece.style.transform = `translate(-50%,-50%) translate3d(${p.x}px,${p.y}px,${p.z}px) rotate(${p.rotation}deg) rotateY(${p.rotationY}deg) scale(${p.scale})`;
+        piece.style.opacity = String(p.autoAlpha); piece.style.zIndex = String(p.zIndex); piece.style.clipPath = p.clipPath || 'none';
+      }
     });
+    lines.forEach((line,n) => line.setAttribute('d',route(index,n))); packet.setAttribute('d',route(index,index === 2 ? 2 : 0));
   }
-  function placeToken(index) {
-    const { x,y } = anchors[index];
-    if (gsap) gsap.set(token,{ x,y,scale:1,autoAlpha:1 });
-    else token.style.transform = `translate(${x}px,${y}px)`;
+  function shape(index,tl,time,duration = 1.05) {
+    pieces.forEach((piece,n) => {
+      const key = piece.dataset.folioPiece, target = () => poses(index)[key];
+      const vars = { duration,ease:'power3.inOut',x:() => target().x,y:() => target().y,z:() => target().z,rotation:() => target().rotation,rotationX:0,rotationY:() => target().rotationY,scale:() => target().scale,autoAlpha:() => target().autoAlpha,zIndex:() => target().zIndex };
+      if (key === 'assistant') vars.clipPath = () => target().clipPath;
+      tl.to(piece,vars,time + n * .045);
+    });
+    lines.forEach((line,n) => tl.to(line,{ attr:{ d:() => route(index,n) },duration,ease:'power3.inOut' },time));
+    return tl;
   }
-  function choreography(index) {
-    const panel = panels[index], q = selector => panel.querySelector(selector), all = selector => panel.querySelectorAll(selector);
+  function detail(index) {
     const tl = gsap.timeline({ defaults:{ ease:'power3.out',immediateRender:false } });
     if (index === 0) {
-      tl.fromTo(all('.desk-holding'),{ x:-38,y:number => 13 - number * 4,rotation:number => number ? 1.5 : -1.5,autoAlpha:.25 },{ x:0,y:0,rotation:0,autoAlpha:1,duration:.55,stagger:.07 },0);
-      all('.desk-link').forEach((path,index) => tl.fromTo(path,{ strokeDasharray:() => linkLengths[index],strokeDashoffset:() => linkLengths[index] },{ strokeDashoffset:0,duration:.5,ease:'none' },.26 + index * .1));
-      all('.desk-link-packet').forEach((path,index) => {
-        const time = .62 + index * .14;
-        tl.set(path,{ strokeDasharray:() => `12 ${linkLengths[index] + 12}`,opacity:1 },time)
-          .fromTo(path,{ strokeDashoffset:0 },{ strokeDashoffset:() => -linkLengths[index],duration:.48,ease:'none' },time)
-          .to(path,{ opacity:0,duration:.1 },time + .38);
-      });
-      tl.fromTo(q('.desk-allocation-share'),{ strokeDasharray:'0 100' },{ strokeDasharray:'30 70',duration:.65,ease:'power2.inOut' },.4)
-        .fromTo(q('.desk-allocation-bond'),{ strokeDasharray:'0 100' },{ strokeDasharray:'20 80',duration:.55,ease:'power2.inOut' },.71)
-        .fromTo(q('.desk-allocation-result'),{ y:14,autoAlpha:0,clipPath:'inset(0 0 100% 0)' },{ y:0,autoAlpha:1,clipPath:'inset(0 0 0% 0)',duration:.4 },.85)
-        .fromTo(q('.desk-exposure-legend'),{ y:8,autoAlpha:0 },{ y:0,autoAlpha:1,duration:.3 },1.08)
-        .fromTo(q('.desk-portfolio-payoff'),{ x:15,autoAlpha:0 },{ x:0,autoAlpha:1,duration:.3 },1.26);
+      tl.fromTo(stage.querySelectorAll('.folio-holdings>div'),{ x:-15,autoAlpha:.8 },{ x:0,autoAlpha:1,duration:.4,stagger:.065 },.28)
+        .fromTo(stage.querySelector('.folio-binding'),{ scale:.88,autoAlpha:.8 },{ scale:1.25,autoAlpha:0,duration:.6 },0);
+      lines.forEach((line,n) => tl.fromTo(line,{ strokeDasharray:1,strokeDashoffset:1 },{ strokeDashoffset:0,duration:.55,ease:'none' },.4 + n * .11));
     } else if (index === 1) {
-      tl.fromTo(q('.desk-paper-back'),{ y:25,rotation:0,autoAlpha:.2 },{ y:0,rotation:-3,autoAlpha:1,duration:.6 },0)
-        .fromTo(q('.desk-paper'),{ y:38,rotationX:16,rotation:3,autoAlpha:.25 },{ y:0,rotationX:0,rotation:0,autoAlpha:1,duration:.65 },.08)
-        .fromTo(all('.desk-document-row'),{ x:-15,autoAlpha:.2 },{ x:0,autoAlpha:1,duration:.3,stagger:.07 },.38)
-        .fromTo(q('.desk-document-scan'),{ y:0,autoAlpha:0 },{ y:135,autoAlpha:.75,duration:.6,ease:'none' },.42)
-        .to(q('.desk-document-scan'),{ autoAlpha:0,duration:.12 },.96)
-        .fromTo(q('.desk-analysis'),{ x:35,autoAlpha:.2 },{ x:0,autoAlpha:1,duration:.45 },.33)
-        .fromTo(all('.desk-bar-reveal'),{ scaleY:.08 },{ scaleY:1,duration:.7,stagger:.055,ease:'power3.inOut' },.6)
-        .fromTo(all('.desk-comparison > div > strong'),{ y:12,autoAlpha:0 },{ y:0,autoAlpha:1,duration:.3,stagger:.055 },.95)
-        .fromTo(all('.desk-comparison-change'),{ y:10,autoAlpha:0,clipPath:'inset(0 100% 0 0)' },{ y:0,autoAlpha:1,clipPath:'inset(0 0% 0 0)',duration:.35 },1.04)
-        .fromTo(q('.desk-analysis-proof'),{ y:10,autoAlpha:0 },{ y:0,autoAlpha:1,duration:.3 },1.22);
-    } else if (index === 2) {
-      tl.fromTo(all('.desk-event'),{ x:-25,y:10,autoAlpha:.2 },{ x:0,y:0,autoAlpha:1,duration:.45,stagger:.08 },0)
-        .fromTo(q('.desk-personal-focus'),{ y:12,autoAlpha:0 },{ y:0,autoAlpha:1,duration:.3 },.25)
-        .fromTo(q('.desk-event-route > span'),{ x:0,autoAlpha:0 },{ x:36,autoAlpha:1,duration:.4,ease:'none' },.38)
-        .to(q('.desk-event-route > span'),{ autoAlpha:0,duration:.1 },.75)
-        .fromTo(q('.desk-notification'),{ x:45,y:15,rotation:2,scale:.97,autoAlpha:.1 },{ x:0,y:0,rotation:0,scale:1,autoAlpha:1,duration:.6 },.55)
-        .fromTo(all('.desk-calendar-strip > div > *'),{ y:18,autoAlpha:.2 },{ y:0,autoAlpha:1,duration:.3,stagger:.04 },.78)
-        .fromTo(q('.desk-calendar-strip button'),{ scale:.92 },{ scale:1,duration:.35 },1.18);
+      tl.fromTo(stage.querySelector('.folio-paper'),{ rotationX:-72,y:24,z:0,autoAlpha:.3 },{ rotationX:0,y:0,z:28,autoAlpha:1,duration:.85 },.1)
+        .fromTo(stage.querySelector('.folio-paper-scan'),{ y:0,autoAlpha:0 },{ y:95,autoAlpha:.7,duration:.6,ease:'none' },.55)
+        .to(stage.querySelector('.folio-paper-scan'),{ autoAlpha:0,duration:.12 },1.09)
+        .fromTo(stage.querySelectorAll('.folio-paper-row'),{ x:-12,autoAlpha:.25 },{ x:0,autoAlpha:1,duration:.35,stagger:.08 },.62);
     } else {
-      tl.fromTo(q('.desk-evidence'),{ x:-30,y:18,rotation:-2,autoAlpha:.2 },{ x:0,y:0,rotation:0,autoAlpha:1,duration:.6 },0)
-        .fromTo(all('.desk-question-bubble'),{ x:20,y:10,scale:.97,autoAlpha:.1 },{ x:0,y:0,scale:1,autoAlpha:1,duration:.3 },.18)
-        .fromTo(all('.desk-answer-text'),{ y:9,autoAlpha:0 },{ y:0,autoAlpha:1,duration:.22 },.55)
-        .fromTo(all('.desk-answer-text p > span'),{ clipPath:'inset(0 0 100% 0)',autoAlpha:.1 },{ clipPath:'inset(0 0 0% 0)',autoAlpha:1,duration:.35,stagger:.07,ease:'none' },.66)
-        .fromTo(q('.desk-evidence mark'),{ backgroundColor:'#ffffff' },{ backgroundColor:'#d7ebbd',duration:.4 },.88)
-        .fromTo(all('.desk-answer-actions > button'),{ y:12,autoAlpha:0 },{ y:0,autoAlpha:1,duration:.28,stagger:.07 },1.12)
-        .fromTo(q('.desk-evidence-check'),{ y:8,autoAlpha:0 },{ y:0,autoAlpha:1,duration:.25 },1.3);
+      tl.fromTo(stage.querySelector('.folio-paper'),{ x:0,y:0,rotation:0 },{ x:geometry.compact ? 0 : 32,y:geometry.compact ? -9 : 8,rotation:-2,duration:.75 },.1)
+        .fromTo(stage.querySelector('.folio-question'),{ x:20,autoAlpha:0 },{ x:0,autoAlpha:1,duration:.3 },.45)
+        .fromTo(stage.querySelectorAll('.folio-answer p>span'),{ y:7,autoAlpha:.1,clipPath:'inset(0 0 100% 0)' },{ y:0,autoAlpha:1,clipPath:'inset(0 0 0% 0)',duration:.35,stagger:.09 },.72)
+        .fromTo(stage.querySelector('.folio-answer a'),{ y:9,autoAlpha:0 },{ y:0,autoAlpha:1,duration:.3 },1.04);
     }
+    const pathIndex = index === 2 ? 2 : 0;
+    tl.set(packet,{ attr:{ d:() => route(index,pathIndex) },strokeDasharray:'.035 .965',autoAlpha:1,strokeDashoffset:0 },.75)
+      .to(packet,{ strokeDashoffset:-1,duration:.6,ease:'none' },.75).to(packet,{ autoAlpha:0,duration:.1 },1.27);
     return tl;
   }
   function stopReplay() { replayContext?.revert(); replayContext = null; }
-  function stopAction() { actionContext?.revert(); actionContext = null; flight?.remove(); flight = null; }
-  function show(index,instant) {
-    stopReplay(); stopAction(); manualContext?.revert(); manualContext = null;
-    const previous = active, fromAnchor = { ...anchors[previous] }; select(index); measure();
-    if (!gsap) { placeToken(index); return; }
+  function show(index,instant,intro = false) {
+    stopReplay(); manualContext?.revert(); manualContext = null;
+    const previous = active; select(index);
+    if (!gsap) { setPoster(index); return; }
     manualContext = gsap.context(() => {
-      gsap.set(panels,{ autoAlpha:0,x:0,y:0,rotationY:0,scale:1 }); gsap.set(panels[index],{ autoAlpha:1 });
-      gsap.set(copies,{ autoAlpha:0,y:0 }); gsap.set(copies[index],{ autoAlpha:1 });
-      if (instant) placeToken(index);
-      else gsap.timeline({ defaults:{ ease:'power3.out',immediateRender:false } })
-        .fromTo(panels[index],{ y:15,autoAlpha:.25 },{ y:0,autoAlpha:1,duration:.3 },0)
-        .fromTo(copies[index],{ y:7,autoAlpha:.2 },{ y:0,autoAlpha:1,duration:.22 },0)
-        .fromTo(token,{ x:fromAnchor.x,y:fromAnchor.y },{ x:anchors[index].x,y:anchors[index].y,duration:.6,ease:'power3.inOut' },0)
-        .add(choreography(index),.08);
+      gsap.set(headings,{ autoAlpha:0,y:0 }); gsap.set(headings[index],{ autoAlpha:1 }); setPoster(instant ? index : previous);
+      if (!instant) {
+        const tl = gsap.timeline({ defaults:{ ease:'power3.out',immediateRender:false } });
+        if (intro) pieces.forEach((piece,n) => gsap.set(piece,{ x:(n - 1.5) * 17,y:n * 8 - 15,z:-30 + n * 12,rotation:(n - 1.5) * 3,rotationX:12,rotationY:-18,scale:.94,autoAlpha:.5 }));
+        shape(index,tl,0).fromTo(headings[index],{ y:14,autoAlpha:.35 },{ y:0,autoAlpha:1,duration:.35 },0).add(detail(index),.12);
+      }
     },stage);
-    if (innerWidth <= 600) document.dispatchEvent(new Event('tail:layout-change'));
-  }
-  const localTransition = (element,keyboard) => {
-    if (!gsap || reduced || keyboard) return;
-    actionContext = gsap.context(() => {
-      gsap.fromTo(element,{ y:7,autoAlpha:.3 },{ y:0,autoAlpha:1,duration:.22,ease:'power3.out' });
-    },stage);
-  };
-  function flyEvent(button,value,keyboard) {
-    if (!gsap || reduced || keyboard) return;
-    const origin = localRect(button.querySelector('.desk-event-icon') || button), destination = anchors[2];
-    flight = document.createElement('span'); flight.className = 'desk-flight'; flight.setAttribute('aria-hidden','true');
-    flight.innerHTML = `<svg class="ico"><use href="${value === 'coupon' ? '#i-clock' : '#i-file'}"/></svg>`;
-    canvas.append(flight); const current = flight;
-    actionContext.add(() => gsap.timeline({ onComplete:() => { current.remove(); if (flight === current) flight = null; } })
-      .fromTo(current,{ x:origin.x,y:origin.y,rotation:-8,scale:1,autoAlpha:1 },{ x:destination.x - 6,y:destination.y + 3,rotation:0,scale:.75,duration:.52,ease:'power3.inOut' })
-      .to(current,{ autoAlpha:0,duration:.12 }));
-  }
-  function traceSource(keyboard) {
-    const button = localRect(stage.querySelector('[data-desk-source]')), paper = localRect(stage.querySelector('.desk-evidence'));
-    const quote = localRect(stage.querySelector('.desk-evidence blockquote'));
-    const path = stage.querySelector('.desk-answer-link path'), x = paper.x + paper.width + 18;
-    path.setAttribute('d',`M${button.x} ${button.y + button.height / 2}H${x}V${quote.y + quote.height / 2}H${paper.x + paper.width}`);
-    if (!gsap || reduced || keyboard || innerWidth <= 600) return;
-    const length = path.getTotalLength();
-    actionContext.add(() => gsap.fromTo(path,{ strokeDasharray:length,strokeDashoffset:length },{ strokeDashoffset:0,duration:.55,ease:'power3.inOut' }));
-  }
-  function toggleGroup(selector,key,value) {
-    stage.querySelectorAll(selector).forEach(element => {
-      const chosen = element.dataset[key] === value;
-      element.classList.toggle('is-active',chosen); element.setAttribute('aria-hidden',String(!chosen)); element.inert = !chosen;
-    });
   }
   const navigate = event => {
-    const button = event.target.closest('button'); if (!button || !stage.contains(button)) return;
+    const step = event.target.closest('[data-workspace-step],[data-folio-focus]'), repeat = event.target.closest('[data-folio-replay]');
+    if (!step && !repeat) return;
     const keyboard = event.detail === 0;
-    if (button.hasAttribute('data-workspace-step')) {
-      stopReplay(); stopAction();
-      const index = Number(button.dataset.workspaceStep), trigger = main?.scrollTrigger;
-      if (trigger) {
-        const time = main.labels[`workspace-${index}`];
-        const top = trigger.start + time / main.duration() * (trigger.end - trigger.start);
-        window.scrollTo({ top,behavior:keyboard ? 'instant' : 'smooth' });
-        if (keyboard) { trigger.getTween()?.pause(); main.time(time); select(index); }
-      } else {
-        const instant = keyboard || reduced || !productVisible;
-        pendingIntro = !instant ? false : !keyboard && !reduced; show(index,instant);
-      }
-      return;
-    }
-    if (button.hasAttribute('data-desk-replay')) {
-      stopReplay(); stopAction();
+    if (repeat) {
+      stopReplay();
       if (reduced || keyboard || !gsap) { if (!main) show(active,true); return; }
-      replayContext = gsap.context(() => { gsap.timeline().add(choreography(active)); },stage); return;
+      replayContext = gsap.context(() => {
+        const tl = gsap.timeline({ defaults:{ immediateRender:false } });
+        pieces.forEach((piece,n) => tl.to(piece,{ x:(n - 1.5) * 17,y:n * 8 - 10,z:n * 8,rotation:(n - 1.5) * 3,rotationY:-15,scale:.95,duration:.5,ease:'power3.inOut' },0));
+        shape(active,tl,.5).add(detail(active),.7);
+      },stage); return;
     }
-    stopAction();
-    if (button.dataset.deskExposure) {
-      const value = button.dataset.deskExposure, arc = stage.querySelector('.desk-allocation-bond');
-      const previous = parseFloat(getComputedStyle(arc).strokeDashoffset), next = value === 'business' ? -30 : -50;
-      arc.setAttribute('stroke-dashoffset',String(next)); stage.querySelector('.desk-exposure').dataset.exposure = value;
-      stage.querySelectorAll('[data-desk-exposure]').forEach(b => b.setAttribute('aria-pressed',String(b === button)));
-      localTransition(stage.querySelector('.desk-allocation-result'),keyboard);
-      actionContext?.add(() => gsap.fromTo(arc,{ strokeDashoffset:previous },{ strokeDashoffset:next,duration:.55,ease:'power3.inOut' }));
-    } else if (button.dataset.deskMetric) {
-      const value = button.dataset.deskMetric, before = [...stage.querySelectorAll('.desk-metric.is-active .desk-bar-reveal i')].map(bar => bar.offsetHeight);
-      stage.querySelectorAll('[data-desk-metric]').forEach(b => b.setAttribute('aria-pressed',String(b === button)));
-      stage.querySelectorAll('[data-document-metric]').forEach(row => row.classList.toggle('is-selected',row.dataset.documentMetric === value));
-      toggleGroup('[data-metric]','metric',value); localTransition(stage.querySelector(`[data-metric="${value}"]`),keyboard);
-      const bars = [...stage.querySelectorAll(`[data-metric="${value}"] .desk-bar-reveal i`)], after = bars.map(bar => bar.offsetHeight);
-      actionContext?.add(() => gsap.fromTo(bars,{ scaleY:index => before[index] / after[index],transformOrigin:'bottom' },{ scaleY:1,duration:.5,stagger:.055,ease:'power3.inOut' }));
-    } else if (button.dataset.deskEvent) {
-      const value = button.dataset.deskEvent;
-      stage.querySelectorAll('.desk-event').forEach(b => { const chosen = b.dataset.deskEvent === value; b.classList.toggle('is-active',chosen); b.setAttribute('aria-pressed',String(chosen)); });
-      toggleGroup('[data-event-detail]','eventDetail',value); localTransition(stage.querySelector(`[data-event-detail="${value}"]`),keyboard);
-      flyEvent(button,value,keyboard);
-    } else if (button.dataset.deskQuestion) {
-      const value = button.dataset.deskQuestion;
-      stage.querySelectorAll('[data-desk-question]').forEach(b => b.setAttribute('aria-pressed',String(b === button)));
-      toggleGroup('[data-answer]','answer',value); localTransition(stage.querySelector(`[data-answer="${value}"]`),keyboard);
-    } else if (button.hasAttribute('data-desk-source')) {
-      const open = button.getAttribute('aria-expanded') !== 'true';
-      button.setAttribute('aria-expanded',String(open)); detail.hidden = !open;
-      stage.querySelector('.desk-evidence').classList.toggle('is-open',open); panels[3].classList.toggle('is-source-open',open);
-      if (open) { localTransition(detail,keyboard); traceSource(keyboard); }
-      if (innerWidth <= 600) document.dispatchEvent(new Event('tail:layout-change'));
-    } else if (button.hasAttribute('data-desk-save')) {
-      const saved = button.getAttribute('aria-pressed') !== 'true'; button.setAttribute('aria-pressed',String(saved));
-      button.querySelector('span').textContent = saved ? 'В плане наблюдения' : 'Следить за долгом';
-      button.querySelector('use').setAttribute('href',saved ? '#i-check' : '#i-bell');
+    stopReplay(); const index = Number(step.dataset.workspaceStep ?? step.dataset.folioFocus), trigger = main?.scrollTrigger;
+    if (trigger) {
+      const time = main.labels[`folio-${index}`], top = trigger.start + time / main.duration() * (trigger.end - trigger.start);
+      window.scrollTo({ top,behavior:keyboard ? 'instant' : 'smooth' });
+      if (keyboard) { trigger.getTween()?.pause(); main.time(time); select(index); }
+    } else {
+      const instant = keyboard || reduced || !visible;
+      pendingIntro = !keyboard && !reduced && !visible; show(index,instant);
     }
   };
-  const visibility = () => {
-    if (!document.hidden) return; stopReplay(); stopAction();
-    if (main) main.scrollTrigger?.getTween()?.pause(); else { pendingIntro = false; show(active,true); }
+  const visibility = () => { if (!document.hidden) return; stopReplay(); if (main) main.scrollTrigger?.getTween()?.pause(); else { pendingIntro = false; show(active,true); } };
+  const resize = () => {
+    if (resizeFrame) cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(() => { resizeFrame = 0; if (!disposed && !main) { measure(); show(active,true); } });
   };
-  const resized = () => { if (!main) { measure(); placeToken(active); } };
-  measure(); select(0); placeToken(0);
-  stage.addEventListener('click',navigate); document.addEventListener('visibilitychange',visibility);
-  window.addEventListener('scroll',stopReplay,{ passive:true });
-  window.addEventListener('resize',resized,{ passive:true });
+  measure(); pieces.forEach(piece => { piece.style.left = '50%'; piece.style.top = '50%'; }); select(0); setPoster(0);
+  stage.addEventListener('click',navigate); document.addEventListener('visibilitychange',visibility); addEventListener('scroll',stopReplay,{passive:true}); addEventListener('resize',resize,{passive:true});
   if (gsap && ScrollTrigger && desktop && !reduced) {
     mainContext = gsap.context(() => {
-      gsap.set(panels,{ autoAlpha:0 }); gsap.set(panels[0],{ autoAlpha:1 }); gsap.set(copies,{ autoAlpha:0 }); gsap.set(copies[0],{ autoAlpha:1 });
-      main = gsap.timeline({ defaults:{ ease:'power3.out',immediateRender:false },scrollTrigger:{
-        id:'tail-workspace',trigger:stage,pin:true,start:'top 96px',end:() => `+=${Math.round(innerHeight * 5.6)}`,scrub:.4,invalidateOnRefresh:true,onRefreshInit:measure,
-      },onUpdate() {
-        const time = this.time(), next = time < starts[1] ? 0 : time < starts[2] ? 1 : time < starts[3] ? 2 : 3;
-        if (next !== active) select(next);
+      gsap.set(headings,{ autoAlpha:0 }); gsap.set(headings[0],{ autoAlpha:1 });
+      const tl = gsap.timeline({ defaults:{ immediateRender:false },scrollTrigger:{ id:'tail-workspace',trigger:stage,pin:true,start:'top 96px',end:() => `+=${Math.round(innerHeight * 4.8)}`,scrub:.5,invalidateOnRefresh:true,onRefreshInit:measure },onUpdate() {
+        const next = this.time() < starts[1] ? 0 : this.time() < starts[2] ? 1 : 2; if (next !== active) select(next);
       } });
-      panels.forEach((panel,index) => {
-        const start = starts[index];
-        if (index) main.to(panels[index - 1],{ x:-28,y:-8,autoAlpha:0,scale:.985,duration:.35 },start - .38)
-          .to(copies[index - 1],{ y:-8,autoAlpha:0,duration:.25 },start - .35)
-          .fromTo(panel,{ x:40,y:18,autoAlpha:0,scale:.985 },{ x:0,y:0,autoAlpha:1,scale:1,duration:.55 },start - .15)
-          .fromTo(copies[index],{ y:10,autoAlpha:0 },{ y:0,autoAlpha:1,duration:.3 },start)
-          .to(token,{ x:() => anchors[index].x,y:() => anchors[index].y,duration:.8,ease:'power3.inOut' },start - .25);
-        main.add(choreography(index),start).addLabel(`workspace-${index}`,checkpoints[index]);
+      pieces.forEach((piece,n) => {
+        const target = () => poses(0)[piece.dataset.folioPiece];
+        const to = { x:() => target().x,y:() => target().y,z:() => target().z,rotation:() => target().rotation,rotationY:() => target().rotationY,rotationX:0,scale:() => target().scale,autoAlpha:1,zIndex:() => target().zIndex,duration:1.1,ease:'power3.inOut' };
+        const from = { x:() => target().x * .94,y:() => target().y + 12,z:0,rotation:() => target().rotation + 2,rotationX:0,rotationY:() => target().rotationY,scale:() => target().scale,autoAlpha:1 };
+        if (piece.dataset.folioPiece === 'assistant') { from.clipPath = () => target().clipPath; to.clipPath = () => target().clipPath; }
+        tl.fromTo(piece,from,to,n * .045);
       });
-      main.to({},{ duration:1.6 },checkpoints[3]);
+      tl.add(detail(0),.12).addLabel('folio-0',checkpoints[0]);
+      for (let index = 1; index < 3; index++) {
+        const start = starts[index];
+        tl.to(headings[index - 1],{ y:-12,autoAlpha:0,duration:.23 },start - .2)
+          .fromTo(headings[index],{ y:18,autoAlpha:0 },{ y:0,autoAlpha:1,duration:.35,ease:'power3.out' },start + .02);
+        shape(index,tl,start).add(detail(index),start + .18).addLabel(`folio-${index}`,checkpoints[index]);
+      }
+      tl.to({},{duration:1.35},checkpoints[2]); main = tl;
     },stage);
   } else {
     show(0,true);
     if (gsap && !reduced && 'IntersectionObserver' in window) {
-      observer = new IntersectionObserver(entries => {
-        if (disposed) return; productVisible = entries[0].intersectionRatio >= .25;
-        if (productVisible && pendingIntro) { pendingIntro = false; if (!document.body.classList.contains('keyboard-input')) show(active,false); }
-      },{ threshold:[0,.25] }); observer.observe(stage.querySelector('.desk-window'));
-    } else productVisible = true;
+      observer = new IntersectionObserver(entries => { if (disposed) return; visible = entries[0].intersectionRatio >= .4; if (visible && pendingIntro) { pendingIntro = false; if (!document.body.classList.contains('keyboard-input')) show(active,false,true); } },{threshold:[0,.4]}); observer.observe(art);
+    } else visible = true;
   }
   return () => {
-    disposed = true; observer?.disconnect(); stopReplay(); stopAction(); manualContext?.revert(); mainContext?.revert();
-    stage.removeEventListener('click',navigate); document.removeEventListener('visibilitychange',visibility); window.removeEventListener('scroll',stopReplay); window.removeEventListener('resize',resized);
-    detailHome.insertBefore(detail,detailNext); token.style.removeProperty('transform'); select(0);
+    disposed = true; observer?.disconnect(); cancelAnimationFrame(resizeFrame); stopReplay(); manualContext?.revert(); mainContext?.revert();
+    stage.removeEventListener('click',navigate); document.removeEventListener('visibilitychange',visibility); removeEventListener('scroll',stopReplay); removeEventListener('resize',resize);
+    pieces.forEach(piece => ['left','top','transform','opacity','visibility','z-index','clip-path'].forEach(property => piece.style.removeProperty(property))); select(0);
   };
 }
