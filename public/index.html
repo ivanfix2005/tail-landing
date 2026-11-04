@@ -96,37 +96,37 @@
                 <div class="workspace-panel is-active" data-workspace-panel="0">
                   <div class="workspace-screen-title"><h4>Портфель целиком</h4><span>Условный пример</span></div>
                   <div class="portfolio-map" aria-label="Схема связи акций и облигаций одного бизнеса">
-                    <svg class="portfolio-links" viewBox="0 0 560 225" preserveAspectRatio="none" aria-hidden="true"><path class="portfolio-links-wide" d="M90 64C180 64 160 92 280 92M90 174C180 174 160 92 280 92"/><path class="portfolio-links-compact" d="M90 64C180 64 160 106 280 106M90 174C180 174 160 106 280 106"/></svg>
+                    <svg class="portfolio-links" viewBox="0 0 560 225" preserveAspectRatio="none" aria-hidden="true"><g class="portfolio-links-wide"><path class="portfolio-connection" d="M90 64C180 64 160 92 280 92"/><path class="portfolio-connection" d="M90 174C180 174 160 92 280 92"/><path class="portfolio-beam" d="M90 64C180 64 160 92 280 92"/><path class="portfolio-beam" d="M90 174C180 174 160 92 280 92"/></g><g class="portfolio-links-compact"><path class="portfolio-connection" d="M90 64C180 64 160 106 280 106"/><path class="portfolio-connection" d="M90 174C180 174 160 106 280 106"/><path class="portfolio-beam" d="M90 64C180 64 160 106 280 106"/><path class="portfolio-beam" d="M90 174C180 174 160 106 280 106"/></g></svg>
                     <div class="portfolio-position position-a" data-workspace-arrive><svg class="ico"><use href="#i-grid"/></svg><div><strong>Акции</strong><span>Компания А</span></div></div>
                     <div class="portfolio-position position-b" data-workspace-arrive><svg class="ico"><use href="#i-file"/></svg><div><strong>Облигации</strong><span>Компания А · выпуск 1</span></div></div>
-                    <div class="portfolio-hub" data-workspace-arrive><span>А</span><strong>Один бизнес</strong><small>Две разные бумаги</small></div>
+                    <div class="portfolio-hub" data-workspace-arrive><i class="hub-pulse" aria-hidden="true"></i><i class="hub-pulse" aria-hidden="true"></i><span>А</span><strong>Один бизнес</strong><small>Две разные бумаги</small></div>
                     <div class="portfolio-position position-c" data-workspace-arrive><svg class="ico"><use href="#i-grid"/></svg><div><strong>Акции</strong><span>Компания Б</span></div></div>
                     <div class="portfolio-position position-d" data-workspace-arrive><svg class="ico"><use href="#i-file"/></svg><div><strong>ОФЗ</strong><span>Отдельный эмитент</span></div></div>
                   </div>
-                  <div class="workspace-insight" data-workspace-arrive><svg class="ico"><use href="#i-bag"/></svg><p>Разные инструменты могут зависеть от одного бизнеса. Условия обязательств у них различаются.</p></div>
+                  <div class="workspace-insight portfolio-insight" data-workspace-arrive><svg class="ico"><use href="#i-bag"/></svg><p>Разные инструменты могут зависеть от одного бизнеса. Условия обязательств у них различаются.</p></div>
                   <div class="portfolio-inputs"><span>Планируем добавить</span><strong>Ручной ввод</strong><strong>Отчёт брокера</strong><strong>Поддерживаемый API</strong></div>
                 </div>
                 <div class="workspace-panel" data-workspace-panel="1" aria-hidden="true" inert>
                   <div class="workspace-screen-title"><h4>Что меняется в бизнесе</h4><span>Макет анализа</span></div>
-                  <div class="report-sheet" data-workspace-arrive><div class="report-sheet-top"><svg class="ico"><use href="#i-file"/></svg><strong>Отчётность компании</strong><span>Сопоставимые периоды</span></div>
+                  <div class="report-stack"><div class="report-leaf" aria-hidden="true"></div><div class="report-leaf" aria-hidden="true"></div><div class="report-sheet" data-workspace-arrive><span class="report-scan" aria-hidden="true"></span><div class="report-sheet-top"><svg class="ico"><use href="#i-file"/></svg><strong>Отчётность компании</strong><span>Сопоставимые периоды</span></div>
                     <div class="report-columns"><span>Показатель</span><span>Ранее</span><span>Сейчас</span></div>
                     <div class="report-row"><strong>Денежный поток</strong><i style="--bar:.64"></i><i style="--bar:.86"></i></div>
                     <div class="report-row"><strong>Долговая нагрузка</strong><i style="--bar:.83"></i><i style="--bar:.55"></i></div>
                     <div class="report-row"><strong>Операционная прибыль</strong><i style="--bar:.58"></i><i style="--bar:.75"></i></div>
                     <p>Схема сравнения · без рыночных значений</p>
-                  </div>
+                  </div></div>
                   <div class="report-annotation" data-workspace-arrive><span><svg class="ico"><use href="#i-check"/></svg></span><div><strong>Сначала — факты.</strong><p>Расчёт, период и источник доступны для проверки. Причины со слов компании отмечены отдельно.</p></div></div>
                 </div>
                 <div class="workspace-panel" data-workspace-panel="2" aria-hidden="true" inert>
                   <div class="workspace-screen-title"><h4>Радар изменений</h4><span>Учебный эмитент</span></div>
-                  <div class="signal-layout"><div class="signal-orbit" aria-hidden="true"><i></i><i></i><i></i><span class="signal-scan"></span><span class="signal-core"><svg class="ico"><use href="#i-bell"/></svg></span><b class="signal-point point-a"></b><b class="signal-point point-b"></b></div>
+                  <div class="signal-layout"><div class="signal-orbit" aria-hidden="true"><i></i><i></i><i></i><span class="signal-scan"></span><span class="signal-ripple"></span><span class="signal-ripple"></span><span class="signal-core"><svg class="ico"><use href="#i-bell"/></svg></span><b class="signal-point point-a"></b><b class="signal-point point-b"></b></div>
                     <div class="signal-list"><div data-workspace-arrive><span class="signal-dot"></span><strong>Новый отчёт</strong><small>Есть документ</small></div><div data-workspace-arrive><span class="signal-dot amber"></span><strong>Условия выпуска</strong><small>Требуют проверки</small></div><div data-workspace-arrive><span class="signal-dot hollow"></span><strong>Исполнение выплаты</strong><small>Не хватает данных</small></div></div>
                   </div>
                   <div class="workspace-insight" data-workspace-arrive><svg class="ico"><use href="#i-file"/></svg><p>Наблюдаемые сигналы и их основания. Без выдуманных процентов риска и автоматических советов о сделках.</p></div>
                 </div>
                 <div class="workspace-panel" data-workspace-panel="3" aria-hidden="true" inert>
                   <div class="workspace-screen-title"><h4>Разобраться вместе с ТЭЙЛ</h4><span>Пример диалога</span></div>
-                  <div class="workspace-chat"><div class="chat-question" data-workspace-arrive>Что проверить перед следующим решением?</div><div class="chat-response" data-workspace-arrive><img src="/logo.svg" width="26" height="26" alt=""><div><strong>Начнём с вашего основания.</strong><p>Вы хотели следить за долговой нагрузкой. Сравните её с денежным потоком в новом отчёте и проверьте условия своих облигаций.</p><div class="chat-sources"><span><svg class="ico"><use href="#i-file"/></svg> Отчётность</span><span><svg class="ico"><use href="#i-clock"/></svg> История</span></div></div></div></div>
+                  <div class="workspace-chat"><div class="chat-question" data-workspace-arrive>Что проверить перед следующим решением?</div><div class="chat-answer-stage"><div class="chat-thinking" aria-hidden="true"><img src="/logo.svg" width="26" height="26" alt=""><span>Сопоставляем основания</span><i></i><i></i><i></i></div><div class="chat-response" data-workspace-arrive><img src="/logo.svg" width="26" height="26" alt=""><div><strong>Начнём с вашего основания.</strong><p><span class="chat-sentence">Вы хотели следить за долговой нагрузкой.</span><span class="chat-sentence">Сравните её с денежным потоком в новом отчёте и проверьте условия своих облигаций.</span></p><div class="chat-sources"><span><svg class="ico"><use href="#i-file"/></svg> Отчётность</span><span><svg class="ico"><use href="#i-clock"/></svg> История</span></div></div></div></div></div>
                   <div class="expectation-note" data-workspace-arrive><svg class="ico"><use href="#i-bell"/></svg><div><strong>Моё ожидание сохранено</strong><p>Следить за долгом и новыми документами</p></div><svg class="ico"><use href="#i-check"/></svg></div>
                 </div>
               </div>
