@@ -8,7 +8,7 @@ export async function initializeLandingMotion() {
   const gsap = window.gsap, ScrollTrigger = window.ScrollTrigger;
   if (!gsap || !ScrollTrigger) { mountWorkspace({ reduced: true }); mountMarketExperience({ reduced: true, fine: false }); return; }
   gsap.registerPlugin(ScrollTrigger); const media = gsap.matchMedia();
-  media.add({ all: 'all', desktop: '(min-width: 901px) and (min-height: 760px)', guideWide: '(min-width: 1101px)', reduced: '(prefers-reduced-motion: reduce)', fine: '(hover: hover) and (pointer: fine)' }, context => {
+  media.add({ all: 'all', desktop: '(min-width: 901px) and (min-height: 860px)', guideWide: '(min-width: 1101px)', reduced: '(prefers-reduced-motion: reduce)', fine: '(hover: hover) and (pointer: fine)' }, context => {
     const { desktop, reduced, fine } = context.conditions;
     if (!reduced) gsap.timeline({ defaults: { ease: 'power3.out' } })
       .fromTo('.intro-copy .hero-reveal', { y: 22, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .7, stagger: .065 })
