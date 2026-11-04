@@ -8,7 +8,6 @@ export function mountWorkspace({ gsap, ScrollTrigger, reduced = true, desktop = 
   let active = 0, scrollTimeline, manualTween;
   function select(index) {
     active = index;
-    stage.dataset.workspaceScene = String(index);
     panels.forEach((panel, number) => {
       const chosen = number === index;
       panel.classList.toggle('is-active', chosen);
